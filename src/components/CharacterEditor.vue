@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="480" @input="input">
-    <v-btn color="primary" dark slot="activator" @click="onclick">Open Dialog</v-btn>
+    <v-btn color="primary" dark slot="activator" @click="onclick">{{btnmessage}}</v-btn>
     <v-card color="grey lighten-4" flat>
       <v-card-text>
         <v-container fluid>
@@ -21,7 +21,16 @@
 <script>
 export default {
   name: 'CharacterEditor',
-  props: ['character'],
+  props: {
+    btnmessage: {
+      type: String,
+      default: 'Edit'
+    },
+    character: {
+      type: Object,
+      default: {}
+    }
+  },
   data () {
     return {
       editcharacter: {

@@ -8,10 +8,11 @@
         <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
         <td>
           <!-- <CharacterEditor :character.sync="props.item" @onclick="onclick" @updatecharacter="update"></CharacterEditor> -->
-          <CharacterEditor :character="props.item" @onclick="onclick" @updatecharacter="update"></CharacterEditor>
+          <CharacterEditor :character="props.item" @onclick="onclick" @updatecharacter="update" btnmessage="編集"></CharacterEditor>
         </td>
       </template>
     </v-data-table>
+    <CharacterEditor @updatecharacter="add" btnmessage="追加"></CharacterEditor>
     <v-btn @click="sort">ソート</v-btn>
   </div>
 </template>
@@ -93,6 +94,9 @@ export default {
     update (o) {
       Object.assign(this.editablecharacter, o)
       this.editablecharacter = {}
+    },
+    add (o) {
+      this.items.push(o)
     }
   }
 }
