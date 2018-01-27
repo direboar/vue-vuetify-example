@@ -28,3 +28,12 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+TODO
+・追加画面作成（ダイアログ再利用）
+
+・色付け（敵味方の分類用）
+
+・
+
+・
