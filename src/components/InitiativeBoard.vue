@@ -1,13 +1,15 @@
 
 <template>
   <div>
-    <v-dialog v-model="dialog" persistent max-width="480" @input="input">
+    <v-dialog v-model="dialog" persistent max-width="480">
       <v-card color="grey lighten-4" flat>
         <v-card-text>
           <v-container fluid>
-            <v-text-field name="キャラクター名" label="キャラクター名" id="charctername" v-model="editcharacter.charctername" />
-            <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" v-model="editcharacter.initiativemodifier" />
-            <v-text-field name="イニシアチブ" label="イニシアチブ" v-model="editcharacter.initiative" />
+            <v-form ref="form">
+              <v-text-field name="キャラクター名" label="キャラクター名" id="charctername" v-model="editcharacter.charctername" :rules="charcternameRule" required />
+              <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" type="number" v-model.number="editcharacter.initiativemodifier" :rules="initiativemodifierRule" required/>
+              <v-text-field name="イニシアチブ" label="イニシアチブ" type="number" v-model.number="editcharacter.initiative" :rules="initiativeRule"/>
+            </v-form>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -29,6 +31,7 @@
 　　　</template>
     </v-data-table>
     <v-btn color="primary" dark slot="activator" @click="openAddDialig()">追加</v-btn>
+    <v-btn color="primary" dark slot="activator" @click="clearInitiative()">イニシアチブをクリア</v-btn>
     <v-btn @click="sort">ソート</v-btn>
   </div>
 </template>
@@ -95,7 +98,21 @@ export default {
         initiativemodifier: 0
       },
       // ダイアログ表示フラグ
-      dialog: false
+      dialog: false,
+
+      // バリデーション
+      // FIXME VeeValidate の適用を検討。
+      // https://qiita.com/acro5piano/items/2be6068b0647ecffcd86
+      // https://vuetifyjs.com/components/forms #4 Vee-validate
+      charcternameRule: [v => !!v || 'キャラクター名は必須です'],
+      initiativemodifierRule: [
+        v => !!v || 'イニシアチブ修正値は必須です', // FIXME 初期値0が許容されない。数値型の0がバインドされたとき、!!vでfalseになってしまうためだと思う。
+
+        v => !isNaN(v) || 'イニシアチブ修正値は数値を入力してください'
+      ],
+      initiativeRule: [
+        v => !v || !isNaN(v) || 'イニシアチブは数値を入力してください'
+      ]
     }
   },
   methods: {
@@ -112,6 +129,10 @@ export default {
           return 0
         }
       })
+    },
+    // イニシアチブを初期化する
+    clearInitiative () {
+      this.items.forEach(i => (i.initiative = 0))
     },
     // 指定したキャラクターを編集するダイアログをオープンする
     openEditDialig (item) {
@@ -137,14 +158,18 @@ export default {
     // 編集時は、ダイアログで編集したキャラクターを編集元のitemに反映する。
     // 新規追加か、編集中かは、edititemがnullかどうかで判定する。
     save () {
-      if (this.edititem != null) {
-        Object.assign(this.edititem, this.editcharacter)
-        this._clear()
-        this.dialog = false
+      if (!this.$refs.form.validate()) {
+        // バリデーションエラーのためサブミットさせない
       } else {
-        this.items.push(this.editcharacter)
-        this._clear()
-        this.dialog = false
+        if (this.edititem != null) {
+          this.dialog = false
+          Object.assign(this.edititem, this.editcharacter)
+          this._clear()
+        } else {
+          this.dialog = false
+          this.items.push(this.editcharacter)
+          this._clear()
+        }
       }
     },
     // ダイアログでキャンセルボタンを押した場合に呼び出す。
