@@ -17,7 +17,9 @@ import {
   VCard,
   VDataTable,
   VTextField,
+  VTooltip,
   VSubHeader,
+  VSnackbar,
   VForm,
   transitions
 } from 'vuetify'
@@ -37,7 +39,9 @@ Vue.use(Vuetify, {
     VCard,
     VDataTable,
     VTextField,
+    VTooltip,
     VSubHeader,
+    VSnackbar,
     VForm,
     transitions
   },

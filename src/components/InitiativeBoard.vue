@@ -1,6 +1,38 @@
 
 <template>
   <div>
+    <!--キャラクター一覧-->
+    <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.charctername }}</td>
+        <td class="text-xs-right">{{ props.item.initiative }}</td>
+        <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
+        <td>
+          <v-tooltip top>
+            <v-btn color="primary" fab small dark slot="activator" @click="openEditDialig(props.item)"><v-icon>edit</v-icon></v-btn> <!--activatorスロットの意味が分からん。消すとボタン消える-->
+            <span>編集</span>
+          </v-tooltip>
+          <v-tooltip top>
+　          <v-btn color="secondary" fab small dark slot="activator" @click="deleteItem(props.item)"><v-icon>delete</v-icon></v-btn>
+            <span>削除</span>
+          </v-tooltip>
+        </td>
+      </template>
+    </v-data-table>
+    <v-tooltip top>
+      <v-btn color="primary" fab small dark slot="activator" @click="openAddDialig()"><v-icon>add</v-icon></v-btn>
+      <span>追加</span>
+    </v-tooltip>
+    <v-tooltip top>
+      <v-btn color="secondary" fab small dark slot="activator" @click="sort()"><v-icon>sort</v-icon></v-btn>
+      <span>ソート</span>
+    </v-tooltip>
+    <v-tooltip top>
+      <v-btn color="accent" fab small dark slot="activator" @click="clearInitiative()"><v-icon>clear</v-icon></v-btn>
+      <span>イニシアチブ初期化</span>
+    </v-tooltip>
+    
+    <!--キャラクター編集ダイアログ-->
     <v-dialog v-model="dialog" persistent max-width="480">
       <v-card color="grey lighten-4" flat>
         <v-card-text>
@@ -22,20 +54,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.charctername }}</td>
-        <td class="text-xs-right">{{ props.item.initiative }}</td>
-        <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
-        <td>
-          <v-btn color="primary" dark slot="activator" @click="openEditDialig(props.item)">編集</v-btn>
-          <v-btn color="primary" dark slot="activator" @click="deleteItem(props.item)">削除</v-btn>
-        </td>
-　　　</template>
-    </v-data-table>
-    <v-btn color="primary" dark slot="activator" @click="openAddDialig()">追加</v-btn>
-    <v-btn color="primary" dark slot="activator" @click="clearInitiative()">イニシアチブをクリア</v-btn>
-    <v-btn @click="sort">ソート</v-btn>
+    <!--スナックバー表示-->
+    <v-snackbar
+      timeout=1000
+      :color="snackbarcolor"
+      vertical=true
+      v-model="snackbar">
+      {{ snackbarmessage }}
+      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -102,7 +129,10 @@ export default {
       },
       // ダイアログ表示フラグ
       dialog: false,
-
+      // スナックバー表示フラグ
+      snackbar: false,
+      snackbarcolor: 'error',
+      snackbarmessage: '',
       // バリデーション
       // FIXME VeeValidate の適用を検討。
       // https://qiita.com/acro5piano/items/2be6068b0647ecffcd86
@@ -120,21 +150,34 @@ export default {
   methods: {
     // キャラクターをソートする
     sort () {
-      this.items.sort((a, b) => {
-        if (a.initiative < b.initiative) {
-          return 1
-        } else if (a.initiative > b.initiative) {
-          return -1
-        } else if (a.initiativemodifier < b.initiativemodifier) {
-          return 1
-        } else {
-          return 0
-        }
+      // 1.イニシアチブ未入力でないかをチェック
+      var check = this.items.some((c, i, a) => {
+        return c.initiative === undefined
       })
+      if (check) {
+        this.snackbarmessage = 'イニシアチブが未入力のキャラクターがいます。';
+        this.snackbarcolor = 'error';
+        this.snackbar = true
+      } else {
+        this.items.sort((a, b) => {
+          if (a.initiative < b.initiative) {
+            return 1
+          } else if (a.initiative > b.initiative) {
+            return -1
+          } else if (a.initiativemodifier < b.initiativemodifier) {
+            return 1
+          } else {
+            return 0
+          }
+        })
+        this.snackbarmessage = 'ソートしました';
+        this.snackbarcolor = 'success';
+        this.snackbar = true
+      }
     },
     // イニシアチブを初期化する
     clearInitiative () {
-      this.items.forEach(i => (i.initiative = 0))
+      this.items.forEach(i => (i.initiative = undefined))
     },
     // 指定したキャラクターを編集するダイアログをオープンする
     openEditDialig (item) {
