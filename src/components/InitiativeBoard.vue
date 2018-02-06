@@ -155,9 +155,10 @@ export default {
         return c.initiative === undefined
       })
       if (check) {
-        this.snackbarmessage = 'イニシアチブが未入力のキャラクターがいます。';
-        this.snackbarcolor = 'error';
-        this.snackbar = true
+        this._showSnackbar(
+          'error',
+          'イニシアチブが未入力のキャラクターがいます。'
+        )
       } else {
         this.items.sort((a, b) => {
           if (a.initiative < b.initiative) {
@@ -170,9 +171,7 @@ export default {
             return 0
           }
         })
-        this.snackbarmessage = 'ソートしました';
-        this.snackbarcolor = 'success';
-        this.snackbar = true
+        this._showSnackbar('success', 'ソートしました')
       }
     },
     // イニシアチブを初期化する
@@ -197,6 +196,7 @@ export default {
       if (index >= 0) {
         this.items.splice(index, 1)
       }
+      this._showSnackbar('success', 'キャラクターを削除しました')
     },
     // ダイアログでセーブボタンを押した場合に呼び出す。
     // 新規追加時は、ダイアログで編集したキャラクターをitemsに追加する。
@@ -227,6 +227,12 @@ export default {
     _clear () {
       this.editcharacter = {}
       this.edititem = null
+    },
+    // スナックバーを表示する
+    _showSnackbar (color, message) {
+      this.snackbarmessage = message
+      this.snackbarcolor = color
+      this.snackbar = true
     }
   }
 }
