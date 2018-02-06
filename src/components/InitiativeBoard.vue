@@ -6,9 +6,12 @@
         <v-card-text>
           <v-container fluid>
             <v-form ref="form">
-              <v-text-field name="キャラクター名" label="キャラクター名" id="charctername" v-model="editcharacter.charctername" :rules="charcternameRule" required />
-              <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" type="number" v-model.number="editcharacter.initiativemodifier" :rules="initiativemodifierRule" required/>
-              <v-text-field name="イニシアチブ" label="イニシアチブ" type="number" v-model.number="editcharacter.initiative" :rules="initiativeRule"/>
+              <v-text-field name="キャラクター名" label="キャラクター名" 
+                v-model="editcharacter.charctername" :rules="charcternameRule" required />
+              <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" 
+                type="number" v-model.number="editcharacter.initiativemodifier" :rules="initiativemodifierRule" required/>
+              <v-text-field name="イニシアチブ" label="イニシアチブ" 
+                type="number" v-model.number="editcharacter.initiative" :rules="initiativeRule"/>
             </v-form>
           </v-container>
         </v-card-text>
@@ -106,8 +109,7 @@ export default {
       // https://vuetifyjs.com/components/forms #4 Vee-validate
       charcternameRule: [v => !!v || 'キャラクター名は必須です'],
       initiativemodifierRule: [
-        v => !!v || 'イニシアチブ修正値は必須です', // FIXME 初期値0が許容されない。数値型の0がバインドされたとき、!!vでfalseになってしまうためだと思う。
-
+        v => v !== '' || 'イニシアチブ修正値は必須です', // 空文字を指定すると.numberをつけてもStringの空文字てきてしまうので、それをはじく。いまいち。
         v => !isNaN(v) || 'イニシアチブ修正値は数値を入力してください'
       ],
       initiativeRule: [
