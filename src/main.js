@@ -10,6 +10,7 @@ import {
   VFooter,
   VList,
   VBtn,
+  VDivider,
   VIcon,
   VGrid,
   VToolbar,
@@ -21,6 +22,7 @@ import {
   VSubHeader,
   VSnackbar,
   VForm,
+  VAvatar,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -32,6 +34,7 @@ Vue.use(Vuetify, {
     VFooter,
     VList,
     VBtn,
+    VDivider,
     VIcon,
     VGrid,
     VToolbar,
@@ -43,6 +46,7 @@ Vue.use(Vuetify, {
     VSubHeader,
     VSnackbar,
     VForm,
+    VAvatar,
     transitions
   },
   theme: {
