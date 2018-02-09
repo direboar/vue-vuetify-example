@@ -5,7 +5,7 @@
         <v-card>
           <v-toolbar color="cyan" dark>
             <v-toolbar-side-icon></v-toolbar-side-icon>
-            <v-toolbar-title>Classes</v-toolbar-title>
+            <v-toolbar-title>クラス検索</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon>
               <v-icon>search</v-icon>
@@ -50,59 +50,59 @@
 </style>
 
 <script>
-import Dnd5eapi from '../api/dnd5eapi';
-
-const api = new Dnd5eapi()
+import Dnd5eapi from "../api/dnd5eapi";
+const api = new Dnd5eapi();
 export default {
-  data () {
+  name: "ClassSearchCard",
+  data() {
     return {
       items: [],
       dialog: false,
       currentitem: {},
       proficiency_choices: undefined
-    }
+    };
   },
-  created () {
-    this.items.push({ header: 'Classes', id: -1 })
+  created() {
+    this.items.push({ header: "Classes", id: -1 });
     api.classes(aClass => {
-      this.items.push(aClass)
-    })
+      this.items.push(aClass);
+    });
   },
   computed: {
-    proficiencychoices () {
-      let ret = '';
-      this.proficiency_choices.from.forEach((element, i) => {
-        ret = ret + element.name.replace('Skill: ', '') + ', ';
-      })
-      return ret
+    proficiencychoices() {
+      let ret = "";
+      this.proficiency_choices.from.forEach(element => {
+        ret = ret + element.name.replace("Skill: ", "") + ", ";
+      });
+      return ret;
     },
-    proficiencie () {
-      let ret = '';
-      this.currentitem.proficiencies.forEach((element, i) => {
-        ret = ret + element.name + ', ';
-      })
-      return ret
+    proficiencie() {
+      let ret = "";
+      this.currentitem.proficiencies.forEach(element => {
+        ret = ret + element.name + ", ";
+      });
+      return ret;
     },
-    savingthrow () {
-      let ret = '';
+    savingthrow() {
+      let ret = "";
       if (this.currentitem === undefined) {
-        return ret
+        return ret;
       } else {
-        this.currentitem.saving_throws.forEach((element, i) => {
-          ret = ret + element.name + ', ';
-        })
-        return ret
+        this.currentitem.saving_throws.forEach(element => {
+          ret = ret + element.name + ", ";
+        });
+        return ret;
       }
     }
   },
   methods: {
-    openDialog (item) {
+    openDialog(item) {
       api.classOf(item.url, aClsss => {
-        this.currentitem = aClsss
-        this.proficiency_choices = this.currentitem.proficiency_choices[0]
-        this.dialog = true
-      })
+        this.currentitem = aClsss;
+        this.proficiency_choices = this.currentitem.proficiency_choices[0];
+        this.dialog = true;
+      });
     }
   }
-}
+};
 </script>

@@ -14,6 +14,7 @@
           value="true"
           v-for="(item, i) in items"
           :key="i"
+          @click="route(item)"
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -70,7 +71,10 @@
 </template>
 
 <script>
+import router from '@/router/index'
+
 export default {
+  router: router,
   data () {
     return {
       clipped: false,
@@ -79,7 +83,18 @@ export default {
       items: [
         {
           icon: 'bubble_chart',
-          title: 'Inspire'
+          title: 'イニシアチブボード',
+          linkTo: 'InitiativeBoard'
+        },
+        {
+          icon: 'bubble_chart',
+          title: 'クラス検索',
+          linkTo: 'ClassSearchCard'
+        },
+        {
+          icon: 'bubble_chart',
+          title: '能力値編集',
+          linkTo: 'AbilityEditor'
         }
       ],
       miniVariant: false,
@@ -88,6 +103,13 @@ export default {
       title: 'Vuetify.js'
     }
   },
-  name: 'App'
+  name: 'App',
+  methods: {
+    route (item) {
+      router.push({
+        name: item.linkTo
+      })
+    }
+  }
 }
 </script>

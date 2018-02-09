@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import InitiativeBoard from '@/components/InitiativeBoard'
-import AxiosTest from '@/components/AxiosTest'
+import ClassSearchCard from '@/components/ClassSearchCard'
+import AbilityEditor from '@/components/AbilityEditor'
 
 Vue.use(Router)
 
@@ -13,9 +14,14 @@ export default new Router({
       component: InitiativeBoard
     },
     {
-      path: '/axiostest',
-      name: 'AxiosTest',
-      component: AxiosTest
+      path: '/ClassSearchCard',
+      name: 'ClassSearchCard',
+      component: ClassSearchCard
+    },
+    {
+      path: '/AbilityEditor',
+      name: 'AbilityEditor',
+      component: AbilityEditor
     }
   ]
 })

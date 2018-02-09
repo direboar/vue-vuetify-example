@@ -72,49 +72,49 @@
 
 <script>
 export default {
-  data () {
+  // コンポーネント名
+  name: "InitiativeBoard",
+  data() {
     return {
-      // コンポーネント名
-      name: 'InitiativeBoard',
       // totalItems ソートを無効にするために設定。
       totalItems: 2,
       // ヘッダ
       headers: [
         {
-          text: 'キャラクター名',
-          value: 'charctername',
+          text: "キャラクター名",
+          value: "charctername",
           sortable: false
         },
         {
-          text: 'イニシアチブ',
-          value: 'initiative',
+          text: "イニシアチブ",
+          value: "initiative",
           sortable: false
         },
         {
-          text: '修正値',
-          value: 'initiativemodifier',
+          text: "修正値",
+          value: "initiativemodifier",
           sortable: false
         }
       ],
       // 一覧に表示するアイテム
       items: [
         {
-          charctername: 'ああああ',
+          charctername: "ああああ",
           initiative: 1,
           initiativemodifier: 0
         },
         {
-          charctername: 'いいい',
+          charctername: "いいい",
           initiative: 3,
           initiativemodifier: 0
         },
         {
-          charctername: 'ううう',
+          charctername: "ううう",
           initiative: 3,
           initiativemodifier: 1
         },
         {
-          charctername: 'えええ',
+          charctername: "えええ",
           initiative: 4,
           initiativemodifier: 1
         }
@@ -123,7 +123,7 @@ export default {
       edititem: null,
       // ダイアログで編集中のキャラクターの内容
       editcharacter: {
-        charctername: '',
+        charctername: "",
         initiative: 0,
         initiativemodifier: 0
       },
@@ -131,109 +131,109 @@ export default {
       dialog: false,
       // スナックバー表示フラグ
       snackbar: false,
-      snackbarcolor: 'error',
-      snackbarmessage: '',
+      snackbarcolor: "error",
+      snackbarmessage: "",
       // バリデーション
       // FIXME VeeValidate の適用を検討。
       // https://qiita.com/acro5piano/items/2be6068b0647ecffcd86
       // https://vuetifyjs.com/components/forms #4 Vee-validate
-      charcternameRule: [v => !!v || 'キャラクター名は必須です'],
+      charcternameRule: [v => !!v || "キャラクター名は必須です"],
       initiativemodifierRule: [
-        v => v !== '' || 'イニシアチブ修正値は必須です', // 空文字を指定すると.numberをつけてもStringの空文字てきてしまうので、それをはじく。いまいち。
-        v => !isNaN(v) || 'イニシアチブ修正値は数値を入力してください'
+        v => v !== "" || "イニシアチブ修正値は必須です", // 空文字を指定すると.numberをつけてもStringの空文字てきてしまうので、それをはじく。いまいち。
+        v => !isNaN(v) || "イニシアチブ修正値は数値を入力してください"
       ],
       initiativeRule: [
-        v => !v || !isNaN(v) || 'イニシアチブは数値を入力してください'
+        v => !v || !isNaN(v) || "イニシアチブは数値を入力してください"
       ]
-    }
+    };
   },
   methods: {
     // キャラクターをソートする
-    sort () {
+    sort() {
       // 1.イニシアチブ未入力でないかをチェック
-      var check = this.items.some((c, i, a) => {
-        return c.initiative === undefined
-      })
+      var check = this.items.some(c => {
+        return c.initiative === undefined;
+      });
       if (check) {
         this._showSnackbar(
-          'error',
-          'イニシアチブが未入力のキャラクターがいます。'
-        )
+          "error",
+          "イニシアチブが未入力のキャラクターがいます。"
+        );
       } else {
         this.items.sort((a, b) => {
           if (a.initiative < b.initiative) {
-            return 1
+            return 1;
           } else if (a.initiative > b.initiative) {
-            return -1
+            return -1;
           } else if (a.initiativemodifier < b.initiativemodifier) {
-            return 1
+            return 1;
           } else {
-            return 0
+            return 0;
           }
-        })
-        this._showSnackbar('success', 'ソートしました')
+        });
+        this._showSnackbar("success", "ソートしました");
       }
     },
     // イニシアチブを初期化する
-    clearInitiative () {
-      this.items.forEach(i => (i.initiative = undefined))
+    clearInitiative() {
+      this.items.forEach(i => (i.initiative = undefined));
     },
     // 指定したキャラクターを編集するダイアログをオープンする
-    openEditDialig (item) {
-      this.edititem = item
-      Object.assign(this.editcharacter, item)
-      this.dialog = true
+    openEditDialig(item) {
+      this.edititem = item;
+      Object.assign(this.editcharacter, item);
+      this.dialog = true;
     },
     // キャラクターを新規追加するダイアログをオープンする
-    openAddDialig () {
-      this.edititem = null
-      this.editcharacter = {}
-      this.dialog = true
+    openAddDialig() {
+      this.edititem = null;
+      this.editcharacter = {};
+      this.dialog = true;
     },
     // 指定されたキャラクターを削除する
-    deleteItem (item) {
-      var index = this.items.indexOf(item)
+    deleteItem(item) {
+      var index = this.items.indexOf(item);
       if (index >= 0) {
-        this.items.splice(index, 1)
+        this.items.splice(index, 1);
       }
-      this._showSnackbar('success', 'キャラクターを削除しました')
+      this._showSnackbar("success", "キャラクターを削除しました");
     },
     // ダイアログでセーブボタンを押した場合に呼び出す。
     // 新規追加時は、ダイアログで編集したキャラクターをitemsに追加する。
     // 編集時は、ダイアログで編集したキャラクターを編集元のitemに反映する。
     // 新規追加か、編集中かは、edititemがnullかどうかで判定する。
-    save () {
+    save() {
       if (!this.$refs.form.validate()) {
         // バリデーションエラーのためサブミットさせない
       } else {
         if (this.edititem != null) {
-          this.dialog = false
-          Object.assign(this.edititem, this.editcharacter)
-          this._clear()
+          this.dialog = false;
+          Object.assign(this.edititem, this.editcharacter);
+          this._clear();
         } else {
-          this.dialog = false
-          this.items.push(this.editcharacter)
-          this._clear()
+          this.dialog = false;
+          this.items.push(this.editcharacter);
+          this._clear();
         }
       }
     },
     // ダイアログでキャンセルボタンを押した場合に呼び出す。
     // ダイアログをクローズする。
-    cancel () {
-      this._clear()
-      this.dialog = false
+    cancel() {
+      this._clear();
+      this.dialog = false;
     },
     // ダイアログをクローズした際の後処理。一時変数を初期化する。
-    _clear () {
-      this.editcharacter = {}
-      this.edititem = null
+    _clear() {
+      this.editcharacter = {};
+      this.edititem = null;
     },
     // スナックバーを表示する
-    _showSnackbar (color, message) {
-      this.snackbarmessage = message
-      this.snackbarcolor = color
-      this.snackbar = true
+    _showSnackbar(color, message) {
+      this.snackbarmessage = message;
+      this.snackbarcolor = color;
+      this.snackbar = true;
     }
   }
-}
+};
 </script>
