@@ -5,7 +5,7 @@
         <v-flex xs6 offset-xs3>
           <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
             <template slot="items" slot-scope="props">
-              <td class="text-xs-right">{{props.item.type.name}}</td>
+              <td class="text-xs-right subheading">{{props.item.type.name}}</td>
               <td>
                 <v-select
                   v-bind:items="abilityselectlist"
@@ -20,8 +20,8 @@
                   v-on:input="input(props.item)"
                 ></v-select>
               </td>
-              <td class="text-xs-right">{{props.item.ability.value}}</td>
-              <td class="text-xs-right">{{props.item.ability.modifier}}</td>
+              <td class="text-xs-right subheading">{{props.item.ability.value}}</td>
+              <td class="text-xs-right subheading">{{props.item.ability.modifier}}</td>
            </template>
           </v-data-table>
         </v-flex>
@@ -43,11 +43,11 @@ export default {
     return {
       totalItems: 1,
       headers: [
-        { text: "能力値", sortable: false },
-        { text: "割当", sortable: false },
-        { text: "種族修正", sortable: false },
-        { text: "合計", sortable: false },
-        { text: "修正値", sortable: false }
+        { text: "能力値", sortable: false, class: "subheading" },
+        { text: "割当", sortable: false, class: "subheading" },
+        { text: "種族修正", sortable: false, class: "subheading" },
+        { text: "合計", sortable: false, class: "subheading" },
+        { text: "修正値", sortable: false, class: "subheading" }
       ],
       items: [
         {
