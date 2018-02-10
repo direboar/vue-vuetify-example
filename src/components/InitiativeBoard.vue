@@ -2,35 +2,43 @@
 <template>
   <div>
     <!--キャラクター一覧-->
-    <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.charctername }}</td>
-        <td class="text-xs-right">{{ props.item.initiative }}</td>
-        <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
-        <td>
-          <v-tooltip top>
-            <v-btn color="primary" fab small dark slot="activator" @click="openEditDialig(props.item)"><v-icon>edit</v-icon></v-btn> <!--activatorスロットの意味が分からん。消すとボタン消える-->
-            <span>編集</span>
-          </v-tooltip>
-          <v-tooltip top>
-　          <v-btn color="secondary" fab small dark slot="activator" @click="deleteItem(props.item)"><v-icon>delete</v-icon></v-btn>
-            <span>削除</span>
-          </v-tooltip>
-        </td>
-      </template>
-    </v-data-table>
-    <v-tooltip top>
-      <v-btn color="primary" fab small dark slot="activator" @click="openAddDialig()"><v-icon>add</v-icon></v-btn>
-      <span>追加</span>
-    </v-tooltip>
-    <v-tooltip top>
-      <v-btn color="secondary" fab small dark slot="activator" @click="sort()"><v-icon>sort</v-icon></v-btn>
-      <span>ソート</span>
-    </v-tooltip>
-    <v-tooltip top>
-      <v-btn color="accent" fab small dark slot="activator" @click="clearInitiative()"><v-icon>clear</v-icon></v-btn>
-      <span>イニシアチブ初期化</span>
-    </v-tooltip>
+    <v-layout row wrap>
+      <v-flex xs12 md6 offset-md3>
+        <v-card>
+          <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-right">{{ props.item.charctername }}</td>
+              <td class="text-xs-right">{{ props.item.initiative }}</td>
+              <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
+              <td>
+                <v-tooltip top>
+                  <v-btn color="primary" fab small dark slot="activator" @click="openEditDialig(props.item)"><v-icon>edit</v-icon></v-btn> <!--activatorスロットの意味が分からん。消すとボタン消える-->
+                  <span>編集</span>
+                </v-tooltip>
+                <v-tooltip top>
+    　            <v-btn color="secondary" fab small dark slot="activator" @click="deleteItem(props.item)"><v-icon>delete</v-icon></v-btn>
+                  <span>削除</span>
+                </v-tooltip>
+              </td>
+          </template>
+        </v-data-table>
+      </v-card>
+        <v-card color="indigo lighten-4">
+        <v-tooltip top>
+          <v-btn color="primary" fab small dark slot="activator" @click="openAddDialig()"><v-icon>add</v-icon></v-btn>
+          <span>追加</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn color="secondary" fab small dark slot="activator" @click="sort()"><v-icon>sort</v-icon></v-btn>
+          <span>ソート</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn color="accent" fab small dark slot="activator" @click="clearInitiative()"><v-icon>clear</v-icon></v-btn>
+          <span>イニシアチブ初期化</span>
+        </v-tooltip>
+        </v-card>
+      </v-flex>
+    </v-layout>
     
     <!--キャラクター編集ダイアログ-->
     <v-dialog v-model="dialog" persistent max-width="480">
@@ -109,7 +117,7 @@ export default {
           initiativemodifier: 0
         }
       ],
-      
+
       // 現在編集中のitem。itemsのうち、現在編集中のitemの参照が入る。新規登録中はnull。
       edititem: null,
       // ダイアログで編集中のキャラクターの内容

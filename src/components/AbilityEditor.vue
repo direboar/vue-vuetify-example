@@ -2,7 +2,7 @@
   <v-container fluid grid-list-md>
     <v-card color="grey lighten-4" flat>
       <v-layout row wrap>
-        <v-flex xs6 offset-xs3>
+        <v-flex xs12 md6 offset-md3>
           <v-alert color="success" icon="check_circle" v-model="showSuccessAlert">
             {{errorAlertMessage}}
           </v-alert>
@@ -72,8 +72,8 @@ export default {
       items: [
         {
           type: AbilityType.STRENGTH,
-          assignment: 8,      //ポイントバイで割り当てた能力値
-          racialmodifier: 0,  //種族ボーナス等の追加修正値
+          assignment: 8, //ポイントバイで割り当てた能力値
+          racialmodifier: 0, //種族ボーナス等の追加修正値
           ability: new Ability(AbilityType.STRENGTH, 8) //修正後の能力値エンティティ。
         },
         {
@@ -108,29 +108,29 @@ export default {
         }
       ],
       abilitypoint: 27, //能力値ポイント
-      pointby: true,    //ポイントバイで作成するかどうか
-      abilityselectlist: [8, 9, 10, 11, 12, 13, 14, 15],  //ポイントバイで購入できる能力値の範囲
+      pointby: true, //ポイントバイで作成するかどうか
+      abilityselectlist: [8, 9, 10, 11, 12, 13, 14, 15], //ポイントバイで購入できる能力値の範囲
       racialmodifierlist: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], //種族ボーナス等の追加修正値の選択範囲
 
       //アラート表示用
-      showSuccessAlert : false,
-      successAlertMessage : "",
-      showErrorAlert : false,
-      errorAlertMessage : "能力値ポイントを27ポイント以上使用しています。",
-    }
+      showSuccessAlert: false,
+      successAlertMessage: "",
+      showErrorAlert: false,
+      errorAlertMessage: "能力値ポイントを27ポイント以上使用しています。"
+    };
   },
-  computed : {
+  computed: {
     //画面に表示する能力値ポイント。
-    displayAbilityPoint(){
-      return this.pointby === true ? this.abilitypoint : "-"
+    displayAbilityPoint() {
+      return this.pointby === true ? this.abilitypoint : "-";
     },
 
-    hasPointByError(){
+    hasPointByError() {
       let current = this._calcurateNext();
-      if(this.pointby && current > 27){
-        return true
-      }else{
-        return false
+      if (this.pointby && current > 27) {
+        return true;
+      } else {
+        return false;
       }
     }
   },
@@ -142,25 +142,22 @@ export default {
         let next = this._calcurateNext();
         // //能力値と能力値ポイントを更新する。
         item.ability.value = item.assignment + item.racialmodifier;
-        this.abilitypoint = 27-next
-      }else{
+        this.abilitypoint = 27 - next;
+      } else {
         //ポイントバイではない場合は、単純に更新する。
         item.ability.value = item.assignment + item.racialmodifier;
       }
     },
     //種族ボーナス等の追加修正を反映する。
-    updateRacialModifer(item){
-        //チェック不要なので単純に更新する。
-        item.ability.value = item.assignment + item.racialmodifier;
+    updateRacialModifer(item) {
+      //チェック不要なので単純に更新する。
+      item.ability.value = item.assignment + item.racialmodifier;
     },
 
     //ポイントバイ方式に変更した際のチェックを行う。
-    changeToPointBy(){
-        // let current = this._calcurateNext();
-        // if(current > 27){
-        //   this.showErrorAlert = true
-        // }
-        // this.abilitypoint = 27-current
+    changeToPointBy() {
+      let current = this._calcurateNext();
+      this.abilitypoint = 27 - current;
     },
     //現在割当済みの能力値から、能力値ポイントを算出する。（前回確定した能力値情報は、item.abilityに保管している）
     // _calcurateCurrent() {
@@ -178,8 +175,8 @@ export default {
       });
       return total;
     },
-    _initView(){
-      this.showErrorAlert = false
+    _initView() {
+      this.showErrorAlert = false;
     }
   }
 };
