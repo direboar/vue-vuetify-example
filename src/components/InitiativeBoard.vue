@@ -109,6 +109,7 @@ export default {
           initiativemodifier: 0
         }
       ],
+      
       // 現在編集中のitem。itemsのうち、現在編集中のitemの参照が入る。新規登録中はnull。
       edititem: null,
       // ダイアログで編集中のキャラクターの内容

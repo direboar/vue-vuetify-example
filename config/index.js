@@ -50,7 +50,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '', // for github pages. see https://qiita.com/tiwu_official/items/43dc554ec43dd951812a.
 
     /**
      * Source Maps

@@ -9,7 +9,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/InitiativeBoard',
       name: 'InitiativeBoard',
       component: InitiativeBoard
     },
@@ -19,7 +19,7 @@ export default new Router({
       component: ClassSearchCard
     },
     {
-      path: '/AbilityEditor',
+      path: '/',
       name: 'AbilityEditor',
       component: AbilityEditor
     }
