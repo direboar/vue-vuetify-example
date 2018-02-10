@@ -6,6 +6,7 @@ import router from './router'
 import {
   Vuetify,
   VApp,
+  VAlert,
   VNavigationDrawer,
   VFooter,
   VList,
@@ -22,6 +23,7 @@ import {
   VSelect,
   VSubHeader,
   VSnackbar,
+  VRadioGroup,
   VForm,
   VAvatar,
   transitions
@@ -31,6 +33,7 @@ import '../node_modules/vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   components: {
     VApp,
+    VAlert,
     VNavigationDrawer,
     VFooter,
     VList,
@@ -47,6 +50,7 @@ Vue.use(Vuetify, {
     VSelect,
     VSubHeader,
     VSnackbar,
+    VRadioGroup,
     VForm,
     VAvatar,
     transitions

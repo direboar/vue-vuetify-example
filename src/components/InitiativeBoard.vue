@@ -99,24 +99,14 @@ export default {
       // 一覧に表示するアイテム
       items: [
         {
-          charctername: "ああああ",
+          charctername: "サンプルキャラクターA",
           initiative: 1,
-          initiativemodifier: 0
-        },
-        {
-          charctername: "いいい",
-          initiative: 3,
-          initiativemodifier: 0
-        },
-        {
-          charctername: "ううう",
-          initiative: 3,
           initiativemodifier: 1
         },
         {
-          charctername: "えええ",
-          initiative: 4,
-          initiativemodifier: 1
+          charctername: "サンプルキャラクターB",
+          initiative: 2,
+          initiativemodifier: 0
         }
       ],
       // 現在編集中のitem。itemsのうち、現在編集中のitemの参照が入る。新規登録中はnull。
