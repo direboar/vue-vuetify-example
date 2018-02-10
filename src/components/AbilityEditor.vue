@@ -14,7 +14,7 @@
                 </v-alert>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs6>
+            <v-flex d-flex xs12 md6>
               <v-card flat>
                 <v-layout row wrap>
                   <v-flex d-flex xs12 md8 offset-md2></v-flex>
@@ -24,16 +24,51 @@
                 </v-layout>
               </v-card>
             </v-flex>
-            <v-flex d-flex xs6>
+            <v-flex d-flex xs12 md6>
               <v-card flat>
                 <v-card-text class="subheading">能力値ポイント ： {{displayAbilityPoint}} / 27</v-card-text>
               </v-card>
             </v-flex>
             <v-flex d-flex xs12>
-              <v-card flat>
+              <v-card> <!--cardでまとめると、その下のレイアウトがまとまるらしい-->
+                <v-layout row wrap>
+                  <v-flex d-flex xs2><v-card-text class="caption text-xs-right">能力値</v-card-text></v-flex>
+                  <v-flex d-flex xs3><v-card-text class="caption text-xs-right">割当</v-card-text></v-flex>
+                  <v-flex xs3><v-card-text class="caption text-xs-right">種族/アイテム</v-card-text></v-flex>
+                  <v-flex d-flex xs2><v-card-text class="caption text-xs-right">合計</v-card-text></v-flex>
+                  <v-flex d-flex xs2><v-card-text class="caption text-xs-right">修正</v-card-text></v-flex>
+                  <template v-for="item in items">
+                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                      <v-card-text class="text-xs-right">{{item.type.name}}</v-card-text>
+                    </v-flex>
+                    <v-flex d-flex xs3 v-bind:key="item.type.name">
+                      <v-select v-bind:key="item.type.name"
+                        v-bind:items="abilityselectlist"
+                        v-model="item.assignment"
+                        v-on:input="pointByAbility(item)"
+                      ></v-select>
+                    </v-flex>
+                    <v-flex d-flex xs3 v-bind:key="item.type.name">
+                      <v-select
+                        v-bind:items="racialmodifierlist"
+                        v-model="item.racialmodifier"
+                        v-on:input="updateRacialModifer(item)"
+                      ></v-select>
+                    </v-flex>
+                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                      <v-card-text class="text-xs-right ">{{item.ability.value}}</v-card-text>
+                    </v-flex>
+                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                      <v-card-text class="text-xs-right ">{{item.ability.modifier}}</v-card-text>
+                    </v-flex>
+                  </template>
+                </v-layout>
+              </v-card>
+            </v-flex>
+            <!-- <v-flex d-flex xs12>
               <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
                 <template slot="items" slot-scope="props">
-                  <td class="text-xs-right subheading">{{props.item.type.name}}</td>
+                  <td class="text-xs-right ">{{props.item.type.name}}</td>
                   <td>
                     <v-select
                       v-bind:items="abilityselectlist"
@@ -48,12 +83,11 @@
                       v-on:input="updateRacialModifer(props.item)"
                     ></v-select>
                   </td>
-                  <td class="text-xs-right subheading">{{props.item.ability.value}}</td>
-                  <td class="text-xs-right subheading">{{props.item.ability.modifier}}</td>
-               </template>
+                  <td class="text-xs-right ">{{props.item.ability.value}}</td>
+                  <td class="text-xs-right ">{{props.item.ability.modifier}}</td>
+                </template>
               </v-data-table>
-              </v-card>
-            </v-flex>
+            </v-flex> -->
           </v-layout>
         </v-card>
       </v-flex>
@@ -75,11 +109,11 @@ export default {
       ex11: true,
       totalItems: 1, //ソート禁止
       headers: [
-        { text: "能力値", sortable: false, class: "subheading" },
-        { text: "割当", sortable: false, class: "subheading" },
-        { text: "種族/アイテム", sortable: false, class: "subheading" },
-        { text: "合計", sortable: false, class: "subheading" },
-        { text: "修正値", sortable: false, class: "subheading" }
+        { text: "能力値", sortable: false, class: "" },
+        { text: "割当", sortable: false, class: "" },
+        { text: "種族/アイテム", sortable: false, class: "" },
+        { text: "合計", sortable: false, class: "" },
+        { text: "修正値", sortable: false, class: "" }
       ],
       //入力業
       items: [
