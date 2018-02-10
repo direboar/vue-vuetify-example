@@ -26,6 +26,7 @@ import {
   VRadioGroup,
   VForm,
   VAvatar,
+  VSwitch,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -53,6 +54,7 @@ Vue.use(Vuetify, {
     VRadioGroup,
     VForm,
     VAvatar,
+    VSwitch,
     transitions
   },
   theme: {

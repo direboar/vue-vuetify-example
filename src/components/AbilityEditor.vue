@@ -1,51 +1,63 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-card color="grey lighten-4" flat>
-      <v-layout row wrap>
-        <v-flex xs12 md6 offset-md3>
-          <v-alert color="success" icon="check_circle" v-model="showSuccessAlert">
-            {{errorAlertMessage}}
-          </v-alert>
-          <v-alert color="error" icon="warning" value="true" v-model="hasPointByError">
-            {{errorAlertMessage}}
-          </v-alert>
-          <v-card>
-            <v-layout row wrap>
-              <v-flex xs6>
-                <v-radio-group column v-model="pointby">
-                  <v-radio label="能力値ポイント" :value=true v-on:change="changeToPointBy"></v-radio> <!--数値以外の型をバインドしたい場合はv-bindを使う-->
-                  <v-radio label="ランダム/固定割振" :value=false ></v-radio>
-                </v-radio-group>
-              </v-flex>
-              <v-flex xs6>
+    <v-layout row wrap>
+      <v-flex d-flex xs12 md6 offset-md3>
+        <v-card color="grey lighten-4" flat>
+          <v-layout row wrap>
+            <v-flex d-flex xs12>
+              <v-card>
+                <v-alert color="success" icon="check_circle" v-model="showSuccessAlert">
+                  {{errorAlertMessage}}
+                </v-alert>
+                <v-alert color="error" icon="warning" value="true" v-model="hasPointByError">
+                  {{errorAlertMessage}}
+                </v-alert>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex xs6>
+              <v-card flat>
+                <v-layout row wrap>
+                  <v-flex d-flex xs12 md8 offset-md2></v-flex>
+                  <v-flex d-flex xs12 md8 offset-md2>
+                    <v-switch label="ポイントバイ" v-model="pointby" hide-details></v-switch>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex xs6>
+              <v-card flat>
                 <v-card-text class="subheading">能力値ポイント ： {{displayAbilityPoint}} / 27</v-card-text>
-              </v-flex>
-            </v-layout>
-          </v-card>
-          <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td class="text-xs-right subheading">{{props.item.type.name}}</td>
-              <td>
-                <v-select
-                  v-bind:items="abilityselectlist"
-                  v-model="props.item.assignment"
-                  v-on:input="pointByAbility(props.item)"
-                ></v-select>
-              </td>
-              <td class="text-xs-right">
-                <v-select
-                  v-bind:items="racialmodifierlist"
-                  v-model="props.item.racialmodifier"
-                  v-on:input="updateRacialModifer(props.item)"
-                ></v-select>
-              </td>
-              <td class="text-xs-right subheading">{{props.item.ability.value}}</td>
-              <td class="text-xs-right subheading">{{props.item.ability.modifier}}</td>
-           </template>
-          </v-data-table>
-        </v-flex>
-      </v-layout>
-    </v-card>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex xs12>
+              <v-card flat>
+              <v-data-table v-bind:headers="headers" :items="items" hide-actions :total-items="totalItems" class="elevation-1">
+                <template slot="items" slot-scope="props">
+                  <td class="text-xs-right subheading">{{props.item.type.name}}</td>
+                  <td>
+                    <v-select
+                      v-bind:items="abilityselectlist"
+                      v-model="props.item.assignment"
+                      v-on:input="pointByAbility(props.item)"
+                    ></v-select>
+                  </td>
+                  <td class="text-xs-right">
+                    <v-select
+                      v-bind:items="racialmodifierlist"
+                      v-model="props.item.racialmodifier"
+                      v-on:input="updateRacialModifer(props.item)"
+                    ></v-select>
+                  </td>
+                  <td class="text-xs-right subheading">{{props.item.ability.value}}</td>
+                  <td class="text-xs-right subheading">{{props.item.ability.modifier}}</td>
+               </template>
+              </v-data-table>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -60,6 +72,7 @@ import AbilityType from "@/model/abilitytype";
 export default {
   data() {
     return {
+      ex11: true,
       totalItems: 1, //ソート禁止
       headers: [
         { text: "能力値", sortable: false, class: "subheading" },
@@ -107,7 +120,6 @@ export default {
           ability: new Ability(AbilityType.CHARISMA, 8)
         }
       ],
-      abilitypoint: 27, //能力値ポイント
       pointby: true, //ポイントバイで作成するかどうか
       abilityselectlist: [8, 9, 10, 11, 12, 13, 14, 15], //ポイントバイで購入できる能力値の範囲
       racialmodifierlist: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], //種族ボーナス等の追加修正値の選択範囲
@@ -126,20 +138,23 @@ export default {
     },
 
     hasPointByError() {
-      let current = this._calcurateNext();
+      let current = this._calcuratePoint();
       if (this.pointby && current > 27) {
         return true;
       } else {
         return false;
       }
+    },
+
+    abilitypoint() {
+      return 27 - this._calcuratePoint();
     }
   },
   methods: {
     //能力値ポイントを使って能力値を変更する
     pointByAbility(item) {
       if (this.pointby) {
-        // let current = this._calcurateCurrent()
-        let next = this._calcurateNext();
+        let next = this._calcuratePoint();
         // //能力値と能力値ポイントを更新する。
         item.ability.value = item.assignment + item.racialmodifier;
         this.abilitypoint = 27 - next;
@@ -153,22 +168,7 @@ export default {
       //チェック不要なので単純に更新する。
       item.ability.value = item.assignment + item.racialmodifier;
     },
-
-    //ポイントバイ方式に変更した際のチェックを行う。
-    changeToPointBy() {
-      let current = this._calcurateNext();
-      this.abilitypoint = 27 - current;
-    },
-    //現在割当済みの能力値から、能力値ポイントを算出する。（前回確定した能力値情報は、item.abilityに保管している）
-    // _calcurateCurrent() {
-    //   let total = 0;
-    //   this.items.forEach(item => {
-    //     total += Ability.calcPonit(item.ability.value);
-    //   });
-    //   return total;
-    // },
-    //画面に入力された能力値ごとの割当の値から、変更後の能力値ポイントを算出する。
-    _calcurateNext() {
+    _calcuratePoint() {
       let total = 0;
       this.items.forEach(item => {
         total += Ability.calcPonit(item.assignment);
