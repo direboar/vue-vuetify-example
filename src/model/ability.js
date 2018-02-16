@@ -1,9 +1,9 @@
-import abilityType from './abilityType'
+// import abilityType from './abilityType'
 
 export default class Ability {
   constructor(abilityType, value) {
     // 値
-    this.value = 8
+    this.value = value
     // 能力値種類
     this.abilityType = abilityType
   }

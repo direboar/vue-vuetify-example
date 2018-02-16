@@ -1,4 +1,3 @@
-
 let STRENGTH = null
 let DEXTALITY = null
 let CONSTITUTION = null

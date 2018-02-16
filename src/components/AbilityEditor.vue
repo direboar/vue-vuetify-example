@@ -37,28 +37,28 @@
                   <v-flex xs3><v-card-text class="caption text-xs-right">種族/アイテム</v-card-text></v-flex>
                   <v-flex d-flex xs2><v-card-text class="caption text-xs-right">合計</v-card-text></v-flex>
                   <v-flex d-flex xs2><v-card-text class="caption text-xs-right">修正</v-card-text></v-flex>
-                  <template v-for="item in items">
-                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                  <template v-for="(item,index) in items" >
+                    <v-flex d-flex xs2 v-bind:key="index + '.1'">
                       <v-card-text class="text-xs-right">{{item.type.name}}</v-card-text>
                     </v-flex>
-                    <v-flex d-flex xs3 v-bind:key="item.type.name">
-                      <v-select v-bind:key="item.type.name"
+                    <v-flex d-flex xs3 v-bind:key="index + '.2'">
+                      <v-select 
                         v-bind:items="abilityselectlist"
                         v-model="item.assignment"
                         v-on:input="pointByAbility(item)"
                       ></v-select>
                     </v-flex>
-                    <v-flex d-flex xs3 v-bind:key="item.type.name">
+                    <v-flex d-flex xs3 v-bind:key="index + '.3'">
                       <v-select
                         v-bind:items="racialmodifierlist"
                         v-model="item.racialmodifier"
                         v-on:input="updateRacialModifer(item)"
                       ></v-select>
                     </v-flex>
-                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                    <v-flex d-flex xs2 v-bind:key="index + '.4'">
                       <v-card-text class="text-xs-right ">{{item.ability.value}}</v-card-text>
                     </v-flex>
-                    <v-flex d-flex xs2 v-bind:key="item.type.name">
+                    <v-flex d-flex xs2 v-bind:key="index + '.5'">
                       <v-card-text class="text-xs-right ">{{item.ability.modifier}}</v-card-text>
                     </v-flex>
                   </template>
