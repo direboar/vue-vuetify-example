@@ -86,22 +86,35 @@ export default {
     return {
       // totalItems ソートを無効にするために設定。
       totalItems: 2,
-      // ヘッダ
+      // // ヘッダ
       headers: [
         {
           text: "キャラクター名",
           value: "charctername",
-          sortable: false
+          align: "right",
+          sortable: false,
+          width: "40%"
         },
         {
           text: "イニシアチブ",
           value: "initiative",
-          sortable: false
+          align: "right",
+          sortable: false,
+          width: "15%"
         },
         {
           text: "修正値",
           value: "initiativemodifier",
-          sortable: false
+          align: "right",
+          sortable: false,
+          width: "15%"
+        },
+        {
+          text: "",
+          value: "action",
+          align: "right",
+          sortable: false,
+          width: "30%"
         }
       ],
       // 一覧に表示するアイテム

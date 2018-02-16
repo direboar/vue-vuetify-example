@@ -4,6 +4,7 @@ import InitiativeBoard from '@/components/InitiativeBoard'
 import ClassSearchCard from '@/components/ClassSearchCard'
 import AbilityEditor from '@/components/AbilityEditor'
 import Hoge from '@/components/Hoge'
+import Scroll from '@/components/Scroll'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/Hoge',
       name: 'Hoge',
       component: Hoge
+    },
+    {
+      path: '/Scroll',
+      name: 'Scroll',
+      component: Scroll
     }
   ]
 })

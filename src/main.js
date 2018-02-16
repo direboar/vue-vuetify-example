@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import {
   Vuetify,
+  VDataIterator,
   VApp,
   VAlert,
   VNavigationDrawer,
@@ -34,6 +35,7 @@ import '../node_modules/vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   components: {
     VApp,
+    VDataIterator,
     VAlert,
     VNavigationDrawer,
     VFooter,
