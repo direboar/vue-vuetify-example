@@ -12,7 +12,6 @@
                 <v-alert color="error" icon="warning" value="true" v-model="hasPointByError">
                   {{errorAlertMessage}}
                 </v-alert>
-                
               </v-card>
             </v-flex>
             <v-flex d-flex xs12 md6>
