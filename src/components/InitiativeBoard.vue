@@ -12,46 +12,54 @@
               <td class="text-xs-right">{{ props.item.initiativemodifier }}</td>
               <td>
                 <v-tooltip top>
-                  <v-btn color="primary" fab small dark slot="activator" @click="openEditDialig(props.item)"><v-icon>edit</v-icon></v-btn> <!--activatorスロットの意味が分からん。消すとボタン消える-->
+                  <v-btn color="primary" fab small dark slot="activator" @click="openEditDialig(props.item)">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <!--activatorスロットの意味が分からん。消すとボタン消える-->
                   <span>編集</span>
                 </v-tooltip>
                 <v-tooltip top>
-    　            <v-btn color="secondary" fab small dark slot="activator" @click="deleteItem(props.item)"><v-icon>delete</v-icon></v-btn>
+                  <v-btn color="secondary" fab small dark slot="activator" @click="deleteItem(props.item)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
                   <span>削除</span>
                 </v-tooltip>
               </td>
-          </template>
-        </v-data-table>
-      </v-card>
+            </template>
+          </v-data-table>
+        </v-card>
         <v-card color="indigo lighten-4">
-        <v-tooltip top>
-          <v-btn color="primary" fab small dark slot="activator" @click="openAddDialig()"><v-icon>add</v-icon></v-btn>
-          <span>追加</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn color="secondary" fab small dark slot="activator" @click="sort()"><v-icon>sort</v-icon></v-btn>
-          <span>ソート</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn color="accent" fab small dark slot="activator" @click="clearInitiative()"><v-icon>clear</v-icon></v-btn>
-          <span>イニシアチブ初期化</span>
-        </v-tooltip>
+          <v-tooltip top>
+            <v-btn color="primary" fab small dark slot="activator" @click="openAddDialig()">
+              <v-icon>add</v-icon>
+            </v-btn>
+            <span>追加</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn color="secondary" fab small dark slot="activator" @click="sort()">
+              <v-icon>sort</v-icon>
+            </v-btn>
+            <span>ソート</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn color="accent" fab small dark slot="activator" @click="clearInitiative()">
+              <v-icon>clear</v-icon>
+            </v-btn>
+            <span>イニシアチブ初期化</span>
+          </v-tooltip>
         </v-card>
       </v-flex>
     </v-layout>
-    
+
     <!--キャラクター編集ダイアログ-->
     <v-dialog v-model="dialog" persistent max-width="480">
       <v-card color="grey lighten-4" flat>
         <v-card-text>
           <v-container fluid>
             <v-form ref="form">
-              <v-text-field name="キャラクター名" label="キャラクター名" 
-                v-model="editcharacter.charctername" :rules="charcternameRule" required />
-              <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" 
-                type="number" v-model.number="editcharacter.initiativemodifier" :rules="initiativemodifierRule" required/>
-              <v-text-field name="イニシアチブ" label="イニシアチブ" 
-                type="number" v-model.number="editcharacter.initiative" :rules="initiativeRule"/>
+              <v-text-field name="キャラクター名" label="キャラクター名" v-model="editcharacter.charctername" :rules="charcternameRule" required />
+              <v-text-field name="イニシアチブ修正値" label="イニシアチブ修正値" type="number" v-model.number="editcharacter.initiativemodifier" :rules="initiativemodifierRule" required/>
+              <v-text-field name="イニシアチブ" label="イニシアチブ" type="number" v-model.number="editcharacter.initiative" :rules="initiativeRule" />
             </v-form>
           </v-container>
         </v-card-text>
@@ -63,11 +71,7 @@
       </v-card>
     </v-dialog>
     <!--スナックバー表示-->
-    <v-snackbar
-      timeout=1000
-      :color="snackbarcolor"
-      vertical=true
-      v-model="snackbar">
+    <v-snackbar timeout=1000 :color="snackbarcolor" vertical=true v-model="snackbar">
       {{ snackbarmessage }}
       <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
