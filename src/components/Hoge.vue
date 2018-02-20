@@ -1,38 +1,26 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-data-iterator
-      content-tag="v-layout"
-      row
-      wrap
-      :items="items"
-      :rows-per-page-items="rowsPerPageItems"
-      :pagination.sync="pagination"
-    >
-      <v-flex
-        slot="item"
-        slot-scope="props"
-        xs12
-        sm6
-        md4
-        lg3
-      >
+    <v-data-iterator content-tag="v-layout" row wrap :items="items" :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination">
+      <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg3>
         <v-card>
-          <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
+          <v-card-title>
+            <h4>{{ props.item.name }}</h4>
+          </v-card-title>
           <v-divider></v-divider>
           <v-list dense>
             <v-list-tile>
               <v-flex xs2>
-                <v-list-tile-content >Calories:</v-list-tile-content>
-              </v-flex>              
+                <v-list-tile-content>Calories:</v-list-tile-content>
+              </v-flex>
               <v-flex xs2>
-                <v-list-tile-content >Calories:</v-list-tile-content>
-              </v-flex>              
+                <v-list-tile-content>Calories:</v-list-tile-content>
+              </v-flex>
               <v-flex xs2>
-                <v-list-tile-content >Calories:</v-list-tile-content>
-              </v-flex>              
+                <v-list-tile-content>Calories:</v-list-tile-content>
+              </v-flex>
               <v-flex xs2>
                 <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
-              </v-flex>              
+              </v-flex>
             </v-list-tile>
             <v-list-tile>
               <v-list-tile-content>Fat:</v-list-tile-content>

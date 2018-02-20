@@ -14,7 +14,7 @@
           <v-list>
             <template v-for="item in items">
               <v-subheader v-if="item.header" v-bind:key="item.id" v-text="item.header"></v-subheader>
-              <v-divider  v-else-if="item.divider" v-bind:key="item.id" v-bind:inset="item.inset"></v-divider>
+              <v-divider v-else-if="item.divider" v-bind:key="item.id" v-bind:inset="item.inset"></v-divider>
               <v-list-tile avatar v-else v-bind:key="item.id" @click="openDialog(item)">
                 <v-list-tile-avatar>
                   <img v-bind:src="item.avatar">
@@ -31,15 +31,15 @@
     <v-layout row justify-center>
       <v-dialog persistent max-width="500" v-model="dialog" v-if="dialog">
         <v-card color="grey lighten-4">
-        <v-card-title class="headline">Class : {{currentitem.name}}</v-card-title>
-        <v-card-text >ヒットダイス : 1d{{currentitem.hit_die}}</v-card-text>
-        <v-card-text>技能習熟 : {{proficiencychoices}}</v-card-text>
-        <v-card-text>武器習熟 : {{proficiencie}}</v-card-text>
-        <v-card-text>セービングスロー : {{savingthrow}}</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close.</v-btn>
-        </v-card-actions>
+          <v-card-title class="headline">Class : {{currentitem.name}}</v-card-title>
+          <v-card-text>ヒットダイス : 1d{{currentitem.hit_die}}</v-card-text>
+          <v-card-text>技能習熟 : {{proficiencychoices}}</v-card-text>
+          <v-card-text>武器習熟 : {{proficiencie}}</v-card-text>
+          <v-card-text>セービングスロー : {{savingthrow}}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close.</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-layout>

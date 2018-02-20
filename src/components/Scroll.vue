@@ -4,18 +4,8 @@
       <v-subheader>Offset Top</v-subheader>
       {{ offsetTop }}
     </v-layout>
-    <v-container
-      style="max-height: 400px"
-      class="scroll-y"
-      id="scroll-target"
-    >
-      <v-layout
-        column
-        align-center
-        justify-center
-        class="scroll-y"
-        style="height: 1000px"
-      >
+    <v-container style="max-height: 400px" class="scroll-y" id="scroll-target">
+      <v-layout column align-center justify-center class="scroll-y" style="height: 1000px">
       </v-layout>
     </v-container>
   </div>

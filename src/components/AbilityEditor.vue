@@ -10,17 +10,17 @@
               </v-alert>
             </v-flex>
             <v-layout row wrap>
-            <v-flex d-flex xs12 sm6>
-              <v-layout row wrap>
-                <v-flex d-flex xs12 sm8 offset-sm2></v-flex>
-                <v-flex d-flex xs12 sm8 offset-sm2>
-                  <v-switch label="ポイントバイ" v-model="pointby" hide-details></v-switch>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex d-flex xs12 sm6>
-              <v-card-text class="subheading">能力値ポイント ： {{displayAbilityPoint}} / 27</v-card-text>
-            </v-flex>
+              <v-flex d-flex xs12 sm6>
+                <v-layout row wrap>
+                  <v-flex d-flex xs12 sm8 offset-sm2></v-flex>
+                  <v-flex d-flex xs12 sm8 offset-sm2>
+                    <v-switch label="ポイントバイ" v-model="pointby" hide-details></v-switch>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+              <v-flex d-flex xs12 sm6>
+                <v-card-text class="subheading">能力値ポイント ： {{displayAbilityPoint}} / 27</v-card-text>
+              </v-flex>
             </v-layout>
           </v-card>
         </v-flex>
@@ -52,20 +52,10 @@
                   <v-card-text class="ext-xs-right">{{item.type.name}}</v-card-text>
                 </v-flex>
                 <v-flex d-flex xs3 v-bind:key="index + '.2'">
-                  <v-select 
-                    content-class="caption text-xs-right"
-                    v-bind:items="abilityselectlist"
-                    v-model="item.assignment"
-                    v-on:input="pointByAbility(item)"
-                  ></v-select>
+                  <v-select content-class="caption text-xs-right" v-bind:items="abilityselectlist" v-model="item.assignment" v-on:input="pointByAbility(item)"></v-select>
                 </v-flex>
                 <v-flex d-flex xs3 v-bind:key="index + '.3'">
-                  <v-select
-                    content-class="caption text-xs-right"
-                    v-bind:items="racialmodifierlist"
-                    v-model="item.racialmodifier"
-                    v-on:input="updateRacialModifer(item)"
-                  ></v-select>
+                  <v-select content-class="caption text-xs-right" v-bind:items="racialmodifierlist" v-model="item.racialmodifier" v-on:input="updateRacialModifer(item)"></v-select>
                 </v-flex>
                 <v-flex d-flex xs2 v-bind:key="index + '.4'">
                   <v-card-text class="text-xs-right ">{{item.ability.value}}</v-card-text>
