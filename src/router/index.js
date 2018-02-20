@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import InitiativeBoard from '@/components/InitiativeBoard'
 import ClassSearchCard from '@/components/ClassSearchCard'
 import AbilityEditor from '@/components/AbilityEditor'
+import SpellSerachTable from '@/components/SpellSerachTable'
 import Hoge from '@/components/Hoge'
 import Scroll from '@/components/Scroll'
 
@@ -25,6 +26,12 @@ export default new Router({
       name: 'AbilityEditor',
       component: AbilityEditor
     },
+    {
+      path: '/SpellSerachTable',
+      name: 'SpellSerachTable',
+      component: SpellSerachTable
+    },
+    //for temporary.
     {
       path: '/Hoge',
       name: 'Hoge',

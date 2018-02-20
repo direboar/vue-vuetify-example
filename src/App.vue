@@ -1,21 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      persistent
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      v-model="drawer"
-      enable-resize-watcher
-      fixed
-      app
-    >
+    <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" enable-resize-watcher fixed app>
       <v-list>
-        <v-list-tile
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
-          @click="route(item)"
-        >
+        <v-list-tile value="true" v-for="(item, i) in items" :key="i" @click="route(item)">
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>
@@ -25,10 +12,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      app
-      :clipped-left="clipped"
-    >
+    <v-toolbar app :clipped-left="clipped">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -43,45 +27,50 @@
 </template>
 
 <script>
-import router from '@/router/index'
+import router from "@/router/index";
 
 export default {
   router: router,
-  data () {
+  data() {
     return {
       clipped: false,
       drawer: true,
       fixed: false,
       items: [
         {
-          icon: 'bubble_chart',
-          title: 'イニシアチブボード',
-          linkTo: 'InitiativeBoard'
+          icon: "bubble_chart",
+          title: "イニシアチブボード",
+          linkTo: "InitiativeBoard"
         },
         {
-          icon: 'bubble_chart',
-          title: 'クラス検索',
-          linkTo: 'ClassSearchCard'
+          icon: "bubble_chart",
+          title: "クラス検索",
+          linkTo: "ClassSearchCard"
         },
         {
-          icon: 'bubble_chart',
-          title: '能力値編集',
-          linkTo: 'AbilityEditor'
+          icon: "bubble_chart",
+          title: "能力値編集",
+          linkTo: "AbilityEditor"
+        },
+        {
+          icon: "bubble_chart",
+          title: "呪文検索",
+          linkTo: "SpellSerachTable"
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+      title: "Vuetify.js"
+    };
   },
-  name: 'App',
+  name: "App",
   methods: {
-    route (item) {
+    route(item) {
       router.push({
         name: item.linkTo
-      })
+      });
     }
   }
-}
+};
 </script>
