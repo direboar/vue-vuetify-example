@@ -1,14 +1,30 @@
 <template>
   <v-card>
     <v-card-title>
-      TODO（なんか書く）
-      <v-spacer></v-spacer>
-      <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
+      <v-layout row wrap>
+        <v-flex xs6>
+        </v-flex>
+        <v-flex xs6>
+          <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+        </v-flex>
+        <v-flex xs3>
+          <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+        </v-flex>
+        <v-flex xs3>
+          <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+        </v-flex>
+        <v-flex xs3>
+          <v-select :items="rituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+        </v-flex>
+        <v-flex xs3>
+          <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+        </v-flex>
+      </v-layout>
     </v-card-title>
-    <v-data-table :headers="headers" :items="items" :search="search" item-key="name">
+    <v-data-table :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
       <template slot="items" slot-scope="props">
         <tr @click="props.expanded = !props.expanded">
-          <td>{{ props.item.name }}</td>
+          <td class="text-xs-right">{{ props.item.name }}</td>
           <td class="text-xs-right">{{ props.item.class }}</td>
           <td class="text-xs-right">{{ props.item.level }}</td>
           <td class="text-xs-right">{{ props.item.components }}</td>
@@ -81,9 +97,6 @@
           </v-card-text>
         </v-card>
       </template>
-      <v-alert slot="no-results" :value="true" color="error" icon="warning">
-        Your search for "{{ search }}" found no results.
-      </v-alert>
     </v-data-table>
   </v-card>
 </template>
@@ -93,33 +106,54 @@
 </style>
 
 <script>
-// "name":"Abi-Dalzim's Horrid Wilting",
-// "desc":"<p>You draw the moisture from every creature in a 30-foot cube centered on a point you choose within range. Each creature in that area must make a Constitution saving throw. Constructs and undead aren't affected, and plants and water elementals make this saving throw with disadvantage. A creature takes 10d8 necrotic damage on a failed save, or half as much damage on a successful one.You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a Dexterity saving throw or take 1d6 acid damage.</p><p>This spells damage increases by 1d6 when you reach 5th Level (2d6), 11th level (3d6) and 17th level (4d6).</p>",
-// "page":"ee pc 15",
-// "range":"150 feet",
-// "components":"V, S, M",
-// "material":"A bit of sponge.",
-// "ritual":"no",
-// "duration":"Instantaneous",
-// "concentration":"no",
-// "casting_time":"1 action",
-// "level":"8th-level",
-// "school":"Necromancy",
-// "class":"Sorcerer, Wizard"
-
 import spells from "@/model/spells";
 
 export default {
   name: "SearchSpellTable",
   data() {
     return {
-      search: "",
+      e6: [],
+      conditon: {
+        spellname : "",
+        levels: [],
+        classes: [],
+        ritual: null,
+        components: []
+      },
+      levels: [
+        "Cantrip",
+        "1st-level",
+        "2nd-level",
+        "3rd-level",
+        "4th-level",
+        "5th-level",
+        "6th-level",
+        "7th-level",
+        "8th-level",
+        "9th-level"
+      ],
+      //FIXME 変換テーブルを全体で共有。
+      classes: [
+        { text: "バード", value: "Bard" },
+        { text: "クレリック", value: "Cleric" },
+        { text: "ドルイド", value: "Druid" },
+        { text: "パラディン", value: "Paladin" },
+        { text: "レンジャー", value: "Ranger" },
+        { text: "ソーサラー", value: "Sorcerer" },
+        { text: "ウィザード", value: "Wizard" }
+      ],
+      rituals: [
+        { text: "ー", value: null },
+        { text: "可", value: "yes" },
+        { text: "不可", value: "no" }
+      ],
+      components: [
+        { text: "動作", value: "S" },
+        { text: "音声", value: "V" },
+        { text: "物質", value: "M" }
+      ],
       headers: [
-        {
-          text: "名前",
-          align: "left",
-          value: "name"
-        },
+        { text: "名前", value: "name", align: "right" },
         { text: "クラス", value: "class", align: "right" },
         { text: "レベル", value: "level", align: "right" },
         { text: "構成要素", value: "components", align: "right" },
@@ -133,12 +167,91 @@ export default {
   },
   computed: {
     items() {
-      return spells();
+      // alert(this.conditon.level);
+      // return spells().filter(element => {
+      return spells()
+        // .slice(1, 10)
+        .filter(element => {
+          if (!this.filterSpellname(element)) {
+            return false;
+          }
+          if (!this.fliterRitual(element)) {
+            return false;
+          }
+          if (!this.fliterLevels(element)) {
+            return false;
+          }
+          if (!this.fliterClasses(element)) {
+            return false;
+          }
+          if (!this.fliterComopnents(element)) {
+            return false;
+          }
+          return true;
+          //1.filter returl.
+          // if (this.checkbox) {
+          //   return element.ritual === "yes";
+          // } else {
+          //   return true;
+          // }
+          //2. filter level,
+        });
     }
   },
   methods: {
-    click(props) {
-      alert(JSON.stringify(props));
+    fliterRitual(element) {
+      if (this.conditon.ritual === null) {
+        return true;
+      } else {
+        return element.ritual === this.conditon.ritual;
+      }
+    },
+
+    fliterLevels(element) {
+      if (this.conditon.levels.length === 0) {
+        return true;
+      } else {
+        return this.conditon.levels.some(e => {
+          return e === element.level;
+        });
+      }
+    },
+    fliterClasses(element) {
+      if (this.conditon.classes.length === 0) {
+        return true;
+      } else {
+        return this.conditon.classes.some(e => {
+          return element.class.includes(e);
+        });
+      }
+    },
+    fliterComopnents(element) {
+      // alert(JSON.stringify(this.conditon.classes));
+      if (this.conditon.components.length === 0) {
+        return true;
+      } else {
+        //,間のスペースを削除し、,でスプリットする。
+        var splittedComponents = element.components.replace(/ /g,"").split(",");
+
+        if (splittedComponents.length !== this.conditon.components.length) {
+          return false;
+        }
+        for (const s of splittedComponents) {
+          if (this.conditon.components.indexOf(s) === -1) {
+            return false;
+          }
+        }
+        return true;
+      }
+    },
+    filterSpellname(element){
+      var trimed = this.conditon.spellname.trim();
+      if (trimed === "") {
+        return true;
+      } else {
+        // return element.name.includes(trimed);
+        return element.name.startsWith(trimed);
+      }
     }
   }
 };
