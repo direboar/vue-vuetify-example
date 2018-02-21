@@ -249,8 +249,9 @@ export default {
       if (trimed === "") {
         return true;
       } else {
-        // return element.name.includes(trimed);
-        return element.name.startsWith(trimed);
+        //FIXME 前方一致か、includesかを指定できるようにしたい
+        return element.name.includes(trimed);
+        //return element.name.startsWith(trimed);
       }
     }
   }
