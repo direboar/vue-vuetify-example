@@ -203,7 +203,6 @@ export default {
   },
   methods: {
     fliterRitual(element) {
-      alert(element.ritual);
       if (this.conditon.ritual === null) {
         return true;
       } else {
@@ -265,7 +264,6 @@ export default {
         let fileReader = new FileReader();
         fileReader.onload = data => {
           let json = data.target.result;
-          alert(json);
           try {
             let spells = JSON.parse(json);
             this.spelldata = spells.spells;
