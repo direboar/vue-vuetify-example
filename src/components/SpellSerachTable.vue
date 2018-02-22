@@ -1,104 +1,107 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <v-layout row wrap>
-        <v-flex xs6>
-        </v-flex>
-        <v-flex xs6>
-          <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
-        </v-flex>
-        <v-flex xs3>
-          <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
-        </v-flex>
-        <v-flex xs3>
-          <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
-        </v-flex>
-        <v-flex xs3>
-          <v-select :items="rituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
-        </v-flex>
-        <v-flex xs3>
-          <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-        </v-flex>
-      </v-layout>
-    </v-card-title>
-    <v-data-table :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
-      <template slot="items" slot-scope="props">
-        <tr @click="props.expanded = !props.expanded">
-          <td class="text-xs-right">{{ props.item.name }}</td>
-          <td class="text-xs-right">{{ props.item.class }}</td>
-          <td class="text-xs-right">{{ props.item.level }}</td>
-          <td class="text-xs-right">{{ props.item.components }}</td>
-          <td class="text-xs-right">{{ props.item.casting_time }}</td>
-          <td class="text-xs-right">{{ props.item.duration }}</td>
-          <td class="text-xs-right">{{ props.item.concentration }}</td>
-          <td class="text-xs-right">{{ props.item.range }}</td>
-          <td class="text-xs-right">{{ props.item.ritual }}</td>
-        </tr>
-      </template>
-      <template slot="expand" slot-scope="props">
-        <v-card>
-          <v-card-text>
-            <v-layout row wrap>
-              <v-flex xs3>
-                <v-subheader class="body-2">クラス</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">レベル</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">構成要素</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">詠唱時間</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.class }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.level }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.components }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.casting_time }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">持続時間</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">集中</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">距離／エリア</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-subheader class="body-2">儀式</v-subheader>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.duration }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.concentration }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.range }}</v-card-text>
-              </v-flex>
-              <v-flex xs3>
-                <v-card-text class="body-2">{{ props.item.ritual }}</v-card-text>
-              </v-flex>
-              <v-flex xs12>
-                <v-divider/>
-                <v-card-text class="body-2">
-                  <span v-html="props.item.desc"></span>
-                </v-card-text>
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-        </v-card>
-      </template>
-    </v-data-table>
-  </v-card>
+  <v-container fluid grid-list-md>
+    <v-card>
+      <v-card-title>
+        <v-layout row wrap>
+          <v-flex xs6>
+            <file-drag @onFileRead="onReadFile"></file-drag>
+          </v-flex>
+          <v-flex xs6>
+            <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+          </v-flex>
+          <v-flex xs3>
+            <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs3>
+            <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs3>
+            <v-select :items="rituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs3>
+            <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+          </v-flex>
+        </v-layout>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
+        <template slot="items" slot-scope="props">
+          <tr @click="props.expanded = !props.expanded">
+            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right">{{ props.item.class }}</td>
+            <td class="text-xs-right">{{ props.item.level }}</td>
+            <td class="text-xs-right">{{ props.item.components }}</td>
+            <td class="text-xs-right">{{ props.item.casting_time }}</td>
+            <td class="text-xs-right">{{ props.item.duration }}</td>
+            <td class="text-xs-right">{{ props.item.concentration }}</td>
+            <td class="text-xs-right">{{ props.item.range }}</td>
+            <td class="text-xs-right">{{ props.item.ritual }}</td>
+          </tr>
+        </template>
+        <template slot="expand" slot-scope="props">
+          <v-card>
+            <v-card-text>
+              <v-layout row wrap>
+                <v-flex xs3>
+                  <v-subheader class="body-2">クラス</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">レベル</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">構成要素</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">詠唱時間</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.class }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.level }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.components }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.casting_time }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">持続時間</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">集中</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">距離／エリア</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-subheader class="body-2">儀式</v-subheader>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.duration }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.concentration }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.range }}</v-card-text>
+                </v-flex>
+                <v-flex xs3>
+                  <v-card-text class="body-2">{{ props.item.ritual }}</v-card-text>
+                </v-flex>
+                <v-flex xs12>
+                  <v-divider/>
+                  <v-card-text class="body-2">
+                    <span v-html="props.item.desc"></span>
+                  </v-card-text>
+                </v-flex>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>
 
 <style>
@@ -107,14 +110,18 @@
 
 <script>
 import spells from "@/model/spells";
+import FileDrag from "@/components/FileDrag";
 
 export default {
   name: "SearchSpellTable",
+  components: {
+    FileDrag: FileDrag
+  },
   data() {
     return {
-      e6: [],
+      spelldata: [],
       conditon: {
-        spellname : "",
+        spellname: "",
         levels: [],
         classes: [],
         ritual: null,
@@ -148,9 +155,9 @@ export default {
         { text: "不可", value: "no" }
       ],
       components: [
-        { text: "動作", value: "S" },
-        { text: "音声", value: "V" },
-        { text: "物質", value: "M" }
+        { text: "動作(S)", value: "S" },
+        { text: "音声(V)", value: "V" },
+        { text: "物質(M)", value: "M" }
       ],
       headers: [
         { text: "名前", value: "name", align: "right" },
@@ -165,41 +172,38 @@ export default {
       ]
     };
   },
+  beforeMount() {
+    this.spelldata = spells();
+  },
   computed: {
     items() {
-      // alert(this.conditon.level);
-      // return spells().filter(element => {
-      return spells()
-        // .slice(1, 10)
-        .filter(element => {
-          if (!this.filterSpellname(element)) {
-            return false;
-          }
-          if (!this.fliterRitual(element)) {
-            return false;
-          }
-          if (!this.fliterLevels(element)) {
-            return false;
-          }
-          if (!this.fliterClasses(element)) {
-            return false;
-          }
-          if (!this.fliterComopnents(element)) {
-            return false;
-          }
-          return true;
-          //1.filter returl.
-          // if (this.checkbox) {
-          //   return element.ritual === "yes";
-          // } else {
-          //   return true;
-          // }
-          //2. filter level,
-        });
+      return (
+        this.spelldata
+          // .slice(1, 10) //for debug.
+          .filter(element => {
+            if (!this.filterSpellname(element)) {
+              return false;
+            }
+            if (!this.fliterRitual(element)) {
+              return false;
+            }
+            if (!this.fliterLevels(element)) {
+              return false;
+            }
+            if (!this.fliterClasses(element)) {
+              return false;
+            }
+            if (!this.fliterComopnents(element)) {
+              return false;
+            }
+            return true;
+          })
+      );
     }
   },
   methods: {
     fliterRitual(element) {
+      alert(element.ritual);
       if (this.conditon.ritual === null) {
         return true;
       } else {
@@ -231,7 +235,9 @@ export default {
         return true;
       } else {
         //,間のスペースを削除し、,でスプリットする。
-        var splittedComponents = element.components.replace(/ /g,"").split(",");
+        var splittedComponents = element.components
+          .replace(/ /g, "")
+          .split(",");
 
         if (splittedComponents.length !== this.conditon.components.length) {
           return false;
@@ -244,7 +250,7 @@ export default {
         return true;
       }
     },
-    filterSpellname(element){
+    filterSpellname(element) {
       var trimed = this.conditon.spellname.trim();
       if (trimed === "") {
         return true;
@@ -252,6 +258,23 @@ export default {
         //FIXME 前方一致か、includesかを指定できるようにしたい
         return element.name.includes(trimed);
         //return element.name.startsWith(trimed);
+      }
+    },
+    onReadFile(files) {
+      for (const file of files) {
+        let fileReader = new FileReader();
+        fileReader.onload = data => {
+          let json = data.target.result;
+          alert(json);
+          try {
+            let spells = JSON.parse(json);
+            this.spelldata = spells.spells;
+          } catch (e) {
+            //FIXME
+            alert(e);
+          }
+        };
+        fileReader.readAsText(file);
       }
     }
   }
