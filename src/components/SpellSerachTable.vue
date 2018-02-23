@@ -3,8 +3,13 @@
     <v-card>
       <v-card-title>
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex xs3>
             <file-drag @onFileRead="onReadFile"></file-drag>
+          </v-flex>
+          <v-flex xs3>
+            <v-card>
+              <file-download :data="downloaddata"></file-download>
+            </v-card>
           </v-flex>
           <v-flex xs6>
             <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
@@ -111,11 +116,13 @@
 <script>
 import spells from "@/model/spells";
 import FileDrag from "@/components/FileDrag";
+import FileDownload from "@/components/FileDownload";
 
 export default {
   name: "SearchSpellTable",
   components: {
-    FileDrag: FileDrag
+    FileDrag: FileDrag,
+    FileDownload: FileDownload
   },
   data() {
     return {
@@ -199,6 +206,9 @@ export default {
             return true;
           })
       );
+    },
+    downloaddata() {
+      return JSON.stringify(this.spelldata);
     }
   },
   methods: {
@@ -229,7 +239,6 @@ export default {
       }
     },
     fliterComopnents(element) {
-      // alert(JSON.stringify(this.conditon.classes));
       if (this.conditon.components.length === 0) {
         return true;
       } else {
@@ -266,7 +275,7 @@ export default {
           let json = data.target.result;
           try {
             let spells = JSON.parse(json);
-            this.spelldata = spells.spells;
+            this.spelldata = spells;
           } catch (e) {
             //FIXME
             alert(e);
@@ -274,6 +283,16 @@ export default {
         };
         fileReader.readAsText(file);
       }
+    },
+    download() {
+      var debug = { hello: "world" };
+      var blob = new Blob([JSON.stringify(debug, null, 2)], {
+        type: "application/octet-stream"
+      });
+
+      let downloadlink = this.$refs.downloadlink;
+      downloadlink.href = URL.createObjectURL(blob);
+      downloadlink.click();
     }
   }
 };
