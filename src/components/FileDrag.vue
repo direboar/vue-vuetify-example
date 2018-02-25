@@ -23,7 +23,6 @@ export default {
     onDrop(e) {
       var dt = e.dataTransfer;
       var files = dt.files;
-      alert(files.length);
       this.$emit("onFileRead", files);
     }
   }
