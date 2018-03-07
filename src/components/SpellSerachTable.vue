@@ -38,14 +38,14 @@
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props)">
               <td class="text-xs-right">{{ props.item.name }}({{props.item.page}})</td>
-              <td class="text-xs-right">{{ props.item.class }}</td>
+              <td class="text-xs-right">{{ formatArray(props.item.class,classes)}}</td>
               <td class="text-xs-right">{{ props.item.level }}</td>
-              <td class="text-xs-right">{{ props.item.components }}</td>
+              <td class="text-xs-right">{{ formatArray(props.item.components,components) }}</td>
               <td class="text-xs-right">{{ props.item.casting_time }}</td>
               <td class="text-xs-right">{{ props.item.duration }}</td>
-              <td class="text-xs-right">{{ props.item.concentration }}</td>
+              <td class="text-xs-right">{{ format(props.item.concentration,concentration) }}</td>
               <td class="text-xs-right">{{ props.item.range }}</td>
-              <td class="text-xs-right">{{ props.item.ritual }}</td>
+              <td class="text-xs-right">{{ format(props.item.ritual,rituals) }}</td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">
@@ -69,13 +69,13 @@
                   </v-btn>
                 </v-flex>
                 <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.class }}</v-card-text>
+                  <v-card-text class="body-2">{{ formatArray(props.item.class,classes)}}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
                   <v-card-text class="body-2">{{ props.item.level }}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.components }} {{props.item.materialdeteil}}</v-card-text>
+                  <v-card-text class="body-2">{{ formatArray(props.item.components,components) }} {{props.item.materialdeteil}}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
                   <v-card-text class="body-2">{{ props.item.casting_time }}</v-card-text>
@@ -96,13 +96,13 @@
                   <v-card-text class="body-2">{{ props.item.duration }}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.concentration }}</v-card-text>
+                  <v-card-text class="body-2">{{ format(props.item.concentration,concentration) }}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
                   <v-card-text class="body-2">{{ props.item.range }}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.ritual }}</v-card-text>
+                  <v-card-text class="body-2">{{ format(props.item.ritual,rituals) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12>
                   <v-divider/>
@@ -132,13 +132,13 @@
                     <v-card-text>({{editspell.page}})</v-card-text>
                   </v-flex>
                   <v-flex xs3>
-                    <v-text-field name="クラス" label="クラス" v-model="editspell.class" required />
+                    <v-select label="Select" :items="classes" v-model="editspell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
                   </v-flex>
                   <v-flex xs3>
                     <v-select label="Select" :items="levels" v-model="editspell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
                   </v-flex>
                   <v-flex xs3>
-                    <v-text-field name="構成要素" label="構成要素" v-model="editspell.components" required/>
+                    <v-select label="Select" :items="components" v-model="editspell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
                   </v-flex>
                   <v-flex xs3>
                     <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="editspell.materialdeteil" />
@@ -150,13 +150,13 @@
                     <v-text-field name="持続時間" label="持続時間" v-model="editspell.duration" required />
                   </v-flex>
                   <v-flex xs2>
-                    <v-text-field name="集中" label="集中" v-model="editspell.concentration" required />
+                    <v-select label="Select" :items="concentration" v-model="editspell.concentration" max-height="400" hint="集中" persistent-hint></v-select>
                   </v-flex>
                   <v-flex xs2>
                     <v-text-field name="距離／エリア" label="距離／エリア" v-model="editspell.range" required />
                   </v-flex>
                   <v-flex xs2>
-                    <v-text-field name="儀式" label="儀式" v-model="editspell.ritual" required />
+                    <v-select label="Select" :items="enterRitual" v-model="editspell.ritual" max-height="400" hint="儀式" persistent-hint></v-select>
                   </v-flex>
                   <v-flex xs12>
                     <v-text-field class="nowrap" name="本文" label="本文" v-model="editspell.desc" multi-line required />
@@ -196,7 +196,9 @@ export default {
   },
   data() {
     return {
+      //管理している呪文データ。
       spelldata: [],
+      //検索条件
       conditon: {
         spellname: "",
         levels: [],
@@ -204,7 +206,7 @@ export default {
         ritual: null,
         components: []
       },
-      editmode: false,
+      //検索ダイアログに出すラベル管理。
       levels: [
         "Cantrip",
         "1st-level",
@@ -217,7 +219,6 @@ export default {
         "8th-level",
         "9th-level"
       ],
-      //FIXME 変換テーブルを全体で共有。
       classes: [
         { text: "バード", value: "Bard" },
         { text: "クレリック", value: "Cleric" },
@@ -225,7 +226,8 @@ export default {
         { text: "パラディン", value: "Paladin" },
         { text: "レンジャー", value: "Ranger" },
         { text: "ソーサラー", value: "Sorcerer" },
-        { text: "ウィザード", value: "Wizard" }
+        { text: "ウィザード", value: "Wizard" },
+        { text: "ウォーロック", value: "Warlock" }
       ],
       rituals: [
         { text: "ー", value: null },
@@ -248,15 +250,28 @@ export default {
         { text: "距離／エリア", value: "range", align: "right" },
         { text: "儀式", value: "ritual", align: "right" }
       ],
+      concentration: [
+        { text: "あり", value: "yes" },
+        { text: "なし", value: "no" }
+      ],
+      enterRitual: [
+        { text: "あり", value: "yes" },
+        { text: "なし", value: "no" }
+      ],
+      //編集ダイアログ表示フラグ
       showDialog: false,
+      //編集ダイアログで編集している呪文データの状態。
       editspell: {},
+      //編集ダイアログに渡した呪文データのポインタ。
       editedspell: null
     };
   },
   beforeMount() {
+    //初期表示用の呪文データを取得する。
     this.spelldata = spells();
   },
   computed: {
+    //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
       return (
         this.spelldata
@@ -281,11 +296,13 @@ export default {
           })
       );
     },
+    //ダウンロード時の文字列を返却する。
     downloaddata() {
       return JSON.stringify(this.spelldata);
     }
   },
   methods: {
+    //検索条件に従い、フィルタを行うメソッド。computedの中で呼び出されるのみで、テンプレートから直接呼ばれることはない。
     fliterRitual(element) {
       if (this.conditon.ritual === null) {
         return true;
@@ -342,6 +359,8 @@ export default {
         //return element.name.startsWith(trimed);
       }
     },
+
+    //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。
     onReadFile(files) {
       for (const file of files) {
         let fileReader = new FileReader();
@@ -358,27 +377,37 @@ export default {
         fileReader.readAsText(file);
       }
     },
-    download() {
-      var debug = { hello: "world" };
-      var blob = new Blob([JSON.stringify(debug, null, 2)], {
-        type: "application/octet-stream"
-      });
 
-      let downloadlink = this.$refs.downloadlink;
-      downloadlink.href = URL.createObjectURL(blob);
-      downloadlink.click();
-    },
+    //呪文データをJSON形式でダウンロードする。
+    // download() {
+    //   var debug = { hello: "world" };
+    //   var blob = new Blob([JSON.stringify(debug, null, 2)], {
+    //     type: "application/octet-stream"
+    //   });
+
+    //   let downloadlink = this.$refs.downloadlink;
+    //   downloadlink.href = URL.createObjectURL(blob);
+    //   downloadlink.click();
+    // },
+
+    //テーブルセルをクリック時、expandを表示する。
     clickCell(props) {
       props.expanded = !props.expanded;
     },
+
+    //expandで呪文編集を選択時、呪文編集ダイアログを上げる。
     editSpell(spell) {
       this.editedspell = spell;
       Object.assign(this.editspell, spell);
       this.showDialog = true;
     },
+
+    //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
       this.showDialog = true;
     },
+
+    //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
     save() {
       if (this.editedspell == null) {
         this.spelldata.push(this.editspell);
@@ -391,17 +420,45 @@ export default {
         this.editspell = {};
       }
     },
+
+    //呪文編集・追加ダイアログ上で操作をキャンセルする。
     cancel() {
       this.showDialog = false;
       this.editspell = {};
       this.editedspell = null;
     },
+
+    //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
       this.showDialog = false;
       let index = this.spelldata.indexOf(this.editedspell);
       this.spelldata.splice(index, 1);
       this.editspell = {};
       this.editedspell = null;
+    },
+
+    //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
+    format(val, table) {
+      var retVal = val;
+      // alert(val);
+      table.forEach(element => {
+        // alert(element.value);
+        // alert(val);
+        if (element.value === val) {
+          retVal = element.text;
+          return;
+        }
+      });
+      return retVal;
+    },
+
+    //配列のデータを表示用文字列にマッピングする。
+    formatArray(val, table) {
+      var array = [];
+      val.forEach(element => {
+        array.push(this.format(element, table));
+      });
+      return array.join(",");
     }
   }
 };
