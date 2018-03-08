@@ -329,19 +329,15 @@ export default {
         });
       }
     },
+    //FIXME バグフィックス。
     fliterComopnents(element) {
       if (this.conditon.components.length === 0) {
         return true;
       } else {
-        //,間のスペースを削除し、,でスプリットする。
-        var splittedComponents = element.components
-          .replace(/ /g, "")
-          .split(",");
-
-        if (splittedComponents.length !== this.conditon.components.length) {
+        if (element.components.length !== this.conditon.components.length) {
           return false;
         }
-        for (const s of splittedComponents) {
+        for (const s of element.components) {
           if (this.conditon.components.indexOf(s) === -1) {
             return false;
           }
@@ -359,7 +355,6 @@ export default {
         //return element.name.startsWith(trimed);
       }
     },
-
     //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。
     onReadFile(files) {
       for (const file of files) {
