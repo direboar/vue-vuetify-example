@@ -22,12 +22,12 @@ export default new Router({
       component: ClassSearchCard
     },
     {
-      path: '/',
+      path: '/AbilityEditor',
       name: 'AbilityEditor',
       component: AbilityEditor
     },
     {
-      path: '/SpellSerachTable',
+      path: '/',
       name: 'SpellSerachTable',
       component: SpellSerachTable
     },

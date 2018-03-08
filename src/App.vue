@@ -44,11 +44,6 @@ export default {
         },
         {
           icon: "bubble_chart",
-          title: "クラス検索",
-          linkTo: "ClassSearchCard"
-        },
-        {
-          icon: "bubble_chart",
           title: "能力値編集",
           linkTo: "AbilityEditor"
         },
