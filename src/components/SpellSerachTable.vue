@@ -55,17 +55,17 @@
         </v-data-table>
         <!--モバイル-->
         <v-list class="hidden-sm-and-up" two-line>
-          <template v-for="item in items">
-            <v-list-tile avatar :key="item.name" @click="clickCell(item)">
+          <v-data-iterator content-tag="v-card" :items="items">
+            <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
               <v-list-tile-avatar>
                 <v-icon :class="grey">{{"folder" }}</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title>{{item.name}} </v-list-tile-title>
-                <v-list-tile-sub-title>{{item.level}} {{arrayToString(item.components)}} {{item.school}}</v-list-tile-sub-title>
+                <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
+                <v-list-tile-sub-title>{{props.item.level}} {{arrayToString(props.item.components)}} {{props.item.school}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-          </template>
+          </v-data-iterator>
         </v-list>
       </v-card>
     </v-container>
