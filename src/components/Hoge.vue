@@ -1,16 +1,11 @@
 <template>
   <v-container fluid>
     <v-layout row wrap>
-      <!--@see https://developer.mozilla.org/ja/docs/Web/API/File/Using_files_from_web_applications-->
-      <!--@see https://qiita.com/komatzz/items/f2a25db16aca388845d3-->
-      <input type="file" v-on:change="onFileChange($event)">
-
-      <input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
-      <a href="#" id="fileSelect">ファイルを選択</a>
+      <file-upload-button @onFileRead="onFileRead" />
     </v-layout>
     <v-layout row wrap>
       <v-flex xs6>
-        <file-drag @onFileRead="onReadFile"></file-drag>
+        <file-drag @onFileRead="onFileRead"></file-drag>
       </v-flex>
       <v-flex xs6>
         <v-card>
@@ -27,10 +22,12 @@
 
 <script>
 import FileDrag from "@/components/FileDrag";
+import FileUploadButton from "@/components/FileUploadButton";
 
 export default {
   components: {
-    FileDrag: FileDrag
+    FileDrag: FileDrag,
+    FileUploadButton: FileUploadButton
   },
   data() {
     return {
@@ -42,7 +39,7 @@ export default {
     };
   },
   methods: {
-    onReadFile(files) {
+    onFileRead(files) {
       for (const file of files) {
         let fileReader = new FileReader();
         fileReader.onload = data => {

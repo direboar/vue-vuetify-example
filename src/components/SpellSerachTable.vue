@@ -5,7 +5,7 @@
         <v-card-title>
           <v-layout row wrap>
             <v-flex xs2>
-              <file-drag @onFileRead="onReadFile"></file-drag>
+              <file-upload-button @onFileRead="onFileRead" />
             </v-flex>
             <v-flex xs2>
               <v-card>
@@ -27,7 +27,7 @@
               <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
             </v-flex>
             <v-flex xs3>
-              <v-select :items="rituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+              <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
             </v-flex>
             <v-flex xs3>
               <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
@@ -45,7 +45,7 @@
               <td class="text-xs-right">{{ props.item.duration }}</td>
               <td class="text-xs-right">{{ format(props.item.concentration,concentration) }}</td>
               <td class="text-xs-right">{{ props.item.range }}</td>
-              <td class="text-xs-right">{{ format(props.item.ritual,rituals) }}</td>
+              <td class="text-xs-right">{{ format(props.item.ritual,conditonRituals) }}</td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">
@@ -102,7 +102,7 @@
                   <v-card-text class="body-2">{{ props.item.range }}</v-card-text>
                 </v-flex>
                 <v-flex xs3>
-                  <v-card-text class="body-2">{{ format(props.item.ritual,rituals) }}</v-card-text>
+                  <v-card-text class="body-2">{{ format(props.item.ritual,conditonRituals) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12>
                   <v-divider/>
@@ -116,65 +116,7 @@
         </v-data-table>
       </v-card>
     </v-container>
-
-    <!--キャラクター編集ダイアログ-->
-    <v-dialog v-model="showDialog" persistent>
-      <v-container grid-list-md>
-        <v-card color="grey lighten-4" flat v-if="editspell!=null">
-          <v-card-text>
-            <v-container fluid>
-              <v-form ref="form">
-                <v-layout row wrap>
-                  <v-flex xs2>
-                    <v-text-field name="名前" type="text" label="名前" v-model="editspell.name" required />
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-card-text>({{editspell.page}})</v-card-text>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="classes" v-model="editspell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="levels" v-model="editspell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="components" v-model="editspell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="editspell.materialdeteil" />
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="詠唱時間" label="詠唱時間" v-model="editspell.casting_time" required />
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="持続時間" label="持続時間" v-model="editspell.duration" required />
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-select label="Select" :items="concentration" v-model="editspell.concentration" max-height="400" hint="集中" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-text-field name="距離／エリア" label="距離／エリア" v-model="editspell.range" required />
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-select label="Select" :items="enterRitual" v-model="editspell.ritual" max-height="400" hint="儀式" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field class="nowrap" name="本文" label="本文" v-model="editspell.desc" multi-line required />
-                  </v-flex>
-                </v-layout>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click.native="save">セーブ</v-btn>
-            <v-btn color="green darken-1" flat @click.native="cancel">キャンセル</v-btn>
-            <v-btn color="green darken-1" flat @click.native="remove">削除</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-container>
-    </v-dialog>
-
+    <spell-edit-dialog :showEditDialog.sync="showEditDialog" v-bind:editedspell="editTargetSpell" @save="save" @remove="remove" />
   </div>
 </template>
 
@@ -185,14 +127,18 @@
 
 <script>
 import spells from "@/model/spells";
-import FileDrag from "@/components/FileDrag";
+import constants from "@/model/constants";
+
+import FileUploadButton from "@/components/FileUploadButton";
 import FileDownload from "@/components/FileDownload";
+import SpellEditDialog from "@/components/SpellEditDialog";
 
 export default {
   name: "SearchSpellTable",
   components: {
-    FileDrag: FileDrag,
-    FileDownload: FileDownload
+    FileUploadButton: FileUploadButton,
+    FileDownload: FileDownload,
+    SpellEditDialog: SpellEditDialog
   },
   data() {
     return {
@@ -207,38 +153,10 @@ export default {
         components: []
       },
       //検索ダイアログに出すラベル管理。
-      levels: [
-        "Cantrip",
-        "1st-level",
-        "2nd-level",
-        "3rd-level",
-        "4th-level",
-        "5th-level",
-        "6th-level",
-        "7th-level",
-        "8th-level",
-        "9th-level"
-      ],
-      classes: [
-        { text: "バード", value: "Bard" },
-        { text: "クレリック", value: "Cleric" },
-        { text: "ドルイド", value: "Druid" },
-        { text: "パラディン", value: "Paladin" },
-        { text: "レンジャー", value: "Ranger" },
-        { text: "ソーサラー", value: "Sorcerer" },
-        { text: "ウィザード", value: "Wizard" },
-        { text: "ウォーロック", value: "Warlock" }
-      ],
-      rituals: [
-        { text: "ー", value: null },
-        { text: "可", value: "yes" },
-        { text: "不可", value: "no" }
-      ],
-      components: [
-        { text: "動作(S)", value: "S" },
-        { text: "音声(V)", value: "V" },
-        { text: "物質(M)", value: "M" }
-      ],
+      levels: constants.levels,
+      classes: constants.classes,
+      components: constants.components,
+      concentration: constants.concentration,
       headers: [
         { text: "名前", value: "name", align: "right" },
         { text: "クラス", value: "class", align: "right" },
@@ -250,20 +168,15 @@ export default {
         { text: "距離／エリア", value: "range", align: "right" },
         { text: "儀式", value: "ritual", align: "right" }
       ],
-      concentration: [
-        { text: "あり", value: "yes" },
-        { text: "なし", value: "no" }
-      ],
-      enterRitual: [
-        { text: "あり", value: "yes" },
-        { text: "なし", value: "no" }
+      conditonRituals: [
+        { text: "ー", value: null },
+        { text: "可", value: "yes" },
+        { text: "不可", value: "no" }
       ],
       //編集ダイアログ表示フラグ
-      showDialog: false,
-      //編集ダイアログで編集している呪文データの状態。
-      editspell: {},
+      showEditDialog: false,
       //編集ダイアログに渡した呪文データのポインタ。
-      editedspell: null
+      editTargetSpell: null
     };
   },
   beforeMount() {
@@ -356,7 +269,7 @@ export default {
       }
     },
     //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。
-    onReadFile(files) {
+    onFileRead(files) {
       for (const file of files) {
         let fileReader = new FileReader();
         fileReader.onload = data => {
@@ -373,18 +286,6 @@ export default {
       }
     },
 
-    //呪文データをJSON形式でダウンロードする。
-    // download() {
-    //   var debug = { hello: "world" };
-    //   var blob = new Blob([JSON.stringify(debug, null, 2)], {
-    //     type: "application/octet-stream"
-    //   });
-
-    //   let downloadlink = this.$refs.downloadlink;
-    //   downloadlink.href = URL.createObjectURL(blob);
-    //   downloadlink.click();
-    // },
-
     //テーブルセルをクリック時、expandを表示する。
     clickCell(props) {
       props.expanded = !props.expanded;
@@ -392,44 +293,34 @@ export default {
 
     //expandで呪文編集を選択時、呪文編集ダイアログを上げる。
     editSpell(spell) {
-      this.editedspell = spell;
-      Object.assign(this.editspell, spell);
-      this.showDialog = true;
+      this.editTargetSpell = spell;
+      this.showEditDialog = true;
     },
 
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
-      this.showDialog = true;
+      this.editTargetSpell = null;
+      this.showEditDialog = true;
     },
 
-    //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
-    save() {
-      if (this.editedspell == null) {
-        this.spelldata.push(this.editspell);
-        this.editspell = {};
-        this.showDialog = false;
+    // //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
+    save(result) {
+      if (this.editTargetSpell == null) {
+        this.spelldata.push(result);
+        this.showEditDialog = false;
       } else {
-        Object.assign(this.editedspell, this.editspell);
-        this.showDialog = false;
-        this.editedspell = null;
-        this.editspell = {};
+        Object.assign(this.editTargetSpell, result);
+        this.showEditDialog = false;
+        this.editTargetSpell = null;
       }
     },
 
-    //呪文編集・追加ダイアログ上で操作をキャンセルする。
-    cancel() {
-      this.showDialog = false;
-      this.editspell = {};
-      this.editedspell = null;
-    },
-
-    //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
+    // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
-      this.showDialog = false;
-      let index = this.spelldata.indexOf(this.editedspell);
+      this.showEditDialog = false;
+      let index = this.spelldata.indexOf(this.editTargetSpell);
       this.spelldata.splice(index, 1);
-      this.editspell = {};
-      this.editedspell = null;
+      this.editTargetSpell = null;
     },
 
     //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
