@@ -116,7 +116,7 @@
         </v-data-table>
       </v-card>
     </v-container>
-    <spell-edit-dialog :showEditDialog.sync="showEditDialog" v-bind:editedspell="editTargetSpell" @save="save" @remove="remove" />
+    <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
   </div>
 </template>
 
@@ -131,14 +131,14 @@ import constants from "@/model/constants";
 
 import FileUploadButton from "@/components/FileUploadButton";
 import FileDownload from "@/components/FileDownload";
-import SpellEditDialog from "@/components/SpellEditDialog";
+import SpellDetailDialog from "@/components/SpellDetailDialog";
 
 export default {
   name: "SearchSpellTable",
   components: {
     FileUploadButton: FileUploadButton,
     FileDownload: FileDownload,
-    SpellEditDialog: SpellEditDialog
+    SpellDetailDialog: SpellDetailDialog
   },
   data() {
     return {
@@ -175,8 +175,10 @@ export default {
       ],
       //編集ダイアログ表示フラグ
       showEditDialog: false,
+      //編集モードとするかの指定
+      createSpell: false,
       //編集ダイアログに渡した呪文データのポインタ。
-      editTargetSpell: null
+      targetSpell: null
     };
   },
   beforeMount() {
@@ -288,39 +290,49 @@ export default {
 
     //テーブルセルをクリック時、expandを表示する。
     clickCell(props) {
-      props.expanded = !props.expanded;
-    },
-
-    //expandで呪文編集を選択時、呪文編集ダイアログを上げる。
-    editSpell(spell) {
-      this.editTargetSpell = spell;
+      // props.expanded = !props.expanded;
+      this.targetSpell = props.item;
+      this.editMode = false;
       this.showEditDialog = true;
     },
 
+    // //expandで呪文編集を選択時、呪文編集ダイアログを上げる。
+    // editSpell(spell) {
+    //   this.targetSpell = spell;
+    //   this.editMode = false;
+    //   this.showEditDialog = true;
+    // },
+
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
-      this.editTargetSpell = null;
+      this.targetSpell = null;
+      this.editMode = true;
       this.showEditDialog = true;
     },
 
     // //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
     save(result) {
-      if (this.editTargetSpell == null) {
+      if (this.targetSpell == null) {
         this.spelldata.push(result);
-        this.showEditDialog = false;
+        // this.showEditDialog = false;
       } else {
-        Object.assign(this.editTargetSpell, result);
-        this.showEditDialog = false;
-        this.editTargetSpell = null;
+        Object.assign(this.targetSpell, result);
+        // this.showEditDialog = false;
+        this.targetSpell = null;
       }
     },
 
     // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
-      this.showEditDialog = false;
-      let index = this.spelldata.indexOf(this.editTargetSpell);
+      // this.showEditDialog = false;
+      let index = this.spelldata.indexOf(this.targetSpell);
       this.spelldata.splice(index, 1);
-      this.editTargetSpell = null;
+      this.targetSpell = null;
+    },
+
+    cancelOrClose() {
+      // this.showEditDialog = false;
+      this.targetSpell = null;
     },
 
     //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
