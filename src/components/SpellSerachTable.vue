@@ -4,7 +4,10 @@
       <v-card>
         <v-card-title>
           <v-layout row wrap>
-            <v-flex xs6 sm2>
+            <v-flex xs6 sm2 class="hidden-sm-and-down">
+              <file-upload-button message="ファイル選択(押して下さい)" @onFileRead="onFileRead" />
+            </v-flex>
+            <v-flex xs6 sm2 class="hidden-sm-and-up">
               <file-upload-button message="ファイル選択" @onFileRead="onFileRead" />
             </v-flex>
             <!--TODO ひとまずモバイルでは隠す-->
