@@ -4,15 +4,17 @@
       <v-card>
         <v-card-title>
           <v-layout row wrap>
-            <v-flex xs2>
-              <file-upload-button @onFileRead="onFileRead" />
+            <v-flex xs6 sm2>
+              <file-upload-button message="ファイル選択" @onFileRead="onFileRead" />
             </v-flex>
-            <v-flex xs2>
+            <!--TODO ひとまずモバイルでは隠す-->
+            <v-flex xs2 class="hidden-sm-and-down">
               <v-card>
                 <file-download :data="downloaddata"></file-download>
               </v-card>
             </v-flex>
-            <v-flex xs2>
+            <!--TODO ひとまずモバイルでは隠す-->
+            <v-flex xs2 class="hidden-sm-and-down">
               <v-card>
                 <v-btn @click="addSpell">追加</v-btn>
               </v-card>
@@ -34,86 +36,34 @@
             </v-flex>
           </v-layout>
         </v-card-title>
-        <v-data-table :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
+        <!--非モバイル-->
+        <v-data-table class="hidden-sm-and-down" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
-            <tr @click="clickCell(props)">
-              <td class="text-xs-right">{{ props.item.name }}({{props.item.page}})</td>
-              <td class="text-xs-right">{{ formatArray(props.item.class,classes)}}</td>
-              <td class="text-xs-right">{{ props.item.level }}</td>
-              <td class="text-xs-right">{{ formatArray(props.item.components,components) }}</td>
-              <td class="text-xs-right">{{ props.item.casting_time }}</td>
-              <td class="text-xs-right">{{ props.item.duration }}</td>
-              <td class="text-xs-right">{{ format(props.item.concentration,concentration) }}</td>
-              <td class="text-xs-right">{{ props.item.range }}</td>
-              <td class="text-xs-right">{{ format(props.item.ritual,conditonRituals) }}</td>
+            <tr @click="clickCell(props.item)">
+              <td class="text-xs-left">{{ props.item.name }}</td>
+              <td class="text-xs-left">{{ props.item.level }}</td>
+              <td class="text-xs-left">{{ formatArray(props.item.components,components) }}</td>
+              <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
+              <td class="text-xs-left">{{ formatDuration(props.item) }}</td>
+              <td class="text-xs-left">{{ props.item.range }}</td>
+              <td class="text-xs-left">{{ format(props.item.ritual,conditonRituals) }}</td>
             </tr>
           </template>
-          <template slot="expand" slot-scope="props">
-            <v-card>
-              <v-layout row wrap>
-                <v-flex xs3>
-                  <v-subheader class="body-2">クラス</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">レベル</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">構成要素</v-subheader>
-                </v-flex>
-                <v-flex xs2>
-                  <v-subheader class="body-2">詠唱時間</v-subheader>
-                </v-flex>
-                <v-flex xs1>
-                  <v-btn color="primary" fab small dark @click="editSpell(props.item)">
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ formatArray(props.item.class,classes)}}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.level }}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ formatArray(props.item.components,components) }} {{props.item.materialdeteil}}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.casting_time }}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">持続時間</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">集中</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">距離／エリア</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-subheader class="body-2">儀式</v-subheader>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.duration }}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ format(props.item.concentration,concentration) }}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ props.item.range }}</v-card-text>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card-text class="body-2">{{ format(props.item.ritual,conditonRituals) }}</v-card-text>
-                </v-flex>
-                <v-flex xs12>
-                  <v-divider/>
-                  <v-card-text class="body-2">
-                    <span style="white-space: pre-wrap;" v-html="props.item.desc"></span>
-                  </v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-card>
-          </template>
         </v-data-table>
+        <!--モバイル-->
+        <v-list class="hidden-sm-and-up" two-line>
+          <template v-for="item in items">
+            <v-list-tile avatar :key="item.name" @click="clickCell(item)">
+              <v-list-tile-avatar>
+                <v-icon :class="grey">{{"folder" }}</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>{{item.name}} </v-list-tile-title>
+                <v-list-tile-sub-title>{{item.level}} {{arrayToString(item.components)}} {{item.school}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
       </v-card>
     </v-container>
     <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
@@ -121,8 +71,19 @@
 </template>
 
 <style>
-
-</style>
+/* table {
+  table-layout: fixed;
+} */
+td.nowrap {
+  max-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+/* td.wrap {
+  overflow: hidden;
+} */
 </style>
 
 <script>
@@ -158,15 +119,18 @@ export default {
       components: constants.components,
       concentration: constants.concentration,
       headers: [
-        { text: "名前", value: "name", align: "right" },
-        { text: "クラス", value: "class", align: "right" },
-        { text: "レベル", value: "level", align: "right" },
-        { text: "構成要素", value: "components", align: "right" },
-        { text: "詠唱時間", value: "casting_time", align: "right" },
-        { text: "持続時間", value: "duration", align: "right" },
-        { text: "集中", value: "concentration", align: "right" },
-        { text: "距離／エリア", value: "range", align: "right" },
-        { text: "儀式", value: "ritual", align: "right" }
+        { text: "名前", value: "name", align: "left", width: "15%" },
+        { text: "レベル", value: "level", align: "left", width: "5%" },
+        { text: "構成要素", value: "components", align: "left", width: "10%" },
+        {
+          text: "詠唱時間",
+          value: "casting_time",
+          align: "left",
+          width: "10%"
+        },
+        { text: "持続時間", value: "duration", align: "left", width: "10%" },
+        { text: "距離／エリア", value: "range", align: "left", width: "10%" },
+        { text: "儀式", value: "ritual", align: "left", width: "5%" }
       ],
       conditonRituals: [
         { text: "ー", value: null },
@@ -289,19 +253,12 @@ export default {
     },
 
     //テーブルセルをクリック時、expandを表示する。
-    clickCell(props) {
+    clickCell(item) {
       // props.expanded = !props.expanded;
-      this.targetSpell = props.item;
+      this.targetSpell = item;
       this.editMode = false;
       this.showEditDialog = true;
     },
-
-    // //expandで呪文編集を選択時、呪文編集ダイアログを上げる。
-    // editSpell(spell) {
-    //   this.targetSpell = spell;
-    //   this.editMode = false;
-    //   this.showEditDialog = true;
-    // },
 
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
@@ -314,34 +271,37 @@ export default {
     save(result) {
       if (this.targetSpell == null) {
         this.spelldata.push(result);
-        // this.showEditDialog = false;
       } else {
         Object.assign(this.targetSpell, result);
-        // this.showEditDialog = false;
         this.targetSpell = null;
       }
     },
 
     // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
-      // this.showEditDialog = false;
       let index = this.spelldata.indexOf(this.targetSpell);
       this.spelldata.splice(index, 1);
       this.targetSpell = null;
     },
 
     cancelOrClose() {
-      // this.showEditDialog = false;
       this.targetSpell = null;
+    },
+
+    //TODO 以下は共通ロジック。リファクタリングして一本化する
+    //呪文の持続時間を編集して返却する
+    formatDuration(item) {
+      var retVal = item.duration;
+      if (item.concentration === "yes") {
+        retVal = "精神集中," + retVal;
+      }
+      return retVal;
     },
 
     //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
     format(val, table) {
       var retVal = val;
-      // alert(val);
       table.forEach(element => {
-        // alert(element.value);
-        // alert(val);
         if (element.value === val) {
           retVal = element.text;
           return;
@@ -356,6 +316,10 @@ export default {
       val.forEach(element => {
         array.push(this.format(element, table));
       });
+      return array.join(",");
+    },
+
+    arrayToString(array) {
       return array.join(",");
     }
   }

@@ -2,129 +2,197 @@
   <div>
     <!--編集ダイアログ-->
     <v-dialog v-model="showEditDialog" persistent v-if="editmode">
-      <v-container grid-list-md>
-        <v-card color="grey lighten-4" flat>
-          <v-card-text>
-            <v-container fluid>
-              <v-form ref="form">
-                <v-layout row wrap>
-                  <v-flex xs4>
-                    <v-text-field name="名前" type="text" label="名前" v-model="spell.name" required/>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="classes" v-model="spell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="levels" v-model="spell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-select label="Select" :items="components" v-model="spell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="spell.materialdeteil" />
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="詠唱時間" label="詠唱時間" v-model="spell.casting_time" required />
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-text-field name="持続時間" label="持続時間" v-model="spell.duration" required />
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-select label="Select" :items="concentration" v-model="spell.concentration" max-height="400" hint="集中" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-text-field name="距離／エリア" label="距離／エリア" v-model="spell.range" required />
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-select label="Select" :items="rituals" v-model="spell.ritual" max-height="400" hint="儀式" persistent-hint></v-select>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field class="nowrap" name="本文" label="本文" v-model="spell.desc" multi-line required />
-                  </v-flex>
-                </v-layout>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click.native="save">セーブ</v-btn>
-            <v-btn color="green darken-1" flat @click.native="cancel">キャンセル</v-btn>
-            <v-btn color="green darken-1" flat @click.native="remove">削除</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-container>
+      <v-card color="grey lighten-4" flat>
+        <v-card-text>
+          <v-container fluid>
+            <v-form ref="form">
+              <v-layout row wrap>
+                <v-flex md4>
+                  <v-text-field name="名前" type="text" label="名前" v-model="spell.name" required/>
+                </v-flex>
+                <v-flex xs3>
+                  <v-select label="Select" :items="classes" v-model="spell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs3>
+                  <v-select label="Select" :items="levels" v-model="spell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs3>
+                  <v-select label="Select" :items="components" v-model="spell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="spell.materialdeteil" />
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field name="詠唱時間" label="詠唱時間" v-model="spell.casting_time" required />
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field name="持続時間" label="持続時間" v-model="spell.duration" required />
+                </v-flex>
+                <v-flex xs2>
+                  <v-select label="Select" :items="concentration" v-model="spell.concentration" max-height="400" hint="集中" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs2>
+                  <v-text-field name="距離／エリア" label="距離／エリア" v-model="spell.range" required />
+                </v-flex>
+                <v-flex xs2>
+                  <v-select label="Select" :items="rituals" v-model="spell.ritual" max-height="400" hint="儀式" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field class="nowrap" name="本文" label="本文" v-model="spell.desc" multi-line required />
+                </v-flex>
+              </v-layout>
+            </v-form>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="save">セーブ</v-btn>
+          <v-btn color="green darken-1" flat @click.native="cancel">キャンセル</v-btn>
+          <v-btn color="green darken-1" flat @click.native="remove">削除</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
+
     <!--表示ダイアログ-->
     <v-dialog v-model="showEditDialog" persistent v-if="editmode === false">
-      <v-container grid-list-md>
-        <v-card color="grey lighten-4" flat>
-          <v-card-title>
-            <h2>{{spell.name}}</h2>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-layout row wrap>
-            <v-flex xs3>
-              <v-subheader class="body-2">クラス</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">レベル</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">構成要素</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">詠唱時間</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ formatArray(spell.class,classes)}}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ spell.level }}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ formatArray(spell.components,components) }} {{spell.materialdeteil}}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ spell.casting_time }}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">持続時間</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">集中</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">距離／エリア</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-subheader class="body-2">儀式</v-subheader>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ spell.duration }}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ format(spell.concentration,concentration) }}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ spell.range }}</v-card-text>
-            </v-flex>
-            <v-flex xs3>
-              <v-card-text class="body-2">{{ format(spell.ritual,rituals) }}</v-card-text>
-            </v-flex>
-            <v-flex xs12>
+      <!--デスクトップ用-->
+      <v-card color="grey lighten-4" flat class="hidden-sm-and-down">
+        <v-card-title>
+          <h2>{{spell.name}}</h2>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-layout row wrap>
+          <v-flex xs3>
+            <v-subheader class="body-2">クラス</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">レベル</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">構成要素</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">詠唱時間</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ formatArray(spell.class,classes)}}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ spell.level }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ formatArray(spell.components,components) }} {{spell.materialdeteil}}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ spell.casting_time }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">持続時間</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">集中</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">距離／エリア</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-subheader class="body-2">儀式</v-subheader>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ spell.duration }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ format(spell.concentration,concentration) }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ spell.range }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
+            <v-card-text class="body-2">{{ format(spell.ritual,rituals) }}</v-card-text>
+          </v-flex>
+          <v-flex xs12>
+            <v-divider/>
+            <v-card-text class="body-2">
+              <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
+            </v-card-text>
+          </v-flex>
+        </v-layout>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="close">閉じる</v-btn>
+          <v-btn color="green darken-1" flat @click.native="edit">編集する</v-btn>
+        </v-card-actions>
+      </v-card>
+
+      <!--モバイル用-->
+      <v-card class="hidden-sm-and-up">
+        <v-card-title>
+          <h2>{{spell.name}}</h2>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-layout row wrap>
+          <v-flex xs6>
+            <v-list two-line>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>レベル</v-list-title>
+                  <v-list-tile-content>{{spell.level}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
               <v-divider/>
-              <v-card-text class="body-2">
-                <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
-              </v-card-text>
-            </v-flex>
-          </v-layout>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click.native="close">閉じる</v-btn>
-            <v-btn color="green darken-1" flat @click.native="edit">編集する</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-container>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>距離／エリア</v-list-title>
+                  <v-list-tile-content>{{spell.range}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider/>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>持続時間</v-list-title>
+                  <v-list-tile-content>{{formatDuration(spell)}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider/>
+            </v-list>
+          </v-flex>
+          <v-flex xs6>
+            <v-list two-line>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>詠唱時間</v-list-title>
+                  <v-list-tile-content>{{spell.casting_time}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider/>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>構成要素</v-list-title>
+                  <v-list-tile-content>{{formatArray(spell.components,components)}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider/>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-title>儀式</v-list-title>
+                  <v-list-tile-content>{{format(spell.ritual,rituals)}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider/>
+            </v-list>
+          </v-flex>
+          <v-flex xs12>
+            <v-card-text class="body-2">
+              <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
+            </v-card-text>
+          </v-flex>
+        </v-layout>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="close">閉じる</v-btn>
+          <v-btn color="green darken-1" flat @click.native="edit">編集する</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
   </div>
 </template>
@@ -238,6 +306,14 @@ export default {
 
     //FIXME util.
     //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
+    formatDuration(item) {
+      var retVal = item.duration;
+      if (item.concentration === "yes") {
+        retVal = "精神集中," + retVal;
+      }
+      return retVal;
+    },
+
     format(val, table) {
       var retVal = val;
       // alert(val);
