@@ -41,10 +41,10 @@
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props.item)">
               <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
-              <td class="text-xs-left">{{ props.item.level}}</td>
-              <td class="text-xs-left">{{ formatArray(props.item.components,components) }}</td>
+              <td class="text-xs-left">{{ props.item.hoge }} {{ props.item.level}}</td>
+              <td class="text-xs-left">{{ props.item.formatArray(props.item.components,components) }}</td>
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
-              <td class="text-xs-left">{{ formatDuration(props.item) }}</td>
+              <td class="text-xs-left">{{ props.item.formatDuration }}</td>
               <td class="text-xs-left">{{ props.item.range }}</td>
             </tr>
           </template>
@@ -58,7 +58,7 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
-                <v-list-tile-sub-title>{{props.item.level}}/{{ format(props.item.school,schools)}}/{{formatArray(props.item.components,components)}}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{props.item.level}}/{{props.item.format(props.item.school,schools)}}/{{props.item.formatArray(props.item.components,components)}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-data-iterator>
@@ -85,6 +85,7 @@ td.nowrap {
 <script>
 import spells from "@/model/spells";
 import constants from "@/model/constants";
+import Spell from "@/model/spell";
 
 import FileUploadButton from "@/components/FileUploadButton";
 import FileDownload from "@/components/FileDownload";
@@ -143,7 +144,7 @@ export default {
   },
   beforeMount() {
     //初期表示用の呪文データを取得する。
-    this.spelldata = spells();
+    this.spelldata = Spell.assigns(spells());
   },
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
@@ -237,7 +238,7 @@ export default {
           let json = data.target.result;
           try {
             let spells = JSON.parse(json);
-            this.spelldata = spells;
+            this.spelldata = Spell.assigns(spells);
           } catch (e) {
             //FIXME
             alert(e);
@@ -275,52 +276,18 @@ export default {
       this.targetSpell = null;
     },
 
+    // キャンセルもしくはクローズを押したときの挙動。
     cancelOrClose() {
       this.targetSpell = null;
     },
 
-    //TODO 以下は共通ロジック。リファクタリングして一本化する
-    //呪文の持続時間を編集して返却する
-    formatDuration(item) {
-      var retVal = item.duration;
-      if (item.concentration === "yes") {
-        retVal = "精神集中," + retVal;
-      }
-      return retVal;
-    },
-
-    //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
-    format(val, table) {
-      var retVal = val;
-      table.forEach(element => {
-        if (element.value === val) {
-          retVal = element.text;
-          return;
-        }
-      });
-      return retVal;
-    },
-
-    //配列のデータを表示用文字列にマッピングする。
-    formatArray(val, table) {
-      var array = [];
-      val.forEach(element => {
-        array.push(this.format(element, table));
-      });
-      return array.join(",");
-    },
-
     formatSpellName(item) {
-      var retVal = item.name + " （" + this.format(item.school, this.schools);
+      var retVal = item.name + " （" + item.format(item.school, this.schools);
       if (item.ritual === "yes") {
         retVal += "、儀式";
       }
       retVal += ")";
       return retVal;
-    },
-
-    arrayToString(array) {
-      return array.join(",");
     }
   }
 };

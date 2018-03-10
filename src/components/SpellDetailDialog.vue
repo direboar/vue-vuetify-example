@@ -75,13 +75,13 @@
             <v-subheader class="body-2">詠唱時間</v-subheader>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ formatArray(spell.class,classes)}}</v-card-text>
+            <v-card-text class="body-2">{{ spell.formatArray(spell.class,classes)}}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.level }}</v-card-text>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ formatArray(spell.components,components) }} {{spell.materialdeteil}}</v-card-text>
+            <v-card-text class="body-2">{{ spell.formatArray(spell.components,components) }} {{spell.materialdeteil}}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.casting_time }}</v-card-text>
@@ -102,13 +102,13 @@
             <v-card-text class="body-2">{{ spell.duration }}</v-card-text>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ format(spell.concentration,concentration) }}</v-card-text>
+            <v-card-text class="body-2">{{ spell.format(spell.concentration,concentration) }}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.range }}</v-card-text>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ format(spell.ritual,rituals) }}</v-card-text>
+            <v-card-text class="body-2">{{ spell.format(spell.ritual,rituals) }}</v-card-text>
           </v-flex>
           <v-flex xs12>
             <v-divider/>
@@ -150,7 +150,7 @@
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">持続時間</v-list-tile-title>
-                  <v-list-tile-content class="body-1">{{formatDuration(spell)}}</v-list-tile-content>
+                  <v-list-tile-content class="body-1">{{spell.formatDuration}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
@@ -168,14 +168,14 @@
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">構成要素</v-list-tile-title>
-                  <v-list-tile-content class="body-1">{{formatArray(spell.components,components)}}</v-list-tile-content>
+                  <v-list-tile-content class="body-1">{{spell.formatArray(spell.components,components)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">儀式</v-list-tile-title>
-                  <v-list-tile-content class="body-1">{{format(spell.ritual,rituals)}}</v-list-tile-content>
+                  <v-list-tile-content class="body-1">{{spell.format(spell.ritual,rituals)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
@@ -203,6 +203,7 @@
 
 <script>
 import constants from "@/model/constants";
+import Spell from "@/model/spell";
 
 export default {
   name: "SpellDetailDialog",
@@ -241,7 +242,7 @@ export default {
     //編集対象の呪文データが変更されたら、呪文データのコピーを作り直す。
     targetSpell: function(val) {
       if (val != null) {
-        this.spell = val;
+        this.spell = Spell.assign(val);
       } else {
         this.spell = this.defaultData();
       }
@@ -286,57 +287,7 @@ export default {
     },
     //呪文が未選択の場合のデフォルトデータを返却する。（描画エラー防止）
     defaultData() {
-      return {
-        name: "",
-        desc: "",
-        page: "",
-        range: "",
-        components: [],
-        material: "",
-        ritual: "",
-        duration: "",
-        concentration: "",
-        casting_time: "",
-        level: "",
-        school: "",
-        class: [],
-        archetype: "",
-        circles: ""
-      };
-    },
-
-    //FIXME util.
-    //値を表示用の文字列にマッピングする。val:値 table：キーがvalueｍ表示の値がtextであるオブジェクトのリスト。
-    formatDuration(item) {
-      var retVal = item.duration;
-      if (item.concentration === "yes") {
-        retVal = "精神集中," + retVal;
-      }
-      return retVal;
-    },
-
-    format(val, table) {
-      var retVal = val;
-      // alert(val);
-      table.forEach(element => {
-        // alert(element.value);
-        // alert(val);
-        if (element.value === val) {
-          retVal = element.text;
-          return;
-        }
-      });
-      return retVal;
-    },
-
-    //FIXME util.
-    //配列のデータを表示用文字列にマッピングする。
-    formatArray(val, table) {
-      var array = [];
-      val.forEach(element => {
-        array.push(this.format(element, table));
-      });
-      return array.join(",");
+      return new Spell();
     }
   }
 };
