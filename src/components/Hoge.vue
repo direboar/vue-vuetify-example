@@ -1,33 +1,12 @@
 <template>
-  <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-expansion-panel>
+    <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
+      <div slot="header">Item</div>
       <v-card>
-        <v-toolbar color="cyan" dark>
-          <v-toolbar-side-icon></v-toolbar-side-icon>
-          <v-toolbar-title>Inbox</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-list two-line>
-          <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
-            <v-divider v-else-if="item.divider" :inset="item.inset" :key="index"></v-divider>
-            <v-list-tile avatar v-else :key="item.title">
-              <v-list-tile-avatar>
-                <img :src="item.avatar">
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
+        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 <style>
 
