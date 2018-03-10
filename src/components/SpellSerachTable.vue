@@ -58,7 +58,7 @@
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
               <v-list-tile-avatar>
-                <v-icon :class="grey">{{"folder" }}</v-icon>
+                <v-icon class="grey lighten-1 white--text">folder</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
@@ -74,9 +74,9 @@
 </template>
 
 <style>
-/* table {
-  table-layout: fixed;
-} */
+/*table-layout: fixed; せずに text-overflow: ellipsis; する方法（長すぎる文字を...で省略表示する。
+ * http://chuckwebtips.hatenablog.com/entry/2017/07/09/183527 
+ */
 td.nowrap {
   max-width: 0;
   white-space: nowrap;
@@ -84,9 +84,6 @@ td.nowrap {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
 }
-/* td.wrap {
-  overflow: hidden;
-} */
 </style>
 
 <script>
@@ -211,7 +208,6 @@ export default {
         });
       }
     },
-    //FIXME バグフィックス。
     fliterComopnents(element) {
       if (this.conditon.components.length === 0) {
         return true;
@@ -254,7 +250,6 @@ export default {
         fileReader.readAsText(file);
       }
     },
-
     //テーブルセルをクリック時、expandを表示する。
     clickCell(item) {
       // props.expanded = !props.expanded;
@@ -262,14 +257,12 @@ export default {
       this.editMode = false;
       this.showEditDialog = true;
     },
-
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
       this.targetSpell = null;
       this.editMode = true;
       this.showEditDialog = true;
     },
-
     // //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
     save(result) {
       if (this.targetSpell == null) {
@@ -279,7 +272,6 @@ export default {
         this.targetSpell = null;
       }
     },
-
     // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
       let index = this.spelldata.indexOf(this.targetSpell);

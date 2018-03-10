@@ -135,22 +135,22 @@
             <v-list two-line>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>レベル</v-list-title>
-                  <v-list-tile-content>{{spell.level}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">レベル</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{spell.level}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>距離／エリア</v-list-title>
-                  <v-list-tile-content>{{spell.range}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">距離／エリア</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{spell.range}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>持続時間</v-list-title>
-                  <v-list-tile-content>{{formatDuration(spell)}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">持続時間</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{formatDuration(spell)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
@@ -160,29 +160,29 @@
             <v-list two-line>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>詠唱時間</v-list-title>
-                  <v-list-tile-content>{{spell.casting_time}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">詠唱時間</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{spell.casting_time}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>構成要素</v-list-title>
-                  <v-list-tile-content>{{formatArray(spell.components,components)}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">構成要素</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{formatArray(spell.components,components)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
               <v-list-tile avatar>
                 <v-list-tile-content>
-                  <v-list-title>儀式</v-list-title>
-                  <v-list-tile-content>{{format(spell.ritual,rituals)}}</v-list-tile-content>
+                  <v-list-tile-title class="body-1">儀式</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{format(spell.ritual,rituals)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
             </v-list>
           </v-flex>
           <v-flex xs12>
-            <v-card-text class="body-2">
+            <v-card-text class="body-2 scroll-y">
               <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
             </v-card-text>
           </v-flex>
