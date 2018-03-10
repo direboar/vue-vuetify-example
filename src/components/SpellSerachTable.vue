@@ -2,24 +2,45 @@
   <div>
     <v-container fluid grid-list-md>
       <v-card>
+        <v-toolbar>
+          <v-toolbar-title>D&D5版 呪文検索アプリケーション</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <file-upload-icon tooltip="呪文データファイルをアップロードします。" @onFileRead="onFileRead" />
+          <v-tooltip top>
+            <v-btn icon small slot="activator" @click="saveSpellData">
+              <v-icon>save</v-icon>
+            </v-btn>
+            <span>ブラウザに呪文データを保存します。</span>
+          </v-tooltip>
+          <file-download-icon tooltip="現在の呪文データを、ファイルにダウンロードします。" :data="jesonspelldata" />
+          <v-tooltip top>
+            <v-btn icon small slot="activator" @click="loadSpellData">
+              <v-icon>redo</v-icon>
+            </v-btn>
+            <span>ブラウザに保存されている呪文データを再ロードします。</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn icon small slot="activator" @click="deleteSpellData">
+              <v-icon>delete</v-icon>
+            </v-btn>
+            <span>ブラウザから呪文データを全削除します。</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn icon small slot="activator" @click="addSpell">
+              <v-icon>add</v-icon>
+            </v-btn>
+            <span>呪文を追加します。</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn icon small slot="activator" @click="showHelp">
+              <v-icon>help</v-icon>
+            </v-btn>
+            <span>ヘルプを表示します</span>
+          </v-tooltip>
+        </v-toolbar>
         <v-card-title>
           <v-layout row wrap>
-            <v-flex xs6 md2>
-              <file-upload-button message="ファイル選択" @onFileRead="onFileRead" />
-            </v-flex>
-            <!--TODO ひとまずモバイルでは隠す-->
-            <v-flex xs2 class="hidden-sm-and-down">
-              <v-card>
-                <file-download :data="downloaddata"></file-download>
-              </v-card>
-            </v-flex>
-            <!--TODO ひとまずモバイルでは隠す-->
-            <v-flex xs2 class="hidden-sm-and-down">
-              <v-card>
-                <v-btn @click="addSpell">追加</v-btn>
-              </v-card>
-            </v-flex>
-            <v-flex xs6>
+            <v-flex xs12>
               <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
             </v-flex>
             <v-flex xs3>
@@ -46,6 +67,9 @@
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
               <td class="text-xs-left">{{ props.item.formatDuration }}</td>
               <td class="text-xs-left">{{ props.item.range }}</td>
+              <td class="text-xs-left">
+                <v-icon>add</v-icon>
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -53,19 +77,38 @@
         <v-list class="hidden-sm-and-up" two-line>
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
-              <v-list-tile-avatar>
-                <v-icon class="grey lighten-1 white--text">folder</v-icon>
-              </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
                 <v-list-tile-sub-title>{{props.item.level}}/{{props.item.format(props.item.school,schools)}}/{{props.item.formatArray(props.item.components,components)}}</v-list-tile-sub-title>
               </v-list-tile-content>
+              <v-list-tile-avatar>
+                <v-icon>add</v-icon>
+              </v-list-tile-avatar>
             </v-list-tile>
           </v-data-iterator>
         </v-list>
       </v-card>
     </v-container>
     <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
+    <v-snackbar top :color="snackbar.level" :timeout="3000" v-model="snackbar.show">
+      {{ snackbar.message }}
+    </v-snackbar>
+    <v-dialog v-model="showHelpDialog">
+      <v-card>
+        <v-card-title>
+          <H2>D&D呪文検索用アプリケーションの利用方法</H2>
+        </v-card-title>
+        <v-card-text>
+          <p>このアプリケーションは、D&D5版の呪文を検索するためのアプリケーションです。</p>
+          <h3>重要事項：呪文データの扱い</h3>
+          <p>本アプリケーションは、デフォルトではOpen SRDに掲載されている呪文のうち、一部の呪文のみを選別し、掲載しています。 本アプリケーションは、利用者が呪文データを独自に作成することで、日本語環境の呪文データを使用することが可能です。</p>
+          <p>使用した呪文データは、本アプリケーションを使用するブラウザ上にのみ保存されます。よって、本アプリケーションを使用して、個人で作成した呪文データが第三者に自動的に配布されることはありません。よって、PHBをはじめとした日本語訳された呪文データの和訳データを、個人の責任で作成し、使用する分には、著作権法を侵害することはありません。</p>
+          <p>ただし、個人が作成したデータを第三者に無断で譲渡した場合は、譲渡者が著作権法を侵害したことになりますので、十分ご注意ください。</p>
+          <h3>利用方法</h3>
+          <p>TODO</p>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -87,15 +130,16 @@ import spells from "@/model/spells";
 import constants from "@/model/constants";
 import Spell from "@/model/spell";
 
-import FileUploadButton from "@/components/FileUploadButton";
-import FileDownload from "@/components/FileDownload";
+// import FileUploadButton from "@/components/FileUploadButton";
+import FileUploadIcon from "@/components/FileUploadIcon";
+import FileDownloadIcon from "@/components/FileDownloadIcon";
 import SpellDetailDialog from "@/components/SpellDetailDialog";
 
 export default {
   name: "SearchSpellTable",
   components: {
-    FileUploadButton: FileUploadButton,
-    FileDownload: FileDownload,
+    FileUploadIcon: FileUploadIcon,
+    FileDownloadIcon: FileDownloadIcon,
     SpellDetailDialog: SpellDetailDialog
   },
   data() {
@@ -109,6 +153,12 @@ export default {
         classes: [],
         ritual: null,
         components: []
+      },
+      //アラートダイアログ
+      snackbar: {
+        show: false,
+        level: "info",
+        message: ""
       },
       //検索ダイアログに出すラベル管理。
       levels: constants.levels,
@@ -124,10 +174,11 @@ export default {
           text: "詠唱時間",
           value: "casting_time",
           align: "left",
-          width: "20%"
+          width: "15%"
         },
-        { text: "持続時間", value: "duration", align: "left", width: "15%" },
-        { text: "距離／エリア", value: "range", align: "left", width: "10%" }
+        { text: "持続時間", value: "duration", align: "left", width: "10%" },
+        { text: "距離／エリア", value: "range", align: "left", width: "15%" },
+        { text: " ", value: "dummy", align: "left", width: "5%" }
       ],
       conditonRituals: [
         { text: "ー", value: null },
@@ -139,12 +190,22 @@ export default {
       //編集モードとするかの指定
       createSpell: false,
       //編集ダイアログに渡した呪文データのポインタ。
-      targetSpell: null
+      targetSpell: null,
+      //ヘルプダイアログ表示フラグ
+      showHelpDialog: false
     };
   },
   beforeMount() {
-    //初期表示用の呪文データを取得する。
-    this.spelldata = Spell.assigns(spells());
+    //1.ローカルストレージをチェックする
+    var spellsjson = localStorage.getItem("dndapp.spells");
+    //2.ストレージに登録されていればそのデータを復元。
+    if (spellsjson != undefined && spellsjson != null) {
+      //初期表示用の呪文データを取得する。
+      this.spelldata = Spell.assigns(JSON.parse(spellsjson));
+    } else {
+      //2.ストレージに登録されていなければデフォルトデータを読込の上、デフォルトデータをセーブ。
+      this.spelldata = Spell.assigns(spells());
+    }
   },
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
@@ -173,7 +234,7 @@ export default {
       );
     },
     //ダウンロード時の文字列を返却する。
-    downloaddata() {
+    jesonspelldata() {
       return JSON.stringify(this.spelldata);
     }
   },
@@ -186,7 +247,6 @@ export default {
         return element.ritual === this.conditon.ritual;
       }
     },
-
     fliterLevels(element) {
       if (this.conditon.levels.length === 0) {
         return true;
@@ -239,9 +299,14 @@ export default {
           try {
             let spells = JSON.parse(json);
             this.spelldata = Spell.assigns(spells);
+            this.showSnackbar(
+              "success",
+              "呪文データをファイルから読み込みました。"
+            );
           } catch (e) {
             //FIXME
-            alert(e);
+            this.showSnackbar("error", "呪文データの読み込みに失敗しました。");
+            this.console.log(e);
           }
         };
         fileReader.readAsText(file);
@@ -251,22 +316,29 @@ export default {
     clickCell(item) {
       // props.expanded = !props.expanded;
       this.targetSpell = item;
-      this.editMode = false;
       this.showEditDialog = true;
     },
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
       this.targetSpell = null;
-      this.editMode = true;
+      this.createSpell = true;
       this.showEditDialog = true;
     },
     // //呪文編集・追加ダイアログ上で呪文を保存する。編集時は呪文データを上書きする。新規追加の場合は追加する。
     save(result) {
       if (this.targetSpell == null) {
         this.spelldata.push(result);
+        this.showSnackbar(
+          "success",
+          "呪文" + this.result.name + "を追加しました。"
+        );
       } else {
         Object.assign(this.targetSpell, result);
         this.targetSpell = null;
+        this.showSnackbar(
+          "success",
+          "呪文" + this.result.name + "を更新しました。"
+        );
       }
     },
     // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
@@ -274,11 +346,57 @@ export default {
       let index = this.spelldata.indexOf(this.targetSpell);
       this.spelldata.splice(index, 1);
       this.targetSpell = null;
+      this.showSnackbar(
+        "success",
+        "呪文データをブラウザのローカルストレージから削除しました。"
+      );
     },
 
     // キャンセルもしくはクローズを押したときの挙動。
     cancelOrClose() {
       this.targetSpell = null;
+    },
+
+    showHelp() {
+      this.showHelpDialog = true;
+    },
+
+    //呪文データをローカルストレージに保存する
+    saveSpellData() {
+      localStorage.setItem("dndapp.spells", this.jesonspelldata);
+      this.showSnackbar(
+        "success",
+        "呪文データをブラウザのローカルストレージに登録しました。"
+      );
+    },
+
+    //呪文データをローカルストレージから再ロードする
+    loadSpellData() {
+      var spellsFromStorage = localStorage.getItem("dndapp.spells");
+      //ストレージに登録されていればそのデータを復元。
+      if (spellsFromStorage != undefined && spellsFromStorage != null) {
+        this.spelldata = Spell.assigns(JSON.parse(spellsFromStorage));
+        this.showSnackbar(
+          "success",
+          "ブラウザのローカルストレージに保存された呪文データを再ロードしました。"
+        );
+      } else {
+        this.showSnackbar(
+          "error",
+          "ブラウザのローカルストレージに呪文データが保存されていないため、再ロードに失敗しました。"
+        );
+      }
+    },
+
+    //呪文データをローカルストレージから削除する。
+    deleteSpellData() {
+      localStorage.removeItem("dndapp.spells");
+      this.spelldata = [];
+      //this.spelldata = spells(); //うまく戻らない。
+      this.showSnackbar(
+        "success",
+        "呪文データをブラウザのローカルストレージから削除しました。"
+      );
     },
 
     formatSpellName(item) {
@@ -288,6 +406,12 @@ export default {
       }
       retVal += ")";
       return retVal;
+    },
+
+    showSnackbar(level, message) {
+      this.snackbar.level = level;
+      this.snackbar.message = message;
+      this.snackbar.show = true;
     }
   }
 };
