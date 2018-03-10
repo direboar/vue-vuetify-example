@@ -22,9 +22,9 @@ export default class Constants {
 
   static get components() {
     return [
-      { text: "動作(S)", value: "S" },
-      { text: "音声(V)", value: "V" },
-      { text: "物質(M)", value: "M" }
+      { text: "動作", value: "S" },
+      { text: "音声", value: "V" },
+      { text: "物質", value: "M" }
     ];
   }
 

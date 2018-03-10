@@ -81,7 +81,7 @@
             <v-card-text class="body-2">{{ spell.level }}</v-card-text>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ spell.formatArray(spell.components,components) }} {{spell.materialdeteil}}</v-card-text>
+            <v-card-text class="body-2">{{formatComponents(spell)}}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.casting_time }}</v-card-text>
@@ -113,7 +113,7 @@
           <v-flex xs12>
             <v-divider/>
             <v-card-text class="body-2">
-              <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
+              <span style="white-space: pre-wrap;" v-html="formatDesc(spell)"></span>
             </v-card-text>
           </v-flex>
         </v-layout>
@@ -168,7 +168,7 @@
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">構成要素</v-list-tile-title>
-                  <v-list-tile-content class="body-1">{{spell.formatArray(spell.components,components)}}</v-list-tile-content>
+                  <v-list-tile-content class="body-1">{{formatComponents(spell)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
               <v-divider/>
@@ -183,7 +183,7 @@
           </v-flex>
           <v-flex xs12>
             <v-card-text class="body-2 scroll-y">
-              <span style="white-space: pre-wrap;" v-html="spell.desc"></span>
+              <span style="white-space: pre-wrap;" v-html="formatDesc(spell)"></span>
             </v-card-text>
           </v-flex>
         </v-layout>
@@ -288,6 +288,25 @@ export default {
     //呪文が未選択の場合のデフォルトデータを返却する。（描画エラー防止）
     defaultData() {
       return new Spell();
+    },
+
+    formatComponents(spell) {
+      var retVal = spell.formatArray(spell.components, this.components);
+      if (spell.materialdeteil != "") {
+        retVal += " * ";
+      }
+      return retVal;
+    },
+
+    formatDesc(spell) {
+      var retVal = spell.desc;
+      if (spell.materialdeteil != "") {
+        retVal += "\r\n";
+        retVal += "\r\n";
+        retVal += "(*)物質要素：";
+        retVal += spell.materialdeteil;
+      }
+      return retVal;
     }
   }
 };

@@ -8,6 +8,7 @@ export default class Spell {
     this.page = "";
     this.range = "";
     this.components = [];
+    this.materialdeteil = ""
     this.ritual = "";
     this.duration = "";
     this.concentration = "";
