@@ -56,7 +56,7 @@
     <!--表示ダイアログ-->
     <v-dialog v-model="showEditDialog" persistent v-if="editmode === false">
       <!--デスクトップ用-->
-      <v-card color="grey lighten-4" flat class="hidden-sm-and-down">
+      <v-card color="grey lighten-4" flat class="hidden-xs-only">
         <v-card-title>
           <h2>{{spell.name}}</h2>
         </v-card-title>
@@ -233,7 +233,8 @@ export default {
       components: constants.components,
       concentration: constants.concentration,
       levels: constants.levels,
-      rituals: constants.rituals
+      rituals: constants.rituals,
+      schools: constants.schools
     };
   },
   watch: {

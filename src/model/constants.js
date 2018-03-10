@@ -35,6 +35,19 @@ export default class Constants {
     ];
   }
 
+  static get schools() {
+    return [
+      { text: "幻術", value: "Illusion" }, 
+      { text: "召喚術", value: "Conjuration" },
+      { text: "死霊術", value: "Necromancy" },
+      { text: "心術", value: "Enchantment" },
+      { text: "占術", value: "Divination" },
+      { text: "変成術", value: "Transmutation" },
+      { text: "防御術", value: "Abjuration" },
+      { text: "力術", value: "Evocation" },
+    ];
+  }
+
   static get levels() {
     return [
       "Cantrip",

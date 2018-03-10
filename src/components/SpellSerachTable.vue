@@ -4,10 +4,7 @@
       <v-card>
         <v-card-title>
           <v-layout row wrap>
-            <v-flex xs6 sm2 class="hidden-sm-and-down">
-              <file-upload-button message="ファイル選択(押して下さい)" @onFileRead="onFileRead" />
-            </v-flex>
-            <v-flex xs6 sm2 class="hidden-sm-and-up">
+            <v-flex xs6 md2>
               <file-upload-button message="ファイル選択" @onFileRead="onFileRead" />
             </v-flex>
             <!--TODO ひとまずモバイルでは隠す-->
@@ -40,16 +37,15 @@
           </v-layout>
         </v-card-title>
         <!--非モバイル-->
-        <v-data-table class="hidden-sm-and-down" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
+        <v-data-table class="hidden-xs-only" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props.item)">
-              <td class="text-xs-left">{{ props.item.name }}</td>
-              <td class="text-xs-left">{{ props.item.level }}</td>
+              <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
+              <td class="text-xs-left">{{ props.item.level}}</td>
               <td class="text-xs-left">{{ formatArray(props.item.components,components) }}</td>
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
               <td class="text-xs-left">{{ formatDuration(props.item) }}</td>
               <td class="text-xs-left">{{ props.item.range }}</td>
-              <td class="text-xs-left">{{ format(props.item.ritual,conditonRituals) }}</td>
             </tr>
           </template>
         </v-data-table>
@@ -62,7 +58,7 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
-                <v-list-tile-sub-title>{{props.item.level}} {{arrayToString(props.item.components)}} {{props.item.school}}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{props.item.level}}/{{ format(props.item.school,schools)}}/{{formatArray(props.item.components,components)}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-data-iterator>
@@ -118,19 +114,19 @@ export default {
       classes: constants.classes,
       components: constants.components,
       concentration: constants.concentration,
+      schools: constants.schools,
       headers: [
-        { text: "名前", value: "name", align: "left", width: "15%" },
+        { text: "名前", value: "name", align: "left", width: "30%" },
         { text: "レベル", value: "level", align: "left", width: "5%" },
-        { text: "構成要素", value: "components", align: "left", width: "10%" },
+        { text: "構成要素", value: "components", align: "left", width: "20%" },
         {
           text: "詠唱時間",
           value: "casting_time",
           align: "left",
-          width: "10%"
+          width: "20%"
         },
-        { text: "持続時間", value: "duration", align: "left", width: "10%" },
-        { text: "距離／エリア", value: "range", align: "left", width: "10%" },
-        { text: "儀式", value: "ritual", align: "left", width: "5%" }
+        { text: "持続時間", value: "duration", align: "left", width: "15%" },
+        { text: "距離／エリア", value: "range", align: "left", width: "10%" }
       ],
       conditonRituals: [
         { text: "ー", value: null },
@@ -312,6 +308,15 @@ export default {
         array.push(this.format(element, table));
       });
       return array.join(",");
+    },
+
+    formatSpellName(item) {
+      var retVal = item.name + " （" + this.format(item.school, this.schools);
+      if (item.ritual === "yes") {
+        retVal += "、儀式";
+      }
+      retVal += ")";
+      return retVal;
     },
 
     arrayToString(array) {
