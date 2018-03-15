@@ -90,25 +90,23 @@
             <v-subheader class="body-2">持続時間</v-subheader>
           </v-flex>
           <v-flex xs3>
-            <v-subheader class="body-2">集中</v-subheader>
-          </v-flex>
-          <v-flex xs3>
             <v-subheader class="body-2">距離／エリア</v-subheader>
           </v-flex>
           <v-flex xs3>
             <v-subheader class="body-2">儀式</v-subheader>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ spell.duration }}</v-card-text>
           </v-flex>
           <v-flex xs3>
-            <v-card-text class="body-2">{{ spell.format(spell.concentration,concentration) }}</v-card-text>
+            <v-card-text class="body-2">{{ spell.formatDuration }}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.range }}</v-card-text>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.format(spell.ritual,rituals) }}</v-card-text>
+          </v-flex>
+          <v-flex xs3>
           </v-flex>
           <v-flex xs12>
             <v-divider/>
@@ -131,6 +129,16 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-layout row wrap>
+          <!-- <v-flex xs12>
+            <v-list two-line>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title class="body-1">クラス</v-list-tile-title>
+                  <v-list-tile-content class="body-1">{{spell.formatArray(spell.class,classes)}}</v-list-tile-content>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex> -->
           <v-flex xs6>
             <v-list two-line>
               <v-list-tile avatar>
@@ -183,7 +191,7 @@
           </v-flex>
           <v-flex xs12>
             <v-card-text class="body-2 scroll-y">
-              <span style="white-space: pre-wrap;" v-html="formatDesc(spell)"></span>
+              <span style="white-space: pre-wrap;" v-html="formatDescMobile(spell)"></span><br/>
             </v-card-text>
           </v-flex>
         </v-layout>
@@ -306,6 +314,15 @@ export default {
         retVal += "(*)物質要素：";
         retVal += spell.materialdeteil;
       }
+      return retVal;
+    },
+
+    formatDescMobile(spell) {
+      var retVal = this.formatDesc(spell);
+      retVal += "\r\n";
+      retVal += "\r\n";
+      retVal += "クラス：";
+      retVal += spell.formatArray(spell.class, this.classes);
       return retVal;
     }
   }
