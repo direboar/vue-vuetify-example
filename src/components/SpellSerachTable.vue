@@ -40,6 +40,7 @@
         </v-toolbar>
 
         <!--非モバイル-->
+        <!--検索条件-->
         <v-layout row wrap class="hidden-xs-only" justify-center>
           <v-flex xs1>
           </v-flex>
@@ -68,42 +69,7 @@
           <v-flex xs1>
           </v-flex>
         </v-layout>
-
-        <!--モバイル-->
-        <v-layout row wrap class="hidden-sm-and-up">
-          <v-flex xs10 offset-xs1>
-            <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
-          </v-flex>
-          <v-flex xs12>
-            <v-expansion-panel>
-              <v-expansion-panel-content>
-                <div slot="header">
-                  <v-icon>settings</v-icon> 詳細検索条件
-                </div>
-                <v-card>
-                  <v-layout row wrap>
-                    <v-flex xs10 offset-xs1>
-                      <v-select label="Select" hide-selected dense :items="levels" v-model="conditon.levels" multiple max-height="200" hint="呪文レベル" persistent-hint></v-select>
-                    </v-flex>
-                    <v-flex xs10 offset-xs1>
-                      <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
-                    </v-flex>
-                    <v-flex xs10 offset-xs1>
-                      <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
-                    </v-flex>
-                    <v-flex xs10 offset-xs1>
-                      <v-select label="Select" dense :items="components" v-model="conditon.components" multiple max-height="200" hint="構成要素" persistent-hint></v-select>
-                    </v-flex>
-                    <v-flex xs10 offset-xs1>
-                      <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-flex>
-        </v-layout>
-        <!--非モバイル-->
+        <!--検索結果-->
         <v-data-table class="hidden-xs-only" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props.item)">
@@ -119,8 +85,21 @@
             </tr>
           </template>
         </v-data-table>
+        <!--非モバイルここまで-->
+
         <!--モバイル-->
-        <v-divider></v-divider>
+        <!--検索条件-->
+        <v-layout row wrap class="hidden-sm-and-up">
+          <v-flex xs10 offset-xs1>
+            <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+          </v-flex>
+          <v-flex xs6 offset-xs3>
+            <v-btn @click="showMobileSearchDetailDialog=true">
+              <v-icon>settings</v-icon> 詳細検索条件
+            </v-btn>
+          </v-flex>
+        </v-layout>
+        <!--検索結果-->
         <v-list dense class="hidden-sm-and-up" two-line>
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
@@ -134,6 +113,8 @@
             </v-list-tile>
           </v-data-iterator>
         </v-list>
+        <!--モバイル　ここまで-->
+
       </v-card>
     </v-container>
     <v-snackbar top :color="snackbar.level" :timeout="3000" v-model="snackbar.show">
@@ -141,8 +122,42 @@
     </v-snackbar>
     <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
     <spell-help-dialog :showDialog.sync="showHelpDialog"></spell-help-dialog>
+
+    <!--モバイル時に表示する検索詳細条件ダイアログ。検索テーブルと密結合なので、コンポーネントには切り出さない。-->
+    <v-dialog v-model="showMobileSearchDetailDialog">
+      <v-card>
+        <v-card-title>
+          <H2>検索詳細条件入力</H2>
+        </v-card-title>
+        <v-card>
+          <v-layout row wrap>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" hide-selected dense :items="levels" v-model="conditon.levels" multiple max-height="200" hint="呪文レベル" persistent-hint></v-select>
+            </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
+            </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
+            </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" dense :items="components" v-model="conditon.components" multiple max-height="200" hint="構成要素" persistent-hint></v-select>
+            </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
+            </v-flex>
+          </v-layout>
+        </v-card>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click.native="closeMobileSearchDetailDialog">閉じる</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
+
 </template>
+
 
 <style>
 /*table-layout: fixed; せずに text-overflow: ellipsis; する方法（長すぎる文字を...で省略表示する。
@@ -227,7 +242,9 @@ export default {
       //編集ダイアログに渡した呪文データのポインタ。
       targetSpell: null,
       //ヘルプダイアログ表示フラグ
-      showHelpDialog: false
+      showHelpDialog: false,
+      //呪文検索条件詳細入力ダイアログ
+      showMobileSearchDetailDialog: false
     };
   },
   beforeMount() {
@@ -467,6 +484,10 @@ export default {
       this.snackbar.level = level;
       this.snackbar.message = message;
       this.snackbar.show = true;
+    },
+
+    closeMobileSearchDetailDialog() {
+      this.showMobileSearchDetailDialog = false;
     }
   }
 };
