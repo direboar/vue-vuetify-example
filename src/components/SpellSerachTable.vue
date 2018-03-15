@@ -124,7 +124,7 @@
     <spell-help-dialog :showDialog.sync="showHelpDialog"></spell-help-dialog>
 
     <!--モバイル時に表示する検索詳細条件ダイアログ。検索テーブルと密結合なので、コンポーネントには切り出さない。-->
-    <v-dialog v-model="showMobileSearchDetailDialog">
+    <v-dialog fullscreen v-model="showMobileSearchDetailDialog">
       <v-card>
         <v-card-title>
           <H2>検索詳細条件入力</H2>
