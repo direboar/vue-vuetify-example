@@ -38,25 +38,71 @@
             <span>ヘルプを表示します</span>
           </v-tooltip>
         </v-toolbar>
-        <v-card-title>
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
-            </v-flex>
-            <v-flex xs3>
-              <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
-            </v-flex>
-            <v-flex xs3>
-              <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
-            </v-flex>
-            <v-flex xs3>
-              <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
-            </v-flex>
-            <v-flex xs3>
-              <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-            </v-flex>
-          </v-layout>
-        </v-card-title>
+
+        <!--非モバイル-->
+        <v-layout row wrap class="hidden-xs-only" justify-center>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs10>
+            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
+        </v-layout>
+
+        <!--モバイル-->
+        <v-layout row wrap class="hidden-sm-and-up">
+          <v-flex xs10 offset-xs1>
+            <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-expansion-panel>
+              <v-expansion-panel-content>
+                <div slot="header">
+                  <v-icon>settings</v-icon> 詳細検索条件
+                </div>
+                <v-card>
+                  <v-layout row wrap>
+                    <v-flex xs10 offset-xs1>
+                      <v-select label="Select" hide-selected dense :items="levels" v-model="conditon.levels" multiple max-height="200" hint="呪文レベル" persistent-hint></v-select>
+                    </v-flex>
+                    <v-flex xs10 offset-xs1>
+                      <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
+                    </v-flex>
+                    <v-flex xs10 offset-xs1>
+                      <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
+                    </v-flex>
+                    <v-flex xs10 offset-xs1>
+                      <v-select label="Select" dense :items="components" v-model="conditon.components" multiple max-height="200" hint="構成要素" persistent-hint></v-select>
+                    </v-flex>
+                    <v-flex xs10 offset-xs1>
+                      <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-flex>
+        </v-layout>
         <!--非モバイル-->
         <v-data-table class="hidden-xs-only" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
@@ -74,7 +120,8 @@
           </template>
         </v-data-table>
         <!--モバイル-->
-        <v-list class="hidden-sm-and-up" two-line>
+        <v-divider></v-divider>
+        <v-list dense class="hidden-sm-and-up" two-line>
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
               <v-list-tile-content>
@@ -138,7 +185,8 @@ export default {
         levels: [],
         classes: [],
         ritual: null,
-        components: []
+        components: [],
+        casting_time: ""
       },
       //アラートダイアログ
       snackbar: {
@@ -152,6 +200,7 @@ export default {
       components: constants.components,
       concentration: constants.concentration,
       schools: constants.schools,
+      casting_time: constants.casting_time,
       headers: [
         { text: "名前", value: "name", align: "left", width: "30%" },
         { text: "レベル", value: "level", align: "left", width: "5%" },
@@ -215,6 +264,9 @@ export default {
             if (!this.fliterComopnents(element)) {
               return false;
             }
+            if (!this.filterCastingTime(element)) {
+              return false;
+            }
             return true;
           })
       );
@@ -274,6 +326,23 @@ export default {
         //FIXME 前方一致か、includesかを指定できるようにしたい
         return element.name.includes(trimed);
         //return element.name.startsWith(trimed);
+      }
+    },
+    filterCastingTime(element) {
+      if (this.conditon.casting_time === null) {
+        return true;
+      } else {
+        if (this.conditon.casting_time !== "その他") {
+          return element.casting_time.startsWith(this.conditon.casting_time);
+        } else {
+          let array = this.casting_time.filter(t => {
+            return t.value !== "その他";
+          });
+
+          return !array.some(t => {
+            return element.casting_time.startsWith(t.value);
+          });
+        }
       }
     },
     //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。

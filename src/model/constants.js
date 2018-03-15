@@ -48,6 +48,16 @@ export default class Constants {
     ];
   }
 
+  static get casting_time() {
+    return [
+      { text: "ー", value: null },
+      { text: "1ボーナスアクション", value: "1ボーナスアクション" },
+      { text: "1アクション", value: "1アクション" }, 
+      { text: "1リアクション", value: "1リアクション" }, 
+      { text: "その他", value: "その他" }, 
+    ];
+  }
+
   static get levels() {
     return [
       "Cantrip",
