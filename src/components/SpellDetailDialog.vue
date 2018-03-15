@@ -56,7 +56,7 @@
     <!--表示ダイアログ-->
     <v-dialog v-model="showEditDialog" persistent v-if="editmode === false">
       <!--デスクトップ用-->
-      <v-card color="grey lighten-4" flat class="hidden-xs-only">
+      <v-card color="grey lighten-4" flat class="hidden-sm-and-down">
         <v-card-title>
           <h2>{{spell.name}}</h2>
         </v-card-title>
@@ -123,22 +123,12 @@
       </v-card>
 
       <!--モバイル用-->
-      <v-card class="hidden-sm-and-up">
+      <v-card class="hidden-md-and-up">
         <v-card-title>
           <h2>{{spell.name}}</h2>
         </v-card-title>
         <v-divider></v-divider>
         <v-layout row wrap>
-          <!-- <v-flex xs12>
-            <v-list two-line>
-              <v-list-tile avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title class="body-1">クラス</v-list-tile-title>
-                  <v-list-tile-content class="body-1">{{spell.formatArray(spell.class,classes)}}</v-list-tile-content>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-flex> -->
           <v-flex xs6>
             <v-list two-line>
               <v-list-tile avatar>

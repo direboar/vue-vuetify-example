@@ -39,9 +39,9 @@
           </v-tooltip>
         </v-toolbar>
 
-        <!--非モバイル-->
+        <!--デスクトップ用-->
         <!--検索条件-->
-        <v-layout row wrap class="hidden-xs-only" justify-center>
+        <v-layout row wrap class="hidden-sm-and-down" justify-center>
           <v-flex xs1>
           </v-flex>
           <v-flex xs10>
@@ -70,7 +70,7 @@
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-data-table class="hidden-xs-only" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
+        <v-data-table class="hidden-sm-and-down" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props.item)">
               <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
@@ -85,11 +85,11 @@
             </tr>
           </template>
         </v-data-table>
-        <!--非モバイルここまで-->
+        <!--デスクトップ用ここまで-->
 
         <!--モバイル-->
         <!--検索条件-->
-        <v-layout row wrap class="hidden-sm-and-up">
+        <v-layout row wrap class="hidden-md-and-up">
           <v-flex xs10 offset-xs1>
             <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
           </v-flex>
@@ -100,7 +100,7 @@
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-list dense class="hidden-sm-and-up" two-line>
+        <v-list dense class="hidden-md-and-up" two-line>
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
               <v-list-tile-content>
