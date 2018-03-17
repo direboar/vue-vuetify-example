@@ -354,10 +354,11 @@ export default {
         if (this.conditon.casting_time !== "その他") {
           return element.casting_time.startsWith(this.conditon.casting_time);
         } else {
-          let result =
+          let result = !(
             element.casting_time.startsWith("1ボーナスアクション") ||
             element.casting_time.startsWith("1アクション") ||
-            element.casting_time.startsWith("1リアクション");
+            element.casting_time.startsWith("1リアクション")
+          );
           return result;
         }
       }
