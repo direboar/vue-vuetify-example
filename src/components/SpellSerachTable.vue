@@ -345,6 +345,8 @@ export default {
         //return element.name.startsWith(trimed);
       }
     },
+
+    //FIXME 本当はconstantsというかモデル側に移動したい。
     filterCastingTime(element) {
       if (this.conditon.casting_time === null) {
         return true;
@@ -352,16 +354,15 @@ export default {
         if (this.conditon.casting_time !== "その他") {
           return element.casting_time.startsWith(this.conditon.casting_time);
         } else {
-          let array = this.casting_time.filter(t => {
-            return t.value !== "その他";
-          });
-
-          return !array.some(t => {
-            return element.casting_time.startsWith(t.value);
-          });
+          let result =
+            element.casting_time.startsWith("1ボーナスアクション") ||
+            element.casting_time.startsWith("1アクション") ||
+            element.casting_time.startsWith("1リアクション");
+          return result;
         }
       }
     },
+
     //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。
     onFileRead(files) {
       for (const file of files) {
