@@ -41,7 +41,7 @@
 
         <!--デスクトップ用-->
         <!--検索条件-->
-        <v-layout row wrap class="hidden-sm-and-down" justify-center>
+        <v-layout v-if="!isMobile" row wrap justify-center>
           <v-flex xs1>
           </v-flex>
           <v-flex xs10>
@@ -70,7 +70,7 @@
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-data-table class="hidden-sm-and-down" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
+        <v-data-table v-if="!isMobile" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
           <template slot="items" slot-scope="props">
             <tr @click="clickCell(props.item)">
               <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
@@ -89,7 +89,7 @@
 
         <!--モバイル-->
         <!--検索条件-->
-        <v-layout row wrap class="hidden-md-and-up">
+        <v-layout v-if="isMobile" row wrap>
           <v-flex xs10 offset-xs1>
             <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
           </v-flex>
@@ -100,7 +100,7 @@
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-list dense class="hidden-md-and-up" two-line>
+        <v-list v-if="isMobile" dense two-line>
           <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
               <v-list-tile-content>
@@ -123,8 +123,7 @@
     <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
     <spell-help-dialog :showDialog.sync="showHelpDialog"></spell-help-dialog>
 
-    <!--モバイル時に表示する検索詳細条件ダイアログ。検索テーブルと密結合なので、コンポーネントには切り出さない。-->
-    <v-dialog fullscreen v-model="showMobileSearchDetailDialog">
+    <v-dialog v-if="isMobile" fullscreen v-model="showMobileSearchDetailDialog">
       <v-card>
         <v-card-title>
           <H2>検索詳細条件入力</H2>
@@ -291,8 +290,18 @@ export default {
     //ダウンロード時の文字列を返却する。
     jesonspelldata() {
       return JSON.stringify(this.spelldata);
+    },
+    //モバイル用画面で表示するかどうかを判定する。
+    //(モバイル/デスクトップのブレークポイントの切り替え時に、不要なDOMを作成しないよう、v-ifでDOM作成自体をスキップする。
+    // 呪文結果一覧や検索条件などで、不要なwatchの監視が重いのではないかと想像し、そのような対応を行う。)
+    isMobile() {
+      const mobileBreakpoints = ["xs", "sm"];
+      return mobileBreakpoints.some(e => {
+        return this.$vuetify.breakpoint.name === e;
+      });
     }
   },
+
   methods: {
     //検索条件に従い、フィルタを行うメソッド。computedの中で呼び出されるのみで、テンプレートから直接呼ばれることはない。
     fliterRitual(element) {
