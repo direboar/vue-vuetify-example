@@ -520,7 +520,6 @@
 
 <script>
 import Ability from "@/model/ability";
-import AbilityType from "@/model/abilitytype";
 
 export default {
   data() {

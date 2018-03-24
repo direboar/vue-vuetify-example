@@ -68,6 +68,9 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-card>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9097509632200457" data-ad-slot="5985300299" data-ad-format="auto"></ins>
+      </v-card>
     </v-container>
   </div>
 </template>
@@ -161,6 +164,9 @@ export default {
       showErrorAlert: false,
       errorAlertMessage: "能力値ポイントを27ポイント以上使用しています。"
     };
+  },
+  mounted() {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
 
   computed: {

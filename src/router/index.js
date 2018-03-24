@@ -4,6 +4,7 @@ import InitiativeBoard from '@/components/InitiativeBoard'
 import ClassSearchCard from '@/components/ClassSearchCard'
 import AbilityEditor from '@/components/AbilityEditor'
 import SpellSerachTable from '@/components/SpellSerachTable'
+import IndexPage from '@/components/IndexPage'
 import Hoge from '@/components/Hoge'
 import Scroll from '@/components/Scroll'
 
@@ -27,9 +28,14 @@ export default new Router({
       component: AbilityEditor
     },
     {
-      path: '/',
+      path: '/SpellSerach',
       name: 'SpellSerachTable',
       component: SpellSerachTable
+    },
+    {
+      path: '/',
+      name: 'IndexPage',
+      component: IndexPage
     },
     //for temporary.
     {

@@ -113,8 +113,12 @@
             </v-list-tile>
           </v-data-iterator>
         </v-list>
+
         <!--モバイル　ここまで-->
 
+      </v-card>
+      <v-card>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9097509632200457" data-ad-slot="5985300299" data-ad-format="auto"></ins>
       </v-card>
     </v-container>
     <v-snackbar top :color="snackbar.level" :timeout="3000" v-model="snackbar.show">
@@ -188,6 +192,9 @@ export default {
     FileDownloadIcon: FileDownloadIcon,
     SpellDetailDialog: SpellDetailDialog,
     SpellHelpDialog: SpellHelpDialog
+  },
+  mounted() {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
   data() {
     return {
