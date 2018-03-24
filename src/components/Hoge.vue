@@ -1,75 +1,666 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <H2>D&D呪文検索用アプリケーションの利用方法</H2>
-    </v-card-title>
-    <v-card-text>
-      <p>このアプリケーションは、D&D5版の呪文を検索するためのアプリケーションです。</p>
-      <h3>重要事項</h3>
-      <v-expansion-panel>
-        <v-expansion-panel-content ripple lazy>
-          <div slot="header">
-            <h4>1.呪文データの扱い</h4>
-          </div>
-          <v-card>
-            <v-card-text>本アプリケーションは、デフォルトではOpen SRDに掲載されている呪文のうち、一部の呪文のみを選別し、掲載しています。 本アプリケーションは、利用者が呪文データを独自に作成することで、日本語環境の呪文データを使用することが可能です。</v-card-text>
-            <v-card-text>使用した呪文データは、本アプリケーションを使用するブラウザ上にのみ保存されます。よって、本アプリケーションを使用して、個人で作成した呪文データが第三者に自動的に配布されることはありません。よって、PHBをはじめとした日本語訳された呪文データの和訳データを、個人の責任で作成し、使用する分には、著作権法を侵害することはありません。</v-card-text>
-            <v-card-text>ただし、個人が作成したデータを第三者に無断で譲渡した場合は、譲渡者が著作権法を侵害したことになりますので、十分ご注意ください。</v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <h3>利用方法</h3>
-      <v-expansion-panel>
-        <v-expansion-panel-content>
-          <div slot="header">
-            <h4>1.呪文データのロード</h4>
-          </div>
-          <v-card>
-            <v-card-text><img src="../assets/upload.png">呪文データファイルをロードします。ほかの人が作成し、ダウンロードしたファイルを読み込むことができます。</v-card-text>
-            <v-card-text><img src="../assets/save.png">ブラウザのローカルストレージに、現在の呪文データを保存します。次回以降は保存された呪文データが使用されます。</v-card-text>
-            <v-card-text><img src="../assets/download.png">現在の呪文データを、ファイルにダウンロードします。ダウンロードしたデータはアップロードで読み込むことができます。</v-card-text>
-            <v-card-text><img src="../assets/reload.png">ブラウザのローカルストレージに保存されている呪文データを再ロードします。再ロード前に行った呪文の追加・変更は失われます。</v-card-text>
-            <v-card-text><img src="../assets/discard.png">ブラウザのローカルストレージから、呪文データを全削除します。</v-card-text>
-            <v-card-text><img src="../assets/add.png">新しい呪文データを追加します。ダイアログが表示されるので、呪文データを作成してください。</v-card-text>
-            <v-card-text><img src="../assets/help.png">このヘルプを表示します。</v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-content>
-          <div slot="header">
-            <h4>2.呪文の検索・表示</h4>
-          </div>
-          <v-card>
-            <v-card-text>TODO</v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-content>
-          <div slot="header">
-            <h4>3.呪文の追加・編集・削除</h4>
-          </div>
-          <v-card>
-            <v-card-text>TODO</v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="green darken-1" flat @click.native="closeDialog">閉じる</v-btn>
-    </v-card-actions>
-  </v-card>
+  <div>
+    <v-container fluid grid-list-md>
+      <v-card>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <v-layout row wrap>
+              <v-flex xs3>
+                <v-card height="120">
+                  <v-list>
+                    <v-list-tile>
+                      <v-list-tile-content>キャラクター名:</v-list-tile-content>
+                      <v-list-tile-content class="align-end">みのくば</v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                </v-card>
+              </v-flex>
+              <v-flex xs9>
+                <v-card height="120">
+                  <v-layout row wrap>
+                    <v-flex xs4>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>クラス＆レベル:</v-list-tile-content>
+                          <v-list-tile-content class="align-end">ファイター１</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                        <v-list-tile>
+                          <v-list-tile-content>種族:</v-list-tile-content>
+                          <v-list-tile-content class="align-end">ヒューマン</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs4>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>背景:</v-list-tile-content>
+                          <v-list-tile-content class="align-end">隠者</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                        <v-list-tile>
+                          <v-list-tile-content>属性</v-list-tile-content>
+                          <v-list-tile-content class="align-end">中立にして善</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs4>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>プレイヤー名</v-list-tile-content>
+                          <v-list-tile-content class="align-end">みのくば</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                        <v-list-tile>
+                          <v-list-tile-content>経験点(XP)</v-list-tile-content>
+                          <v-list-tile-content class="align-end">1000</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex xs3>
+            <v-card>
+              <v-card-title class="subheading">能力値</v-card-title>
+              <v-list>
+                <v-list-tile>
+                  <v-list-tile-content>種類</v-list-tile-content>
+                  <v-list-tile-content>値</v-list-tile-content>
+                  <v-list-tile-content>修正値</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>筋力</v-list-tile-content>
+                  <v-list-tile-content>１８</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-divider/>
+              </v-list>
+            </v-card>
+            <v-card>
+              <v-card-title class="subheading">技能</v-card-title>
+              <v-list>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                  <v-list-tile-content>威圧</v-list-tile-content>
+                  <v-list-tile-content>（＋３）</v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-card>
+          </v-flex>
+          <v-flex xs9>
+            <v-layout row wrap>
+              <v-flex xs6>
+                <v-card hover>
+                  <v-layout row wrap>
+                    <v-flex xs3>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>AC</v-list-tile-content>
+                          <v-list-tile-content class="align-end">18</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs5>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>イニシアチブ</v-list-tile-content>
+                          <v-list-tile-content class="align-end">18</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs4>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>移動速度</v-list-tile-content>
+                          <v-list-tile-content class="align-end">18</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>最大HP</v-list-tile-content>
+                          <v-list-tile-content class="align-end">18</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>一時HP</v-list-tile-content>
+                          <v-list-tile-content class="align-end">18</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>受動知覚</v-list-tile-content>
+                          <v-list-tile-content class="align-end">ｘｘｘ</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>受動看破</v-list-tile-content>
+                          <v-list-tile-content class="align-end">ｘｘｘ</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>ヒットダイス</v-list-tile-content>
+                          <v-list-tile-content class="align-end">4D8</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>死亡セーブ</v-list-tile-content>
+                          <v-list-tile-content class="align-end"></v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>インスピレーション</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-content>習熟ボーナス</v-list-tile-content>
+                          <v-list-tile-content class="align-end">＋３</v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider/>
+                      </v-list>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+
+                <v-card>
+                  <v-card-title class="subheading">セービングスロー</v-card-title>
+                  <v-list dense>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content class="align-end">（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                </v-card>
+                <v-card>
+                  <v-card-title class="subheading">攻撃と呪文</v-card-title>
+                  <v-list dense>
+                    <v-list-tile>
+                      <v-list-tile-content>種類</v-list-tile-content>
+                      <v-list-tile-content>値</v-list-tile-content>
+                      <v-list-tile-content>修正値</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider/>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                      <v-list-tile-content>筋力</v-list-tile-content>
+                      <v-list-tile-content>１８</v-list-tile-content>
+                      <v-list-tile-content>（＋３）</v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider/>
+                  </v-list>
+                </v-card>
+                <!-- </v-flex>
+                <v-flex xs12>
+                </v-flex>
+                <v-flex xs12>
+                  受動知覚
+                </v-flex>
+                <v-flex xs12>
+                  その他の習熟と言語
+                </v-flex> -->
+                <!-- </v-layout> -->
+              </v-flex>
+              <v-flex xs6>
+                <!-- <v-layout row wrap>
+                <v-flex xs12> -->
+                <v-card-title class="subheading">装備</v-card-title>
+                <v-list dense>
+                  <v-list-tile>
+                    <v-list-tile-content>装備名</v-list-tile-content>
+                    <v-list-tile-content>数</v-list-tile-content>
+                    <v-list-tile-content>重量</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-content>ランタン</v-list-tile-content>
+                    <v-list-tile-content>1</v-list-tile-content>
+                    <v-list-tile-content>10pd</v-list-tile-content>
+                  </v-list-tile>
+                </v-list>
+                <!-- </v-flex>
+              </v-layout> -->
+              </v-flex>
+              <!-- <v-flex xs4>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  人格的特徴
+                </v-flex>
+                <v-flex xs12>
+                  尊ぶもの
+                </v-flex>
+                <v-flex xs12>
+                  かかわり深いもの
+                </v-flex>
+                <v-flex xs12>
+                  弱み
+                </v-flex>
+                <v-flex xs12>
+                  特徴・メモ欄
+                </v-flex>
+              </v-layout>
+            </v-flex> -->
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </v-container>
+  </div>
 </template>
+
 <style>
 
 </style>
 
 <script>
+import Ability from "@/model/ability";
+import AbilityType from "@/model/abilitytype";
+
 export default {
   data() {
-    return {};
+    return {
+      totalItems: 1, //ソート禁止
+      headers: [
+        {
+          text: "種類",
+          sortable: false,
+          class: ""
+        },
+        {
+          text: "値",
+          sortable: false,
+          class: ""
+        },
+        {
+          text: "修正値",
+          sortable: false,
+          class: ""
+        }
+      ],
+
+      //入力業
+
+      items: [
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        },
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        },
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        },
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        },
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        },
+        {
+          type: "筋力",
+          value: 16,
+          modifier: 3
+        }
+      ],
+
+      pointby: true, //ポイントバイで作成するかどうか
+      abilityselectlist: [8, 9, 10, 11, 12, 13, 14, 15], //ポイントバイで購入できる能力値の範囲
+      racialmodifierlist: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], //種族ボーナス等の追加修正値の選択範囲
+
+      //アラート表示用
+      showErrorAlert: false,
+      errorAlertMessage: "能力値ポイントを27ポイント以上使用しています。"
+    };
+  },
+
+  computed: {
+    //画面に表示する能力値ポイント。
+
+    displayAbilityPoint() {
+      return this.pointby === true ? this.abilitypoint : "-";
+    },
+
+    hasPointByError() {
+      let current = this._calcuratePoint();
+
+      if (this.pointby && current > 27) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    abilitypoint() {
+      return 27 - this._calcuratePoint();
+    },
+
+    //能力値編集コンテナの最大の高さ（スクロールバー表示のため）
+
+    containerHeigth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "max-height: 480px";
+        case "sm":
+          return "max-height: 480px";
+        case "md":
+          return "max-height: 640px";
+        case "lg":
+          return "max-height: 640px";
+        case "xl":
+          return "max-height: 640px";
+      }
+    }
+  },
+
+  methods: {
+    //能力値ポイントを使って能力値を変更する
+
+    pointByAbility(item) {
+      if (this.pointby) {
+        let next = this._calcuratePoint();
+        // //能力値と能力値ポイントを更新する。
+        item.ability.value = item.assignment + item.racialmodifier;
+        this.abilitypoint = 27 - next;
+      } else {
+        //ポイントバイではない場合は、単純に更新する。
+        item.ability.value = item.assignment + item.racialmodifier;
+      }
+    },
+
+    //種族ボーナス等の追加修正を反映する。
+
+    updateRacialModifer(item) {
+      //チェック不要なので単純に更新する。
+      item.ability.value = item.assignment + item.racialmodifier;
+    },
+
+    _calcuratePoint() {
+      let total = 0;
+      this.items.forEach(item => {
+        total += Ability.calcPonit(item.assignment);
+      });
+      return total;
+    },
+
+    _initView() {
+      this.showErrorAlert = false;
+    }
   }
 };
 </script>

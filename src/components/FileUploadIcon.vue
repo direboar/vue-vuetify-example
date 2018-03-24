@@ -19,6 +19,7 @@
 </style>
 
 <script>
+import Vue from "vue";
 export default {
   props: {
     tooltip: {
@@ -38,11 +39,11 @@ export default {
       //Vue.jsで<input type="file">をリセットするバッドノウハウ
       //同じファイルを二回アップロードできないため。とりあえず動いてる。
       //@see https://qiita.com/kroton/items/2ea67e1a05eb68403750
-      this.fileId++;
     },
     uploaded(e) {
       let files = e.target.files;
       this.$emit("onFileRead", files);
+      this.fileId++;
     }
   }
 };
