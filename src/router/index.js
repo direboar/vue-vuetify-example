@@ -7,6 +7,7 @@ import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import Hoge from '@/components/Hoge'
 import Scroll from '@/components/Scroll'
+import HitPointBoard from '@/components/HitPointBoard'
 
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
@@ -52,6 +53,11 @@ export default new Router({
       path: '/Scroll',
       name: 'Scroll',
       component: Scroll
+    },
+    {
+      path: '/HitPointBoard',
+      name: 'HitPointBoard',
+      component: HitPointBoard
     }
   ]
 })

@@ -29,6 +29,7 @@ import {
   VForm,
   VAvatar,
   VSwitch,
+  VTabs,
   VExpansionPanel,
   transitions
 } from 'vuetify'
@@ -60,6 +61,7 @@ Vue.use(Vuetify, {
     VForm,
     VAvatar,
     VSwitch,
+    VTabs,
     VExpansionPanel,
     transitions
   },

@@ -51,6 +51,11 @@ export default {
           icon: "find_in_page",
           title: "呪文検索",
           linkTo: "SpellSerachTable"
+        },
+        {
+          icon: "note",
+          title: "モンスターHP管理",
+          linkTo: "HitPointBoard"
         }
       ],
       miniVariant: false,
