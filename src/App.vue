@@ -55,7 +55,7 @@ export default {
         {
           icon: "note",
           title: "モンスターHP管理",
-          linkTo: "HitPointBoard"
+          linkTo: "EncounterList"
         }
       ],
       miniVariant: false,

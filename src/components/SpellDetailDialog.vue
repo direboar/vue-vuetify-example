@@ -238,6 +238,7 @@ export default {
   },
   watch: {
     //編集対象の呪文データが変更されたら、呪文データのコピーを作り直す。
+    //v-bindにしてないのは、たぶんSpell型のオブジェクトに変換したかったから。だったらリスト側でSpell型にすればよいのでは、、
     targetSpell: function(val) {
       if (val != null) {
         this.spell = Spell.assign(val);

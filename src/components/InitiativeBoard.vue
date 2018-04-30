@@ -48,6 +48,9 @@
             <span>イニシアチブ初期化</span>
           </v-tooltip>
         </v-card>
+        <v-card>
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9097509632200457" data-ad-slot="5985300299" data-ad-format="auto"></ins>
+        </v-card>
       </v-flex>
     </v-layout>
 

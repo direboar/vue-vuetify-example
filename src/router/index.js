@@ -7,8 +7,7 @@ import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import Hoge from '@/components/Hoge'
 import Scroll from '@/components/Scroll'
-import HitPointBoard from '@/components/HitPointBoard'
-
+import EncounterList from '@/components/EncounterList'
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
 //see https://qiita.com/terrierscript/items/d2a9d5d4daedaacff924
@@ -55,9 +54,9 @@ export default new Router({
       component: Scroll
     },
     {
-      path: '/HitPointBoard',
-      name: 'HitPointBoard',
-      component: HitPointBoard
+      path: '/EncounterList',
+      name: 'EncounterList',
+      component: EncounterList
     }
   ]
 })

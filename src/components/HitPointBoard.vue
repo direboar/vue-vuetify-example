@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-tabs color="cyan" dark slider-color="yellow">
-      <v-tab v-for="encounter in encounters" :key="encounters.indexOf(encounter)" ripple>
+    <v-tabs color="blue lighten-2" dark slider-color="yellow">
+      <v-tab v-for="encounter in scenario.encounters" :key="scenario.encounters.indexOf(encounter)" ripple>
         {{encounter.name}}
       </v-tab>
 
-      <v-tab-item v-for="encounter in encounters" :key="encounters.indexOf(encounter)">
+      <v-tab-item v-for="encounter in scenario.encounters" :key="scenario.encounters.indexOf(encounter)">
         <!--編集用カード-->
         <v-card v-if="editMode" flat>
           <v-data-table :headers="edit_headers" :items="encounter.monsters" hide-actions class="elevation-1">
@@ -22,10 +22,10 @@
             </template>
           </v-data-table>
           <div class="text-xs-center mt-3">
-            <v-btn @click.native="deleteEncounter(encounter)">遭遇削除</v-btn>
             <v-btn @click.native="openMonsterDialog(encounter)">モンスター追加</v-btn>
             <v-btn @click.native="deleteMonsters(encounter)">モンスター削除</v-btn>
             <v-btn @click.native="copyMonster(encounter)">モンスターコピー</v-btn>
+            <v-btn @click.native="deleteEncounter(encounter)">遭遇削除</v-btn>
           </div>
         </v-card>
         <!--表示用カード-->
@@ -48,7 +48,9 @@
 
     <div class="text-xs-center mt-3">
       <v-btn v-if="editMode" @click.native="addEncounterDialog=true">遭遇追加</v-btn>
-      <v-btn @click.native="editMode=!editMode">{{!editMode ? '編集' : '閲覧'}}</v-btn>
+      <v-btn v-if="editMode" @click.native="saveScenalio()">シナリオ保存</v-btn>
+      <v-btn @click.native="cancelScenalio()">シナリオを保存せず一覧に戻る</v-btn>
+      <v-btn @click.native="editMode=!editMode">{{!editMode ? 'シナリオ編集' : 'シナリオ開始'}}</v-btn>
     </div>
 
     <!--遭遇追加ダイアログ-->
@@ -99,9 +101,17 @@
 
 <script>
 export default {
+  props: {
+    targetScenario: Object,
+    default: {
+      encounters: []
+    }
+    // required: true
+  },
   data() {
     return {
-      editMode: true,
+      name: "HitPointBoard",
+      editMode: false,
       addEncounterDialog: false,
       addMonsterDialog: false,
       addMonsterCount: 1,
@@ -144,7 +154,9 @@ export default {
           value: "maxhp"
         }
       ],
-      encounters: [],
+      //ディープコピーはこうしないとダメ。なぜdeepcopyしないといけないのか？
+      //see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+      scenario: JSON.parse(JSON.stringify(this.targetScenario)),
       //validation
       encounterNameRule: [v => v !== "" || "遭遇名は必須です"],
       monsterNameRule: [v => v !== "" || "モンスター名は必須です"],
@@ -163,7 +175,10 @@ export default {
   computed: {},
   methods: {
     deleteEncounter(encounter) {
-      this.encounters.splice(this.encounters.indexOf(encounter), 1);
+      this.scenario.encounters.splice(
+        this.scenario.encounters.indexOf(encounter),
+        1
+      );
     },
     saveEncounter() {
       //FIXME 全てのバリデーションが走ってしまうので、バリデーションが通る形にしないとこの判定に失敗する。
@@ -172,7 +187,7 @@ export default {
         // バリデーションエラーのためサブミットさせない
       } else {
         this.addEncounterDialog = false;
-        this.encounters.push(Object.assign(this.editedEncounter));
+        this.scenario.encounters.push(Object.assign(this.editedEncounter));
         this._clear();
       }
     },
@@ -221,6 +236,13 @@ export default {
         let index = encounter.monsters.indexOf(element);
         encounter.monsters.splice(index, 1);
       });
+    },
+    //TODO
+    saveScenalio() {
+      this.$emit("save", this.scenario);
+    },
+    cancelScenalio() {
+      this.$emit("cancel", this.scenario);
     },
     _clear() {
       this.editedEncounter = {
