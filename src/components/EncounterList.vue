@@ -12,12 +12,6 @@
               </v-btn>
               <span>シナリオを追加します。</span>
             </v-tooltip>
-            <!-- <v-tooltip top>
-              <v-btn slot="activator" icon @click.native="deleteAllScenario">
-                <v-icon>delete</v-icon>
-              </v-btn>
-              <span>ブラウザのローカルストレージに保存されたすべてのシナリオを削除します（確認ダイアログは表示されません。非常時のみ使用してください）</span>
-            </v-tooltip> -->
           </v-toolbar>
         </v-card>
         <v-card>
@@ -81,6 +75,7 @@
 <style>
 
 </style>
+
 <script>
 import HitPointBoard from "@/components/HitPointBoard";
 import moment from "moment";
