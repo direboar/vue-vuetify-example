@@ -3,6 +3,10 @@
 Vuetify.jsを使用したサンプルアプリです。
 いつの間にか、D&D５版アプリのプロジェクトになってしまいました。
 
+# URL
+以下のURLにデプロイされています。
+https://direboar.github.io/githubpage-test/dist/#/
+
 # TODOs
 ## 全体
 ・呪文検索アプリなど、D&D５版アプリを別プロジェクト化する
