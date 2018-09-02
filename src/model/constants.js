@@ -2,14 +2,14 @@
 export default class Constants {
   static get classes() {
     return [
-      { text: "バード", value: "Bard" },
-      { text: "クレリック", value: "Cleric" },
-      { text: "ドルイド", value: "Druid" },
-      { text: "パラディン", value: "Paladin" },
-      { text: "レンジャー", value: "Ranger" },
-      { text: "ソーサラー", value: "Sorcerer" },
       { text: "ウィザード", value: "Wizard" },
-      { text: "ウォーロック", value: "Warlock" }
+      { text: "ウォーロック", value: "Warlock" },
+      { text: "クレリック", value: "Cleric" },
+      { text: "ソーサラー", value: "Sorcerer" },
+      { text: "ドルイド", value: "Druid" },
+      { text: "バード", value: "Bard" },
+      { text: "パラディン", value: "Paladin" },
+      { text: "レンジャー", value: "Ranger" }
     ];
   }
 
@@ -37,6 +37,7 @@ export default class Constants {
 
   static get schools() {
     return [
+      { text: "ー", value: null },
       { text: "幻術", value: "Illusion" }, 
       { text: "召喚術", value: "Conjuration" },
       { text: "死霊術", value: "Necromancy" },

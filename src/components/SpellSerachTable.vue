@@ -44,15 +44,15 @@
         <v-layout v-if="!isMobile" row wrap justify-center>
           <v-flex xs1>
           </v-flex>
-          <v-flex xs10>
+          <v-flex xs8>
             <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
-          </v-flex>
-          <v-flex xs1>
-          </v-flex>
-          <v-flex xs1>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs1>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
@@ -65,6 +65,9 @@
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
@@ -149,6 +152,9 @@
             <v-flex xs10 offset-xs1>
               <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
             </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" dense :items="schools" v-model="conditon.school" max-height="200" hint="系統" persistent-hint></v-select>
+            </v-flex>
           </v-layout>
         </v-card>
         <v-card-actions>
@@ -207,7 +213,8 @@ export default {
         classes: [],
         ritual: null,
         components: [],
-        casting_time: ""
+        casting_time: "",
+        school: null
       },
       //アラートダイアログ
       snackbar: {
@@ -290,6 +297,9 @@ export default {
             if (!this.filterCastingTime(element)) {
               return false;
             }
+            if (!this.filterSchool(element)) {
+              return false;
+            }
             return true;
           })
       );
@@ -361,7 +371,6 @@ export default {
         //return element.name.startsWith(trimed);
       }
     },
-
     //FIXME 本当はconstantsというかモデル側に移動したい。
     filterCastingTime(element) {
       if (this.conditon.casting_time === null) {
@@ -377,6 +386,13 @@ export default {
           );
           return result;
         }
+      }
+    },
+    filterSchool(element) {
+      if (this.conditon.school === null) {
+        return true;
+      } else {
+        return element.school === this.conditon.school;
       }
     },
 
