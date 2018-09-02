@@ -13,6 +13,32 @@ export default class Constants {
     ];
   }
 
+  static get subclassses() {
+    return [
+      { text: "ウォーロック：アーチフェイ", value: "Warlock:Archfey" },
+      { text: "ウォーロック：フィーンド", value: "Warlock:Fiend" },
+      { text: "ウォーロック：グレート・オールド・ワン", value: "Warlock:GreatOldOne" },
+      { text: "クレリック:欺きの領域", value: "Cleric:Trickery Domain" },
+      { text: "クレリック:嵐の領域", value: "Cleric:Tempest Domain" },
+      { text: "クレリック:戦の領域", value: "Cleric:War Domain" },
+      { text: "クレリック:自然の領域", value: "Cleric:Nature Domain" },
+      { text: "クレリック:生命の領域", value: "Cleric:Life Domain" },
+      { text: "クレリック:知識の領域", value: "Cleric:Knowledge Domain" },
+      { text: "クレリック:光の領域", value: "Cleric:Light Domain" },
+      { text: "ドルイド:土地の円環:アンダーダーク", value: "Druid:Circle of the Land:Underdark" },
+      { text: "ドルイド:土地の円環:海岸", value: "Druid:Circle of the Land:Coast" },
+      { text: "ドルイド:土地の円環:極地", value: "Druid:Circle of the Land:Arctic" },
+      { text: "ドルイド:土地の円環:砂漠", value: "Druid:Circle of the Land:Desert" },
+      { text: "ドルイド:土地の円環:山岳", value: "Druid:Circle of the Land:Mountain" },
+      { text: "ドルイド:土地の円環:湿地", value: "Druid:Circle of the Land:Swamp" },
+      { text: "ドルイド:土地の円環:森林", value: "Druid:Circle of the Land:Forest" },
+      { text: "ドルイド:土地の円環:草原", value: "Druid:Circle of the Land:Grassland" },
+      { text: "パラディン:献身の誓い", value: "Paladin:Oath of Devotion" },
+      { text: "パラディン:古き者の誓い", value: "Paladin:Oath of the Ancients" },
+      { text: "パラディン:復讐の誓い", value: "Paladin:Oath of Vengeance" }
+    ];
+  }
+
   static get rituals() {
     return [
       { text: "可", value: "yes" },
@@ -74,3 +100,4 @@ export default class Constants {
     ]
   }
 }
+

@@ -15,7 +15,8 @@ export default class Spell {
     this.casting_time = "";
     this.level = "";
     this.school = "";
-    this.class = []
+    this.class = [];
+    this.subclass = "";
   }
 
   /**精神集中の画面表示文字列生成 */

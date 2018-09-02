@@ -14,6 +14,9 @@
                   <v-select label="Select" :items="classes" v-model="spell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
                 </v-flex>
                 <v-flex xs3>
+                  <v-select label="Select" :items="subclassses" v-model="spell.subclass" multiple max-height="400" hint="サブクラス（バードの学派等）" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs3>
                   <v-select label="Select" :items="levels" v-model="spell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
                 </v-flex>
                 <v-flex xs3>
@@ -196,7 +199,6 @@
 </template>
 
 <style>
-
 </style>
 
 <script>
@@ -233,7 +235,8 @@ export default {
       concentration: constants.concentration,
       levels: constants.levels,
       rituals: constants.rituals,
-      schools: constants.schools
+      schools: constants.schools,
+      subclassses: constants.subclassses
     };
   },
   watch: {

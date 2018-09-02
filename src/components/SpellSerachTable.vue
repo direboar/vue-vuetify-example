@@ -44,11 +44,14 @@
         <v-layout v-if="!isMobile" row wrap justify-center>
           <v-flex xs1>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs6>
             <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス（バードの学派等。クラスとはOR条件で絞り込みます）" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
@@ -119,6 +122,7 @@
 
         <!--モバイル　ここまで-->
 
+        <v-card-text>2018.09.02 サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text>
       </v-card>
       <v-card>
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9097509632200457" data-ad-slot="5985300299" data-ad-format="auto"></ins>
@@ -142,6 +146,9 @@
             </v-flex>
             <v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
+            </v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス（バードの学派等。クラスとはOR条件で絞り込みます）" persistent-hint></v-select>
             </v-flex>
             <v-flex xs10 offset-xs1>
               <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
@@ -214,7 +221,8 @@ export default {
         ritual: null,
         components: [],
         casting_time: "",
-        school: null
+        school: null,
+        subclassses: []
       },
       //アラートダイアログ
       snackbar: {
@@ -229,6 +237,7 @@ export default {
       concentration: constants.concentration,
       schools: constants.schools,
       casting_time: constants.casting_time,
+      subclassses: constants.subclassses,
       headers: [
         { text: "名前", value: "name", align: "left", width: "30%" },
         { text: "レベル", value: "level", align: "left", width: "5%" },
@@ -277,7 +286,7 @@ export default {
     items() {
       return (
         this.spelldata
-          // .slice(1, 10) //for debug.
+          //        .slice(1, 10) //for debug.
           .filter(element => {
             if (!this.filterSpellname(element)) {
               return false;
@@ -288,7 +297,8 @@ export default {
             if (!this.fliterLevels(element)) {
               return false;
             }
-            if (!this.fliterClasses(element)) {
+            //クラスとサブクラスの検索は、どちらか一方にヒットしたら一覧に出すようにする。
+            if (!this.filterClassOrSubclass(element)) {
               return false;
             }
             if (!this.fliterComopnents(element)) {
@@ -337,15 +347,43 @@ export default {
         });
       }
     },
-    fliterClasses(element) {
-      if (this.conditon.classes.length === 0) {
+
+    filterClassOrSubclass(element) {
+      //1.クラス・サブクラスの指定がない場合は、クラスの絞り込みは無視
+      //2.クラスが指定された場合は、クラスで絞り込み
+      //3.サブクラスが指定された場合は、クラスで絞り込み
+      //4.クラスとサブクラスが指定された場合は、OR条件で絞り込み
+      let skipFilterClasses = this.conditon.classes.length === 0;
+      let skipFilterSubclasses = this.conditon.subclassses.length === 0;
+      if (skipFilterClasses && skipFilterSubclasses) {
         return true;
       } else {
-        return this.conditon.classes.some(e => {
-          return element.class.includes(e);
-        });
+        if (skipFilterSubclasses) {
+          //          alert(1);
+          return this.containsClasses(element);
+        } else if (skipFilterClasses) {
+          //          alert(2);
+          return this.containsSubclasses(element);
+        } else {
+          //          alert(3);
+          return (
+            this.containsClasses(element) || this.containsSubclasses(element)
+          );
+        }
       }
     },
+
+    containsSubclasses(element) {
+      return this.conditon.subclassses.some(e => {
+        return element.subclass.includes(e);
+      });
+    },
+    containsClasses(element) {
+      return this.conditon.classes.some(e => {
+        return element.class.includes(e);
+      });
+    },
+
     fliterComopnents(element) {
       if (this.conditon.components.length === 0) {
         return true;
