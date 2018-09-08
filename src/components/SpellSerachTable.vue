@@ -61,13 +61,16 @@
           <v-flex xs1>
           </v-flex>
           <v-flex xs4>
-            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に+を入力するとAND条件で評価されます。）" persistent-hint></v-text-field>
+            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に|を入力するとOR条件で評価されます。）" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
           </v-flex>
-          <v-flex xs2>
+          <v-flex xs1>
             <v-select label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select label="Select" :items="concentration" v-model="conditon.concentration" max-height="400" hint="集中" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
             <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
@@ -225,6 +228,7 @@ export default {
         ritual: null,
         components: [],
         casting_time: "",
+        concentration: null,
         school: null,
         subclassses: []
       },
@@ -312,6 +316,9 @@ export default {
               return false;
             }
             if (!this.filterCastingTime(element)) {
+              return false;
+            }
+            if (!this.filterConcentration(element)) {
               return false;
             }
             if (!this.filterSchool(element)) {
@@ -430,6 +437,14 @@ export default {
         }
       }
     },
+
+    filterConcentration(element) {
+      if (this.conditon.concentration === null) {
+        return true;
+      } else {
+        return this.conditon.concentration === element.concentration;
+      }
+    },
     filterSchool(element) {
       if (this.conditon.school === null) {
         return true;
@@ -448,31 +463,35 @@ export default {
         var word;
         let desc = this.conditon.desc.replace("　", " ").trim();
         // alert(desc);
+
         while ((word = regex.exec(desc))) {
-          let str = word[0].replace("　", " ").trim();
-          if (str.startsWith("+")) {
-            Array.push(hissuJoken, str.substring(1));
+          let str = word[0].trim();
+          if (str.startsWith("|")) {
+            Array.push(niniJouken, str.substring(1));
           } else {
-            Array.push(niniJouken, str);
+            Array.push(hissuJoken, str);
           }
         }
 
         // alert(JSON.stringify(niniJouken));
         // alert(JSON.stringify(hissuJoken));
         //1.必須条件チェック
-        let retVal = hissuJoken.every(desc => {
-          return element.desc.includes(desc);
-        });
-        //2.任意条件チェック
-        if (retVal) {
-          return (
-            niniJouken.length === 0 ||
-            niniJouken.some(desc => {
-              return element.desc.includes(desc);
-            })
-          );
+        let retVal;
+        if (hissuJoken.length === 0) {
+          retVal = false;
         } else {
-          return retVal;
+          retVal = hissuJoken.every(desc => {
+            return element.desc.includes(desc);
+          });
+        }
+
+        if (retVal) {
+          return true;
+          //2.任意条件チェック
+        } else {
+          return niniJouken.some(desc => {
+            return element.desc.includes(desc);
+          });
         }
       }
     },

@@ -56,6 +56,7 @@ export default class Constants {
 
   static get concentration() {
     return [
+      { text: "ー", value: null },
       { text: "あり", value: "yes" }, 
       { text: "なし", value: "no" }
     ];
