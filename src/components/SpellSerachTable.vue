@@ -288,38 +288,36 @@ export default {
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
-      return (
-        this.spelldata
-          // .slice(1, 10) //for debug.
-          .filter(element => {
-            if (!this.filterDesc(element)) {
-              return false;
-            }
-            if (!this.filterSpellname(element)) {
-              return false;
-            }
-            if (!this.fliterRitual(element)) {
-              return false;
-            }
-            if (!this.fliterLevels(element)) {
-              return false;
-            }
-            //クラスとサブクラスの検索は、どちらか一方にヒットしたら一覧に出すようにする。
-            if (!this.filterClassOrSubclass(element)) {
-              return false;
-            }
-            if (!this.fliterComopnents(element)) {
-              return false;
-            }
-            if (!this.filterCastingTime(element)) {
-              return false;
-            }
-            if (!this.filterSchool(element)) {
-              return false;
-            }
-            return true;
-          })
-      );
+      return this.spelldata
+        .slice(1, 10) //for debug.
+        .filter(element => {
+          if (!this.filterDesc(element)) {
+            return false;
+          }
+          if (!this.filterSpellname(element)) {
+            return false;
+          }
+          if (!this.fliterRitual(element)) {
+            return false;
+          }
+          if (!this.fliterLevels(element)) {
+            return false;
+          }
+          //クラスとサブクラスの検索は、どちらか一方にヒットしたら一覧に出すようにする。
+          if (!this.filterClassOrSubclass(element)) {
+            return false;
+          }
+          if (!this.fliterComopnents(element)) {
+            return false;
+          }
+          if (!this.filterCastingTime(element)) {
+            return false;
+          }
+          if (!this.filterSchool(element)) {
+            return false;
+          }
+          return true;
+        });
     },
     //ダウンロード時の文字列を返却する。
     jesonspelldata() {
@@ -446,10 +444,10 @@ export default {
         let hissuJoken = [];
         var regex = new RegExp("[ |　]?[^ ]+", "g");
         var word;
-        let desc = this.conditon.desc.trim();
+        let desc = this.conditon.desc.replace("　", " ").trim();
         // alert(desc);
         while ((word = regex.exec(desc))) {
-          let str = word[0].trim();
+          let str = word[0].replace("　", " ").trim();
           if (str.startsWith("+")) {
             Array.push(hissuJoken, str.substring(1));
           } else {
@@ -457,20 +455,23 @@ export default {
           }
         }
 
-        // alert(JSON.stringify(niniJouken));
-        // alert(JSON.stringify(hissuJoken));
+        alert(JSON.stringify(niniJouken));
+        alert(JSON.stringify(hissuJoken));
         //1.必須条件チェック
         let retVal = hissuJoken.every(desc => {
           return element.desc.includes(desc);
         });
         //2.任意条件チェック
-        retVal =
-          retVal &
-          niniJouken.some(desc => {
-            return element.desc.includes(desc);
-          });
-
-        return retVal;
+        if (retVal) {
+          return (
+            niniJouken.length === 0 ||
+            niniJouken.some(desc => {
+              return element.desc.includes(desc);
+            })
+          );
+        } else {
+          return retVal;
+        }
       }
     },
 
