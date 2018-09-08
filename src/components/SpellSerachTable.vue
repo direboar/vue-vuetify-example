@@ -51,7 +51,7 @@
             <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス（バードの学派等。クラスとはOR条件で絞り込みます）" persistent-hint></v-select>
+            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
@@ -148,7 +148,7 @@
               <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
             </v-flex>
             <v-flex xs10 offset-xs1>
-              <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス（バードの学派等。クラスとはOR条件で絞り込みます）" persistent-hint></v-select>
+              <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス" persistent-hint></v-select>
             </v-flex>
             <v-flex xs10 offset-xs1>
               <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
