@@ -44,33 +44,36 @@
         <v-layout v-if="!isMobile" row wrap justify-center>
           <v-flex xs1>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs4>
             <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs1>
-          </v-flex>
-          <v-flex xs1>
+            <v-select label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
           </v-flex>
-          <v-flex xs2>
-            <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs4>
+            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="呪文本文（スペース区ぎりで複数条件指定できます）" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs2>
-            <v-select label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
+            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
@@ -216,6 +219,7 @@ export default {
       //検索条件
       conditon: {
         spellname: "",
+        desc: "",
         levels: [],
         classes: [],
         ritual: null,
@@ -286,8 +290,11 @@ export default {
     items() {
       return (
         this.spelldata
-          //        .slice(1, 10) //for debug.
+          // .slice(1, 10) //for debug.
           .filter(element => {
+            if (!this.filterDesc(element)) {
+              return false;
+            }
             if (!this.filterSpellname(element)) {
               return false;
             }
@@ -359,13 +366,10 @@ export default {
         return true;
       } else {
         if (skipFilterSubclasses) {
-          //          alert(1);
           return this.containsClasses(element);
         } else if (skipFilterClasses) {
-          //          alert(2);
           return this.containsSubclasses(element);
         } else {
-          //          alert(3);
           return (
             this.containsClasses(element) || this.containsSubclasses(element)
           );
@@ -431,6 +435,21 @@ export default {
         return true;
       } else {
         return element.school === this.conditon.school;
+      }
+    },
+    //呪文本文で絞り込み
+    filterDesc(element) {
+      if (this.conditon.desc === null || this.conditon.desc.trim() === "") {
+        return true;
+      } else {
+        //.1全角・半角スペースで区切る
+        let descs = this.conditon.desc
+          .trim()
+          .replace("　", " ")
+          .split(" ");
+        return descs.some(desc => {
+          return element.desc.includes(desc);
+        });
       }
     },
 
