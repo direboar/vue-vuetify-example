@@ -288,36 +288,38 @@ export default {
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
-      return this.spelldata
-        .slice(1, 10) //for debug.
-        .filter(element => {
-          if (!this.filterDesc(element)) {
-            return false;
-          }
-          if (!this.filterSpellname(element)) {
-            return false;
-          }
-          if (!this.fliterRitual(element)) {
-            return false;
-          }
-          if (!this.fliterLevels(element)) {
-            return false;
-          }
-          //クラスとサブクラスの検索は、どちらか一方にヒットしたら一覧に出すようにする。
-          if (!this.filterClassOrSubclass(element)) {
-            return false;
-          }
-          if (!this.fliterComopnents(element)) {
-            return false;
-          }
-          if (!this.filterCastingTime(element)) {
-            return false;
-          }
-          if (!this.filterSchool(element)) {
-            return false;
-          }
-          return true;
-        });
+      return (
+        this.spelldata
+          // .slice(1, 10) //for debug.
+          .filter(element => {
+            if (!this.filterDesc(element)) {
+              return false;
+            }
+            if (!this.filterSpellname(element)) {
+              return false;
+            }
+            if (!this.fliterRitual(element)) {
+              return false;
+            }
+            if (!this.fliterLevels(element)) {
+              return false;
+            }
+            //クラスとサブクラスの検索は、どちらか一方にヒットしたら一覧に出すようにする。
+            if (!this.filterClassOrSubclass(element)) {
+              return false;
+            }
+            if (!this.fliterComopnents(element)) {
+              return false;
+            }
+            if (!this.filterCastingTime(element)) {
+              return false;
+            }
+            if (!this.filterSchool(element)) {
+              return false;
+            }
+            return true;
+          })
+      );
     },
     //ダウンロード時の文字列を返却する。
     jesonspelldata() {
@@ -455,8 +457,8 @@ export default {
           }
         }
 
-        alert(JSON.stringify(niniJouken));
-        alert(JSON.stringify(hissuJoken));
+        // alert(JSON.stringify(niniJouken));
+        // alert(JSON.stringify(hissuJoken));
         //1.必須条件チェック
         let retVal = hissuJoken.every(desc => {
           return element.desc.includes(desc);
