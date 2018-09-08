@@ -1,6 +1,16 @@
 import Ability from '@/model/ability'
 import AbilityType from '@/model/abilitytype'
 
+describe('Regex', () => {
+  it('regex', () => {
+    var myRe = new RegExp("[ |　]?[^ ]+", "g");
+    var myArray;
+    while(myArray = myRe.exec("aaaaa +bbbbb ccccc +ddd")){
+      console.log(myArray)
+    }
+  })
+})
+
 describe('Ability', () => {
   it('modifierのテスト', () => {
     let a = new Ability(AbilityType.STRENGTH)

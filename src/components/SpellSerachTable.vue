@@ -61,7 +61,7 @@
           <v-flex xs1>
           </v-flex>
           <v-flex xs4>
-            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="呪文本文（スペース区ぎりで複数条件指定できます）" persistent-hint></v-text-field>
+            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に+を入力するとAND条件で評価されます。）" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
             <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
@@ -442,14 +442,35 @@ export default {
       if (this.conditon.desc === null || this.conditon.desc.trim() === "") {
         return true;
       } else {
-        //.1全角・半角スペースで区切る
-        let descs = this.conditon.desc
-          .trim()
-          .replace("　", " ")
-          .split(" ");
-        return descs.some(desc => {
+        let niniJouken = [];
+        let hissuJoken = [];
+        var regex = new RegExp("[ |　]?[^ ]+", "g");
+        var word;
+        let desc = this.conditon.desc.trim();
+        // alert(desc);
+        while ((word = regex.exec(desc))) {
+          let str = word[0].trim();
+          if (str.startsWith("+")) {
+            Array.push(hissuJoken, str.substring(1));
+          } else {
+            Array.push(niniJouken, str);
+          }
+        }
+
+        // alert(JSON.stringify(niniJouken));
+        // alert(JSON.stringify(hissuJoken));
+        //1.必須条件チェック
+        let retVal = hissuJoken.every(desc => {
           return element.desc.includes(desc);
         });
+        //2.任意条件チェック
+        retVal =
+          retVal &
+          niniJouken.some(desc => {
+            return element.desc.includes(desc);
+          });
+
+        return retVal;
       }
     },
 
