@@ -150,9 +150,9 @@
             <v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
             </v-flex>
-            <v-flex xs10 offset-xs1>
+            <!--v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス" persistent-hint></v-select>
-            </v-flex>
+            </v-flex-->
             <v-flex xs10 offset-xs1>
               <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
             </v-flex>
@@ -162,9 +162,9 @@
             <v-flex xs10 offset-xs1>
               <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
             </v-flex>
-            <v-flex xs10 offset-xs1>
+            <!--v-flex xs10 offset-xs1>
               <v-select label="Select" dense :items="schools" v-model="conditon.school" max-height="200" hint="系統" persistent-hint></v-select>
-            </v-flex>
+            </v-flex-->
           </v-layout>
         </v-card>
         <v-card-actions>
