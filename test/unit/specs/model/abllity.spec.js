@@ -25,3 +25,16 @@ describe('Ability', () => {
     expect(a.modifier).to.equal(2)
   })
 })
+
+describe('Array', () => {
+  it('Array', () => {
+    var a1 = ["1","2"]
+    var a2 = ["2","2"]
+
+    let l = a1.every(current=>{
+      return a2.includes(current);
+    })
+    expect(l).to.equal(true);
+  })
+})
+

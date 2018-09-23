@@ -47,36 +47,39 @@
           <v-flex xs4>
             <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
           </v-flex>
-          <v-flex xs2>
-            <v-select label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          <v-flex xs1>
+            <v-select dense label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select dense label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
+            <v-select dense label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="取得クラス" persistent-hint></v-select>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+            <v-select dense label="Select" :items="classes" v-model="conditon.exlcudedClasses" multiple max-height="400" hint="除外クラス(検索対象の呪文を取得していないクラスを指定します" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
           <v-flex xs1>
           </v-flex>
           <v-flex xs4>
-            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に|を入力するとOR条件で評価されます。）" persistent-hint></v-text-field>
+            <v-text-field dense append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に|を入力するとOR条件で評価されます。）" persistent-hint></v-text-field>
           </v-flex>
           <v-flex xs2>
-            <v-select label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
+            <v-select dense label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
+            <v-select dense label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select label="Select" :items="concentration" v-model="conditon.concentration" max-height="400" hint="集中" persistent-hint></v-select>
+            <v-select dense label="Select" :items="concentration" v-model="conditon.concentration" max-height="400" hint="集中" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+            <v-select dense :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+            <v-select dense label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
@@ -225,6 +228,7 @@ export default {
         desc: "",
         levels: [],
         classes: [],
+        exlcudedClasses: [],
         ritual: null,
         components: [],
         casting_time: "",
@@ -367,7 +371,10 @@ export default {
       //2.クラスが指定された場合は、クラスで絞り込み
       //3.サブクラスが指定された場合は、クラスで絞り込み
       //4.クラスとサブクラスが指定された場合は、OR条件で絞り込み
-      let skipFilterClasses = this.conditon.classes.length === 0;
+
+      let skipFilterClasses =
+        this.conditon.classes.length === 0 &&
+        this.conditon.exlcudedClasses.length === 0;
       let skipFilterSubclasses = this.conditon.subclassses.length === 0;
       if (skipFilterClasses && skipFilterSubclasses) {
         return true;
@@ -382,6 +389,44 @@ export default {
           );
         }
       }
+
+      // let skipFilterClasses =
+      //   this.conditon.classes.length === 0 ||
+      //   this.conditon.exlcudedClasses.length === 0;
+      // let skipFilterSubclasses = this.conditon.subclassses.length === 0;
+      // if (skipFilterClasses && skipFilterSubclasses) {
+      //   return true;
+      // } else {
+      //   if (skipFilterSubclasses) {
+      //     return this.containsClasses(element);
+      //   } else if (skipFilterClasses) {
+      //     return this.containsSubclasses(element);
+      //   } else {
+      //     return (
+      //       this.containsClasses(element) || this.containsSubclasses(element)
+      //     );
+      //   }
+      // }
+    },
+
+    contains(collection, item) {
+      if (collection.length === 0) {
+        return true;
+      } else {
+        return collection.some(e => {
+          return item.includes(e);
+        });
+      }
+    },
+
+    doesNotContains(collection, item) {
+      if (collection.length === 0) {
+        return true;
+      } else {
+        return !collection.some(e => {
+          return item.includes(e);
+        });
+      }
     },
 
     containsSubclasses(element) {
@@ -389,10 +434,17 @@ export default {
         return element.subclass.includes(e);
       });
     },
+
     containsClasses(element) {
-      return this.conditon.classes.some(e => {
-        return element.class.includes(e);
-      });
+      // //1.クラスで絞り込む
+      if (!this.contains(this.conditon.classes, element.class)) {
+        return false;
+      }
+      // // //2.対象外クラスで絞り込む
+      if (!this.doesNotContains(this.conditon.exlcudedClasses, element.class)) {
+        return false;
+      }
+      return true;
     },
 
     fliterComopnents(element) {

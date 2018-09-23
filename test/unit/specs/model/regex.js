@@ -1,8 +1,9 @@
-
-describe('Regex', () => {
-  it('regex', () => {
-    var myRe = new RegExp("d(b+)d", "g");
-    var myArray = myRe.exec("cdbbdbsbz");
-    console.log(myArray)
+describe('Array', () => {
+  it('Array', () => {
+    var a1 = ["1","2"]
+    var a2 = ["1","1"]
+    expect(a1 ===a2).to.equal(true);
+    console.log(a1 === a2)
   })
 })
+

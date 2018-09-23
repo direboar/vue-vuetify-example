@@ -85,7 +85,7 @@
     </v-dialog>
 
     <!--ダメージ変更ダイアログ-->
-    <v-dialog v-model="changeDamageDialog" persistent max-width="480" >
+    <v-dialog v-model="changeDamageDialog" persistent max-width="480">
       <v-card color="grey lighten-4" flat>
         <v-card-text>
           <v-container fluid>
@@ -127,7 +127,6 @@
 </template>
 
 <style>
-
 </style>
 
 <script>
