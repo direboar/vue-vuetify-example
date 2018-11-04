@@ -574,6 +574,7 @@ export default {
     clickCell(item) {
       // props.expanded = !props.expanded;
       this.targetSpell = item;
+      this.createSpell = false;
       this.showEditDialog = true;
     },
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
@@ -588,16 +589,17 @@ export default {
         this.spelldata.push(result);
         this.showSnackbar(
           "success",
-          "呪文" + this.result.name + "を追加しました。"
+          "呪文" + result.name + "を追加しました。"
         );
       } else {
         Object.assign(this.targetSpell, result);
         this.targetSpell = null;
         this.showSnackbar(
           "success",
-          "呪文" + this.result.name + "を更新しました。"
+          "呪文" + result.name + "を更新しました。"
         );
       }
+      this.createSpell = null;
     },
     // //呪文編集・追加ダイアログ上で呪文を削除する。編集中の呪文データを消去する。
     remove() {
@@ -613,6 +615,7 @@ export default {
     // キャンセルもしくはクローズを押したときの挙動。
     cancelOrClose() {
       this.targetSpell = null;
+      this.createSpell = null;
     },
 
     showHelp() {

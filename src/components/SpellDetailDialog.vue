@@ -23,6 +23,9 @@
                   <v-select label="Select" :items="components" v-model="spell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
                 </v-flex>
                 <v-flex xs3>
+                  <v-select label="Select" :items="schools" v-model="spell.school" max-height="400" hint="系統" persistent-hint></v-select>
+                </v-flex>
+                <v-flex xs3>
                   <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="spell.materialdeteil" />
                 </v-flex>
                 <v-flex xs3>
