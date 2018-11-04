@@ -18,6 +18,7 @@ export default class Constants {
       { text: "ウォーロック：アーチフェイ", value: "Warlock:Archfey" },
       { text: "ウォーロック：フィーンド", value: "Warlock:Fiend" },
       { text: "ウォーロック：グレート・オールド・ワン", value: "Warlock:GreatOldOne" },
+      { text: "ウォーロック：アンダイイング", value: "Warlock:Undying" },
       { text: "クレリック:欺きの領域", value: "Cleric:Trickery Domain" },
       { text: "クレリック:嵐の領域", value: "Cleric:Tempest Domain" },
       { text: "クレリック:戦の領域", value: "Cleric:War Domain" },
@@ -25,6 +26,7 @@ export default class Constants {
       { text: "クレリック:生命の領域", value: "Cleric:Life Domain" },
       { text: "クレリック:知識の領域", value: "Cleric:Knowledge Domain" },
       { text: "クレリック:光の領域", value: "Cleric:Light Domain" },
+      { text: "クレリック:秘術の領域", value: "Cleric:Arcana Domain" },
       { text: "ドルイド:土地の円環:アンダーダーク", value: "Druid:Circle of the Land:Underdark" },
       { text: "ドルイド:土地の円環:海岸", value: "Druid:Circle of the Land:Coast" },
       { text: "ドルイド:土地の円環:極地", value: "Druid:Circle of the Land:Arctic" },
@@ -35,7 +37,8 @@ export default class Constants {
       { text: "ドルイド:土地の円環:草原", value: "Druid:Circle of the Land:Grassland" },
       { text: "パラディン:献身の誓い", value: "Paladin:Oath of Devotion" },
       { text: "パラディン:古き者の誓い", value: "Paladin:Oath of the Ancients" },
-      { text: "パラディン:復讐の誓い", value: "Paladin:Oath of Vengeance" }
+      { text: "パラディン:復讐の誓い", value: "Paladin:Oath of Vengeance" },
+      { text: "パラディン:鎮護の誓い", value: "Paladin:Oath of the Crown" }
     ];
   }
 

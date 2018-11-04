@@ -102,6 +102,7 @@
             <v-subheader class="body-2">儀式</v-subheader>
           </v-flex>
           <v-flex xs3>
+            <v-subheader class="body-2">系統</v-subheader>
           </v-flex>
           <v-flex xs3>
             <v-card-text class="body-2">{{ spell.formatDuration }}</v-card-text>
@@ -113,6 +114,7 @@
             <v-card-text class="body-2">{{ spell.format(spell.ritual,rituals) }}</v-card-text>
           </v-flex>
           <v-flex xs3>
+            <v-card-text class="body-2">{{ spell.format(spell.school,schools) }}</v-card-text>
           </v-flex>
           <v-flex xs12>
             <v-divider/>
