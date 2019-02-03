@@ -23,6 +23,10 @@ export default class Machine {
     this.equipments[MachineType.POSITION_LEFTLEG] = []
   }
 
+  setLastUpdateTime(lastUpdateTime){
+    this.lastUpdateTime = lastUpdateTime;
+  }
+
   addEquipment(position,equipment){
     let equipments = this.equipments[position];
     if(equipments === undefined){

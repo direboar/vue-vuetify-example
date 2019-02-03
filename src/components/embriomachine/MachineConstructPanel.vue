@@ -12,11 +12,10 @@
           >
             <v-flex xs12>
               <v-alert
-                :value="true"
+                :value="validateerror.length>0"
                 type="error"
-                v-if="validateerror.length>0"
               >
-                {{formatErrorMessage(validateerror)}}
+                <p v-html="formatErrorMessage(validateerror)"></p>
               </v-alert>
             </v-flex>
             <v-flex xs4>
@@ -28,7 +27,10 @@
                   <v-toolbar-title>基本データ</v-toolbar-title>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-list two-line="">
+                <v-list
+                  two-line
+                  subheader
+                >
                   <v-list-tile>
                     <v-list-tile-content>名前</v-list-tile-content>
                     <v-list-tile-content>
@@ -65,7 +67,7 @@
                   </v-list-tile>
                   <v-divider />
                   <v-list-tile>
-                    <vv-list-tile-content>装甲値</vv-list-tile-content>
+                    <v-list-tile-content>装甲値</v-list-tile-content>
                     <v-list-tile-content class="align-end">{{machine.machineType.armorPoint}}</v-list-tile-content>
                   </v-list-tile>
                   <v-divider />
@@ -93,7 +95,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（頭)</v-toolbar-title>
+                      <v-toolbar-title>頭／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_HEAD)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -103,6 +105,7 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
+                      dense
                       two-line
                       subheader
                     >
@@ -138,7 +141,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（胴)</v-toolbar-title>
+                      <v-toolbar-title>胴／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_BODY)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -148,6 +151,7 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
+                      dense
                       two-line
                       subheader
                     >
@@ -183,7 +187,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（右手)</v-toolbar-title>
+                      <v-toolbar-title>右腕／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTARM)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -192,7 +196,11 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      dense
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_RIGHTARM]"
                         :key="index"
@@ -225,7 +233,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（左手)</v-toolbar-title>
+                      <v-toolbar-title>左腕／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTARM)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -234,7 +242,11 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      dense
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_LEFTARM]"
                         :key="index"
@@ -268,7 +280,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（右脚)</v-toolbar-title>
+                      <v-toolbar-title>右脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -277,7 +289,11 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      dense
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_RIGHTLEG]"
                         :key="index"
@@ -310,7 +326,7 @@
                       color="green"
                       dark
                     >
-                      <v-toolbar-title>装備品（左脚)</v-toolbar-title>
+                      <v-toolbar-title>左脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
@@ -319,7 +335,11 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      dense
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_LEFTLEG]"
                         :key="index"
@@ -430,7 +450,11 @@ export default {
 
   computed: {
     validateerror() {
-      return this.machine.validate();
+      if (this.machine.machineType.name === undefined) {
+        return ["機体の装甲・サイズが未選択です"];
+      } else {
+        return this.machine.validate();
+      }
     }
   },
 
@@ -459,7 +483,6 @@ export default {
       this.machine.machineType = this.dialogMachineType;
     },
     acceptSelectedEquipment(equipment, count) {
-      alert(count);
       for (let i = 0; i < count; i++) {
         this.machine.addEquipment(
           this.editingEquipmentPosition,
@@ -473,7 +496,11 @@ export default {
       this.machine.deleteEquipment(position, equipment);
     },
     formatErrorMessage(messages) {
-      return messages.join();
+      let ret = "";
+      messages.forEach(message => {
+        ret += message + "<br/>";
+      });
+      return ret;
     },
     cancel() {
       this.dialogTargetPosition = null;
@@ -486,14 +513,14 @@ export default {
       this.machine = new Machine("", new MachineType());
       this.dialogTargetPosition = null;
       this.editingEquipmentPosition = {};
-      this.dialogMachineType = {};
+      this.dialogMachineType = new MachineType();
     },
     back() {
       this.$emit("cancel");
       this.machine = new Machine("", new MachineType());
       this.dialogTargetPosition = null;
       this.editingEquipmentPosition = {};
-      this.dialogMachineType = {};
+      this.dialogMachineType = new MachineType();
     }
   }
 };

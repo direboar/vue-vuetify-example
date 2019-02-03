@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card v-if="showList">
           <v-toolbar>
-            <v-toolbar-title>エムブリオマシンリスト</v-toolbar-title>
+            <v-toolbar-title>エムブリオマシン機体作成リスト</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-tooltip top>
               <v-btn
@@ -31,7 +31,7 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title>最終更新日時: {{ item.updated }} </v-list-tile-sub-title>
+                <v-list-tile-sub-title>最終更新日時: {{ item.lastUpdateTime }} </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-tooltip top>
@@ -125,6 +125,8 @@ export default {
     //callback.
     saveMachine(machine) {
       //新規作成
+      machine.setLastUpdateTime(moment().toString());
+
       if (this.editingMachineIndex === -1) {
         this.machines.push(machine);
       } else {
