@@ -429,7 +429,7 @@ export default {
   },
   data() {
     return {
-      machine: this.targetMachine,
+      machine: Machine.assign(this.targetMachine),
       showEquipment: false,
       showMachineType: false,
       dialogEquipment: {},
@@ -444,7 +444,7 @@ export default {
 
   watch: {
     targetMachine: function(val) {
-      this.machine = val;
+      this.machine = Machine.assign(val);
     }
   },
 
@@ -516,6 +516,7 @@ export default {
       this.dialogMachineType = new MachineType();
     },
     back() {
+      this.$emit("update:targetMachine", this.machine);
       this.$emit("cancel");
       this.machine = new Machine("", new MachineType());
       this.dialogTargetPosition = null;

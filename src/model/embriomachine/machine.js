@@ -178,26 +178,29 @@ export default class Machine {
     return ret;
   }
 
+  static assign(obj){
+    let machine = new Machine();
+    Object.assign(machine,obj);
+
+    let machineType = new MachineType();
+    Object.assign(machineType,obj.machineType);
+    machine.machineType = machineType;
+
+    machine.equipments[MachineType.POSITION_HEAD] = Equipment.assigns(machine.equipments[MachineType.POSITION_HEAD]);
+    machine.equipments[MachineType.POSITION_BODY] = Equipment.assigns(machine.equipments[MachineType.POSITION_BODY]);
+    machine.equipments[MachineType.POSITION_RIGHTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTARM]);
+    machine.equipments[MachineType.POSITION_LEFTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTARM]);
+    machine.equipments[MachineType.POSITION_RIGHTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTLEG]);
+    machine.equipments[MachineType.POSITION_LEFTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTLEG]); 
+    return machine;
+  }
+
   //**Machineインスタンスを生成するヘルパーメソッド */
   // オブジェクトの配列を指定し、Spellsインスタンスの配列に変換する。
   static assigns(array){
     var retVal = [];
     array.forEach(obj => {
-      let machine = new Machine();
-      Object.assign(machine,obj);
-
-      let machineType = new MachineType();
-      Object.assign(machineType,obj.machineType);
-      machine.machineType = machineType;
-
-      machine.equipments[MachineType.POSITION_HEAD] = Equipment.assigns(machine.equipments[MachineType.POSITION_HEAD]);
-      machine.equipments[MachineType.POSITION_BODY] = Equipment.assigns(machine.equipments[MachineType.POSITION_BODY]);
-      machine.equipments[MachineType.POSITION_RIGHTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTARM]);
-      machine.equipments[MachineType.POSITION_LEFTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTARM]);
-      machine.equipments[MachineType.POSITION_RIGHTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTLEG]);
-      machine.equipments[MachineType.POSITION_LEFTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTLEG]);
-
-      retVal.push(machine);
+      retVal.push(Machine.assign(obj));
     });
     return retVal;
   }
