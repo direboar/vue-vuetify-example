@@ -5,7 +5,8 @@ import ClassSearchCard from '@/components/ClassSearchCard'
 import AbilityEditor from '@/components/AbilityEditor'
 import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
-import Hoge from '@/components/Hoge'
+import EquipmentSeletorTester from '@/components/embriomachine/EquipmentSeletorTester'
+import MachineConstructPanel from '@/components/embriomachine/MachineConstructPanel'
 import Scroll from '@/components/Scroll'
 import EncounterList from '@/components/EncounterList'
 //ie11対応
@@ -44,9 +45,14 @@ export default new Router({
     },
     //for temporary.
     {
-      path: '/Hoge',
-      name: 'Hoge',
-      component: Hoge
+      path: '/embrioMachine/EquipmentSelector',
+      name: 'EquipmentSeletorTester',
+      component: EquipmentSeletorTester
+    },
+    {
+      path: '/embrioMachine/MachineConstructPanel',
+      name: 'MachineConstructPanel',
+      component: MachineConstructPanel
     },
     {
       path: '/Scroll',
