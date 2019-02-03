@@ -8,7 +8,11 @@ export default class Machine {
     // 名前
     this.name = name
     // 移動力
-    this.machineType = machineType
+    if(machineType === null || machineType === undefined){
+      this.machineType = new MachineType()
+    }else{
+      this.machineType = machineType
+    }
     // 装備
     this.equipments = {}
     this.equipments[MachineType.POSITION_HEAD] = []
@@ -169,5 +173,29 @@ export default class Machine {
     }
     return ret;
   }
-  
+
+  //**Machineインスタンスを生成するヘルパーメソッド */
+  // オブジェクトの配列を指定し、Spellsインスタンスの配列に変換する。
+  static assigns(array){
+    var retVal = [];
+    array.forEach(obj => {
+      let machine = new Machine();
+      Object.assign(machine,obj);
+
+      let machineType = new MachineType();
+      Object.assign(machineType,obj.machineType);
+      machine.machineType = machineType;
+
+      machine.equipments[MachineType.POSITION_HEAD] = Equipment.assigns(machine.equipments[MachineType.POSITION_HEAD]);
+      machine.equipments[MachineType.POSITION_BODY] = Equipment.assigns(machine.equipments[MachineType.POSITION_BODY]);
+      machine.equipments[MachineType.POSITION_RIGHTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTARM]);
+      machine.equipments[MachineType.POSITION_LEFTARM] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTARM]);
+      machine.equipments[MachineType.POSITION_RIGHTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_RIGHTLEG]);
+      machine.equipments[MachineType.POSITION_LEFTLEG] = Equipment.assigns(machine.equipments[MachineType.POSITION_LEFTLEG]);
+
+      retVal.push(machine);
+    });
+    return retVal;
+  }
+ 
 }

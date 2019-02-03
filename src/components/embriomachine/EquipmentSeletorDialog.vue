@@ -37,7 +37,7 @@
                     wrap
                   >
                     <v-flex xs12>
-                      <v-list>
+                      <v-list dense>
                         <v-list-tile>
                           <v-list-tile-content>名称:</v-list-tile-content>
                           <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
@@ -65,17 +65,7 @@
                         <v-divider />
                         <v-list-tile>
                           <v-list-tile-content>最低枚数</v-list-tile-content>
-                          <v-list-tile-content class="align-end">{{equipment.minLimit}}</v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider />
-                        <v-list-tile>
-                          <v-list-tile-content>搭載可能部位</v-list-tile-content>
-                          <v-list-tile-content class="align-end">{{equipment.mountPosition}}</v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider />
-                        <v-list-tile>
-                          <v-list-tile-content>最低枚数</v-list-tile-content>
-                          <v-list-tile-content class="align-end">{{equipment.minLimit}}</v-list-tile-content>
+                          <v-list-tile-content class="align-end">{{equipment.formatMinLimit}}</v-list-tile-content>
                         </v-list-tile>
                         <v-divider />
                         <v-list-tile>
@@ -162,7 +152,6 @@ export default {
 
   computed: {
     equipments() {
-      alert(this.targetPosition);
       return Equipment.getEquipments().filter(equipment => {
         if (this.targetPosition === null) {
           return true;

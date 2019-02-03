@@ -28,6 +28,25 @@ export default class Equipment {
     this.maxLimit = maxLimit
   }
 
+  get formatMinLimit(){
+    if(this.equipSamePosition){
+      return this.minLimit;
+    }else{
+      //FIXME とりあえず３まで対応
+      if(this.minLimit === 1){
+        return "①";
+      }
+      if(this.minLimit === 2){
+        return "②";
+      }
+      if(this.minLimit === 3){
+        return "③";
+      }else{
+        return this.minLimit;
+      }
+    }
+  }
+
   //指定した部位に装備できるかを判定する。
   canEquip(equipmentPosition){
     //2-1.装備品の装備可能部位から、装備可能なポジションのリストを取得し、装備可能な位置に装備しているかをチェック。
@@ -40,13 +59,18 @@ export default class Equipment {
 
   //選択可能な装備を取得する
   static getEquipments(){
+    return Equipment.assigns(Equipment.json());
+  }
+
+  static assigns(array){
     var retVal = [];
-    Equipment.json().forEach(obj => {
+    array.forEach(obj => {
       var equipment = new Equipment()
       Object.assign(equipment,obj);
       retVal.push(equipment);
     });
     return retVal;
+
   }
 
   static json(){
@@ -270,7 +294,7 @@ export default class Equipment {
         "minLimit":2,
         "equipSamePosition":false,
         "effect":"",
-        "maxLimit":1
+        "maxLimit":6
        },
        {
         "name":"パイルバンカー",

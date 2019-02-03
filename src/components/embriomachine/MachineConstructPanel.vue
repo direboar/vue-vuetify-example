@@ -103,19 +103,32 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_HEAD]"
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_HEAD,equipment)"
-                        >削除</v-btn>
-                        <v-divider />
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_HEAD,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_HEAD,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                     </v-list>
                   </v-flex>
@@ -133,18 +146,32 @@
                         <v-icon>add</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-list>
+                    <v-list
+                      two-line
+                      subheader
+                    >
                       <v-list-tile
                         v-for="(equipment, index)  in this.machine.equipments[POSITION_CONST.POSITION_BODY]"
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_BODY,equipment)"
-                        >削除</v-btn>
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_BODY,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_BODY,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                     </v-list>
                   </v-flex>
@@ -169,12 +196,22 @@
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTARM,equipment)"
-                        >削除</v-btn>
-                        <v-divider />
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_RIGHTARM,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTARM,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                     </v-list>
                   </v-flex>
@@ -199,12 +236,22 @@
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTARM,equipment)"
-                        >削除</v-btn>
-                        <v-divider />
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_LEFTARM,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTARM,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                       <v-divider />
                     </v-list>
@@ -231,12 +278,22 @@
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
-                        >削除</v-btn>
-                        <v-divider />
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                       <v-divider />
                     </v-list>
@@ -262,12 +319,22 @@
                       >
                         <v-list-tile-content></v-list-tile-content>
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
-                        <v-btn
-                          color="green darken-1"
-                          flat
-                          @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTLEG,equipment)"
-                        >削除</v-btn>
-                        <v-divider />
+                        <v-list-tile-action>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="showEquipment(POSITION_CONST.POSITION_LEFTLEG,equipment)"
+                          >
+                            <v-icon>zoom_in</v-icon>
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            flat
+                            @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTLEG,equipment)"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
                       </v-list-tile>
                       <v-divider />
                     </v-list>
@@ -320,9 +387,16 @@ export default {
     EquipmentSeletorDialog: EquipmentSeletorDialog,
     MachineTypeSelectorDialog: MachineTypeSelectorDialog
   },
+  props: {
+    //編集対象の装備データ。未選択の場合はnullを指定。
+    targetMachine: {
+      type: Object,
+      default: new Machine("")
+    }
+  },
   data() {
     return {
-      machine: new Machine("", new MachineType()),
+      machine: this.targetMachine,
       showEquipment: false,
       showMachineType: false,
       dialogEquipment: {},
@@ -334,7 +408,11 @@ export default {
     };
   },
 
-  watch: {},
+  watch: {
+    targetMachine: function(val) {
+      this.machine = val;
+    }
+  },
 
   computed: {
     validateerror() {
@@ -376,9 +454,15 @@ export default {
       this.dialogMachineType = {};
     },
     save() {
-      let message = this.machine.validate();
-    },
-    delete() {}
+      if (this.validateerror.length === 0) {
+        this.$emit("update:targetMachine", this.machine);
+        this.$emit("save", this.machine);
+        this.machine = new Machine("", new MachineType());
+        this.dialogTargetPosition = null;
+        this.editingEquipmentPosition = {};
+        this.dialogMachineType = {};
+      }
+    }
   }
 };
 </script>

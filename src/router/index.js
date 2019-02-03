@@ -7,6 +7,7 @@ import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import EquipmentSeletorTester from '@/components/embriomachine/EquipmentSeletorTester'
 import MachineConstructPanel from '@/components/embriomachine/MachineConstructPanel'
+import MachineList from '@/components/embriomachine/MachineList'
 import Scroll from '@/components/Scroll'
 import EncounterList from '@/components/EncounterList'
 //ie11対応
@@ -53,6 +54,11 @@ export default new Router({
       path: '/embrioMachine/MachineConstructPanel',
       name: 'MachineConstructPanel',
       component: MachineConstructPanel
+    },
+    {
+      path: '/embrioMachine/MachineList',
+      name: 'MachineList',
+      component: MachineList
     },
     {
       path: '/Scroll',
