@@ -2,7 +2,6 @@
   <div>
     <v-dialog
       v-model="showDialog"
-      max-width="500"
       :persistent="editMode"
     >
       <v-card>
@@ -15,6 +14,21 @@
               row
               wrap
             >
+              <v-flex xs12>
+                <v-radio-group
+                  v-model="type"
+                  row
+                  dense
+                >
+                  <v-radio
+                    v-for="type in types"
+                    :label="type"
+                    :value="type"
+                    :key="type"
+                    :disabled="!editMode"
+                  ></v-radio>
+                </v-radio-group>
+              </v-flex>
               <v-flex xs5>
                 <v-card>
                   <v-radio-group
@@ -23,7 +37,7 @@
                   >
                     <v-radio
                       v-for="equipment in equipments"
-                      :label="equipment.name"
+                      :label="formatEquipmentName(equipment)"
                       :value="equipment.name"
                       :key="equipment.name"
                       :disabled="!editMode"
@@ -151,6 +165,8 @@ export default {
   data() {
     return {
       selectedEquipmentName: this.targetEquipment.name,
+      types: ["射撃", "白兵", "機雷", "装甲", "補助", "その他"],
+      type: "射撃",
       itemcounts: [1, 2, 3],
       itemcount: 1
     };
@@ -160,8 +176,13 @@ export default {
     targetEquipment: function(val) {
       if (val != null) {
         this.selectedEquipmentName = val.name;
+        this.type = val.type;
+        if (this.type === "" || this.type === undefined) {
+          this.type = "射撃";
+        }
       } else {
         this.selectedEquipment = "";
+        this.type = "射撃";
       }
     },
     equipment: function(val) {
@@ -177,6 +198,11 @@ export default {
   computed: {
     equipments() {
       return Equipment.getEquipments().filter(equipment => {
+        if (this.type !== null) {
+          if (equipment.type !== this.type) {
+            return false;
+          }
+        }
         if (this.targetPosition === null) {
           return true;
         } else {
@@ -210,6 +236,9 @@ export default {
       this.selectedEquipmentName = "";
       this.$emit("update:showDialog", false);
       this.itemcount = 1;
+    },
+    formatEquipmentName(equipment) {
+      return equipment.name + "(ランク" + equipment.rank + ")";
     }
   }
 };
