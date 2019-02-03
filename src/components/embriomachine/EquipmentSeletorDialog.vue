@@ -3,7 +3,7 @@
     <v-dialog
       v-model="showDialog"
       max-width="500"
-      persistent
+      :persistent="editMode"
     >
       <v-card>
         <v-layout
@@ -26,6 +26,7 @@
                       :label="equipment.name"
                       :value="equipment.name"
                       :key="equipment.name"
+                      :disabled="!editMode"
                     ></v-radio>
                   </v-radio-group>
                 </v-card>
@@ -92,7 +93,15 @@
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-select
+            v-if="editMode"
+            :items="itemcounts"
+            v-model="itemcount"
+            label="追加装備数"
+            item-value="text"
+          ></v-select>
           <v-btn
+            v-if="editMode"
             color="green darken-1"
             flat
             @click.native="select"
@@ -131,12 +140,19 @@ export default {
     targetPosition: {
       type: String,
       default: null
+    },
+    //編集モードかどうかの指定。
+    editMode: {
+      type: Boolean,
+      default: true
     }
   },
 
   data() {
     return {
-      selectedEquipmentName: this.targetEquipment.name
+      selectedEquipmentName: this.targetEquipment.name,
+      itemcounts: [1, 2, 3],
+      itemcount: 1
     };
   },
 
@@ -146,6 +162,14 @@ export default {
         this.selectedEquipmentName = val.name;
       } else {
         this.selectedEquipment = "";
+      }
+    },
+    equipment: function(val) {
+      this.itemcount = val.minLimit;
+    },
+    showDialog: function(val) {
+      if (!val) {
+        this.closeDialog();
       }
     }
   },
@@ -178,13 +202,14 @@ export default {
       this.$emit("cancel");
       this.selectedEquipmentName = "";
       this.$emit("update:showDialog", false);
+      this.itemcount = 1;
     },
     select() {
       this.$emit("update:targetEquipment", this.equipment);
-      this.$emit("select", this.equipment);
-      //this.$emit("selected", this.equipment);
+      this.$emit("select", this.equipment, this.itemcount);
       this.selectedEquipmentName = "";
       this.$emit("update:showDialog", false);
+      this.itemcount = 1;
     }
   }
 };

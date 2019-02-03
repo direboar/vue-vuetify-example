@@ -28,31 +28,30 @@
                   <v-toolbar-title>基本データ</v-toolbar-title>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-list>
+                <v-list two-line="">
                   <v-list-tile>
-                    <v-text-field
-                      name="名前"
-                      type="text"
-                      label="名前"
-                      v-model="machine.name"
-                      required
-                    />
+                    <v-list-tile-content>名前</v-list-tile-content>
+                    <v-list-tile-content>
+                      <v-text-field
+                        type="text"
+                        v-model="machine.name"
+                        required
+                      />
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-divider />
                   <v-list-tile>
-                    <v-text-field
-                      name="装甲・サイズ"
-                      type="text"
-                      label="装甲・サイズ"
-                      v-model="machine.machineType.name"
-                      required
-                      readonly
-                    />
-                    <v-btn
-                      color="green darken-1"
-                      flat
-                      @click.native="showMachineTypeDialog"
-                    >選択</v-btn>
+                    <v-list-tile-content> 装甲・サイズ</v-list-tile-content>
+                    <v-list-tile-content class="align-end">{{machine.machineType.name}}</v-list-tile-content>
+                    <v-list-tile-action>
+                      <v-btn
+                        color="green darken-1"
+                        flat
+                        @click.native="showMachineTypeDialog"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn>
+                    </v-list-tile-action>
                   </v-list-tile>
                   <v-divider />
                   <v-list-tile>
@@ -66,7 +65,7 @@
                   </v-list-tile>
                   <v-divider />
                   <v-list-tile>
-                    <v-list-tile-content>装甲値</v-list-tile-content>
+                    <vv-list-tile-content>装甲値</vv-list-tile-content>
                     <v-list-tile-content class="align-end">{{machine.machineType.armorPoint}}</v-list-tile-content>
                   </v-list-tile>
                   <v-divider />
@@ -98,7 +97,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_HEAD)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_HEAD)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -117,10 +116,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_HEAD,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_HEAD,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -141,7 +142,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_BODY)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_BODY)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -160,10 +161,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_BODY,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_BODY,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -184,7 +187,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_RIGHTARM)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_RIGHTARM)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -200,10 +203,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_RIGHTARM,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_RIGHTARM,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -224,7 +229,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_LEFTARM)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_LEFTARM)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -240,10 +245,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_LEFTARM,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_LEFTARM,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -256,7 +263,6 @@
                       <v-divider />
                     </v-list>
                   </v-flex>
-                  <v-divider></v-divider>
                   <v-flex xs6>
                     <v-toolbar
                       color="green"
@@ -266,7 +272,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_RIGHTLEG)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_RIGHTLEG)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -282,10 +288,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -295,7 +303,6 @@
                           </v-btn>
                         </v-list-tile-action>
                       </v-list-tile>
-                      <v-divider />
                     </v-list>
                   </v-flex>
                   <v-flex xs6>
@@ -307,7 +314,7 @@
                       <v-spacer></v-spacer>
                       <v-btn
                         icon
-                        @click.native="showEquipmentDialog(POSITION_CONST.POSITION_LEFTLEG)"
+                        @click.native="showEquipmentSelectDialog(POSITION_CONST.POSITION_LEFTLEG)"
                       >
                         <v-icon>add</v-icon>
                       </v-btn>
@@ -323,10 +330,12 @@
                           <v-btn
                             color="green darken-1"
                             flat
-                            @click.native="showEquipment(POSITION_CONST.POSITION_LEFTLEG,equipment)"
+                            @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_LEFTLEG,equipment)"
                           >
                             <v-icon>zoom_in</v-icon>
                           </v-btn>
+                        </v-list-tile-action>
+                        <v-list-tile-action>
                           <v-btn
                             color="green darken-1"
                             flat
@@ -336,10 +345,8 @@
                           </v-btn>
                         </v-list-tile-action>
                       </v-list-tile>
-                      <v-divider />
                     </v-list>
                   </v-flex>
-                  <v-divider></v-divider>
                 </v-layout>
               </v-card>
             </v-flex>
@@ -353,6 +360,11 @@
           flat
           @click.native="save"
         >保存する</v-btn>
+        <v-btn
+          color="green darken-1"
+          flat
+          @click.native="back"
+        >戻る</v-btn>
       </v-card-actions>
     </v-card>
     <machine-type-selector-dialog
@@ -365,6 +377,7 @@
       :show-dialog.sync="showEquipment"
       :targetEquipment.sync="dialogEquipment"
       :targetPosition.sync="dialogTargetPosition"
+      :editMode.sync="equipmentDialogEditMode"
       @select="acceptSelectedEquipment"
       @cancel="cancel"
     />
@@ -404,6 +417,7 @@ export default {
       dialogTargetPosition: null,
       editingEquipmentPosition: {},
       editingEquipment: {},
+      equipmentDialogEditMode: false,
       POSITION_CONST: MachineType.getPositionConst()
     };
   },
@@ -425,20 +439,33 @@ export default {
       this.dialogMachineType = this.machine.machineType;
       this.showMachineType = true;
     },
-    showEquipmentDialog(position) {
-      this.dialogEquipment = this.machine.equipment;
+    //装備選択
+    showEquipmentSelectDialog(position) {
+      this.dialogEquipment = new Equipment("");
       this.editingEquipmentPosition = position;
       this.dialogTargetPosition = position;
+      this.equipmentDialogEditMode = true;
+      this.showEquipment = true;
+    },
+    //装備表示
+    showEquipmentViewDialog(position, equipment) {
+      this.dialogEquipment = equipment;
+      this.editingEquipmentPosition = position;
+      this.dialogTargetPosition = position;
+      this.equipmentDialogEditMode = false;
       this.showEquipment = true;
     },
     acceptMachineType() {
       this.machine.machineType = this.dialogMachineType;
     },
-    acceptSelectedEquipment() {
-      this.machine.addEquipment(
-        this.editingEquipmentPosition,
-        this.dialogEquipment
-      );
+    acceptSelectedEquipment(equipment, count) {
+      alert(count);
+      for (let i = 0; i < count; i++) {
+        this.machine.addEquipment(
+          this.editingEquipmentPosition,
+          this.dialogEquipment
+        );
+      }
       this.dialogTargetPosition = null;
       this.editingEquipmentPosition = {};
     },
@@ -454,14 +481,19 @@ export default {
       this.dialogMachineType = {};
     },
     save() {
-      if (this.validateerror.length === 0) {
-        this.$emit("update:targetMachine", this.machine);
-        this.$emit("save", this.machine);
-        this.machine = new Machine("", new MachineType());
-        this.dialogTargetPosition = null;
-        this.editingEquipmentPosition = {};
-        this.dialogMachineType = {};
-      }
+      this.$emit("update:targetMachine", this.machine);
+      this.$emit("save", this.machine);
+      this.machine = new Machine("", new MachineType());
+      this.dialogTargetPosition = null;
+      this.editingEquipmentPosition = {};
+      this.dialogMachineType = {};
+    },
+    back() {
+      this.$emit("cancel");
+      this.machine = new Machine("", new MachineType());
+      this.dialogTargetPosition = null;
+      this.editingEquipmentPosition = {};
+      this.dialogMachineType = {};
     }
   }
 };

@@ -164,17 +164,6 @@ export default {
     deleteFromLocalStorage() {
       localStorage.removeItem("embriomachine.constructon.machines");
     }
-    // _updateLocalTimestamp(scenario) {
-    //   scenario.updated = moment().toString();
-    // },
-    // _clear() {
-    //   this.newScenario = {
-    //     name: "",
-    //     created: "",
-    //     updated: "",
-    //     encounters: []
-    //   };
-    // }
   }
 };
 </script>
