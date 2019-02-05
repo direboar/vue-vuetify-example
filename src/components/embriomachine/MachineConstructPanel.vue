@@ -21,8 +21,9 @@
             <v-flex xs4>
               <v-card>
                 <v-toolbar
-                  color="green"
+                  color="grey darken-1"
                   dark
+                  dense
                 >
                   <v-toolbar-title>基本データ</v-toolbar-title>
                   <v-spacer></v-spacer>
@@ -47,7 +48,7 @@
                     <v-list-tile-content class="align-end">{{machine.machineType.name}}</v-list-tile-content>
                     <v-list-tile-action>
                       <v-btn
-                        color="green darken-1"
+                        color="grey darken-4"
                         flat
                         @click.native="showMachineTypeDialog"
                       >
@@ -92,8 +93,9 @@
                 >
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>頭／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_HEAD)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -117,7 +119,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_HEAD,equipment)"
                           >
@@ -126,7 +128,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_HEAD,equipment)"
                           >
@@ -138,8 +140,9 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>胴／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_BODY)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -163,7 +166,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_BODY,equipment)"
                           >
@@ -172,7 +175,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_BODY,equipment)"
                           >
@@ -184,8 +187,9 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>右腕／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTARM)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -209,7 +213,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_RIGHTARM,equipment)"
                           >
@@ -218,7 +222,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTARM,equipment)"
                           >
@@ -230,8 +234,9 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>左腕／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTARM)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -255,7 +260,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_LEFTARM,equipment)"
                           >
@@ -264,7 +269,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTARM,equipment)"
                           >
@@ -277,8 +282,9 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>右脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -302,7 +308,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
                           >
@@ -311,7 +317,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_RIGHTLEG,equipment)"
                           >
@@ -323,8 +329,9 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-toolbar
-                      color="green"
+                      color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>左脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -348,7 +355,7 @@
                         <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="showEquipmentViewDialog(POSITION_CONST.POSITION_LEFTLEG,equipment)"
                           >
@@ -357,7 +364,7 @@
                         </v-list-tile-action>
                         <v-list-tile-action>
                           <v-btn
-                            color="green darken-1"
+                            color="grey darken-4"
                             flat
                             @click.native="deleteEquipment(POSITION_CONST.POSITION_LEFTLEG,equipment)"
                           >
@@ -386,6 +393,15 @@
           @click.native="back"
         >戻る</v-btn>
       </v-card-actions>
+      <v-card>
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-9097509632200457"
+          data-ad-slot="5985300299"
+          data-ad-format="auto"
+        ></ins>
+      </v-card>
     </v-card>
     <machine-type-selector-dialog
       :show-dialog.sync="showMachineType"
@@ -419,6 +435,9 @@ export default {
   components: {
     EquipmentSeletorDialog: EquipmentSeletorDialog,
     MachineTypeSelectorDialog: MachineTypeSelectorDialog
+  },
+  mounted() {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
   props: {
     //編集対象の装備データ。未選択の場合はnullを指定。
@@ -460,7 +479,13 @@ export default {
 
   methods: {
     showMachineTypeDialog() {
-      this.dialogMachineType = this.machine.machineType;
+      let machineType = this.machine.machineType;
+      //初期値としては「軽・SS」を選択する。
+      if (machineType.name === undefined || machineType.name === "") {
+        this.dialogMachineType = MachineType.getDefaultMachineType();
+      } else {
+        this.dialogMachineType = this.machine.machineType;
+      }
       this.showMachineType = true;
     },
     //装備選択

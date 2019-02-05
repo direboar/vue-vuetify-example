@@ -26,7 +26,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
-      color="indigo"
+      color="brown lighten-1"
       dark
       dense
       app

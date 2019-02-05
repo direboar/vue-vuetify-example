@@ -3,6 +3,7 @@
     <v-dialog
       v-model="showDialog"
       persistent
+      max-width="500"
     >
       <v-card>
         <v-layout
@@ -14,7 +15,7 @@
               row
               wrap
             >
-              <v-flex xs5>
+              <v-flex xs4>
                 <v-radio-group
                   v-model="selectedMachineTypeName"
                   :mandatory="false"
@@ -24,65 +25,94 @@
                     :label="machineType.name"
                     :value="machineType.name"
                     :key="machineType.name"
+                    :ripple="false"
                   ></v-radio>
                 </v-radio-group>
               </v-flex>
-              <v-flex xs7>
+              <v-flex xs8>
                 <v-layout
                   row
                   wrap
                 >
-                  <v-flex xs12>
-                    <v-list dense>
+                  <v-flex xs6>
+                    <v-list>
                       <v-list-tile>
-                        <v-list-tile-content>名称:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.name}}</v-list-tile-content>
+                        <v-list-tile-content>名称：</v-list-tile-content>
                       </v-list-tile>
-                      <v-divider />
                       <v-list-tile>
                         <v-list-tile-content>移動力:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.movility}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>回避値:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.evadeRate}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>装甲値:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.armorPoint}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>耐久値:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.constitution}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>イニシアチブ:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.initiative}}</v-list-tile-content>
                       </v-list-tile>
                       <v-divider />
                       <v-list-tile>
                         <v-list-tile-content>スロット（頭）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.headSlot}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>スロット（胴）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.bodySlot}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>スロット（右腕）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.rightArmSlot}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>スロット（左腕）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.leftArmSlot}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>スロット（右足）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.rightLegSlot}}</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
                         <v-list-tile-content>スロット（左足）:</v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{machineType.leftLegSlot}}</v-list-tile-content>
+                      </v-list-tile>
+                    </v-list>
+                  </v-flex>
+                  <v-flex xs6>
+                    <v-list>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.name}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.movility}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.evadeRate}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.armorPoint}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.constitution}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.initiative}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.headSlot}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.bodySlot}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.rightArmSlot}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.leftArmSlot}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.rightLegSlot}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-list-tile>
+                        <v-list-tile-content class="subheading">{{machineType.leftLegSlot}}</v-list-tile-content>
                       </v-list-tile>
                     </v-list>
                   </v-flex>
@@ -133,7 +163,8 @@ export default {
   data() {
     return {
       selectedMachineTypeName: this.targetMachineType.name,
-      machineTypes: MachineType.getMachineTypes()
+      machineTypes: MachineType.getMachineTypes(),
+      POSITION_CONST: MachineType.getPositionConst()
     };
   },
 

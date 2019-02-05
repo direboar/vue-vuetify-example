@@ -61,12 +61,6 @@
             <v-divider inset></v-divider>
           </v-list>
         </v-card>
-        <machine-construct-panel
-          :targetMachine.sync="this.dialogMachine"
-          @save="saveMachine"
-          @cancel="cancel"
-          v-if="!showList"
-        />
         <v-card>
           <ins
             class="adsbygoogle"
@@ -76,6 +70,12 @@
             data-ad-format="auto"
           ></ins>
         </v-card>
+        <machine-construct-panel
+          :targetMachine.sync="this.dialogMachine"
+          @save="saveMachine"
+          @cancel="cancel"
+          v-if="!showList"
+        />
       </v-flex>
     </v-layout>
 
@@ -96,6 +96,7 @@ export default {
   },
   mounted() {
     this.loadFromLocalStrage();
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
   data() {
     return {
