@@ -340,6 +340,7 @@
                     <v-toolbar
                       color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>右脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -388,6 +389,7 @@
                     <v-toolbar
                       color="grey darken-1"
                       dark
+                      dense
                     >
                       <v-toolbar-title>左脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>

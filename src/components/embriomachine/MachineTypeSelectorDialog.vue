@@ -29,7 +29,6 @@
                     :label="machineType.name"
                     :value="machineType.name"
                     :key="machineType.name"
-                    :ripple="false"
                   ></v-radio>
                 </v-radio-group>
               </v-flex>
@@ -42,30 +41,30 @@
                   wrap
                 >
                   <v-flex xs6>
-                    <v-list>
+                    <v-list dense>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">名称：</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">名称</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">移動力:</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">移動力</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">回避値:</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">回避値</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">装甲値:</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">装甲値</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">耐久値:</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">耐久値</v-list-tile-content>
                       </v-list-tile>
                       <v-list-tile>
-                        <v-list-tile-content :class="contentClass">イニシアチブ:</v-list-tile-content>
+                        <v-list-tile-content :class="contentClass">イニシアチブ</v-list-tile-content>
                       </v-list-tile>
-                      <v-divider />
                     </v-list>
+                    <v-divider />
                   </v-flex>
                   <v-flex xs6>
-                    <v-list>
+                    <v-list dense>
                       <v-list-tile>
                         <v-list-tile-content :class="contentClass">{{machineType.name}}</v-list-tile-content>
                       </v-list-tile>
@@ -85,10 +84,10 @@
                         <v-list-tile-content :class="contentClass">{{machineType.initiative}}</v-list-tile-content>
                       </v-list-tile>
                     </v-list>
+                    <v-divider />
                   </v-flex>
-                  <v-divider />
                   <v-flex xs6>
-                    <v-list>
+                    <v-list dense>
                       <v-list-tile>
                         <v-list-tile-content :class="contentClass">スロット</v-list-tile-content>
                       </v-list-tile>
@@ -113,7 +112,7 @@
                     </v-list>
                   </v-flex>
                   <v-flex xs6>
-                    <v-list>
+                    <v-list dense>
                       <v-list-tile>
                       </v-list-tile>
                       <v-list-tile>
@@ -217,7 +216,7 @@ export default {
       if (this.$vuetify.breakpoint.name === "xs") {
         return "caption";
       } else {
-        return "subheaders";
+        return "subheading";
       }
     },
     isXs() {

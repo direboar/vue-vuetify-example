@@ -3,7 +3,7 @@
     <v-dialog
       v-model="showDialog"
       :persistent="editMode"
-      max-width="900"
+      max-width="700"
       :fullscreen="this.isXs"
     >
       <v-card>
@@ -51,7 +51,10 @@
               ></v-radio>
             </v-radio-group>
           </v-flex>
-          <v-flex xs6>
+          <v-flex
+            sm4
+            xs6
+          >
             <v-radio-group
               label="装備"
               v-model="selectedEquipmentName"
@@ -67,10 +70,18 @@
               ></v-radio>
             </v-radio-group>
           </v-flex>
-          <v-flex xs3>
-            <v-list>
+          <v-flex
+            sm4
+            xs3
+          >
+            <v-list :dense="isXs">
               <v-list-tile>
-                <v-list-tile-content :class="contentClass">種別:</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                詳細
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">種別</v-list-tile-content>
               </v-list-tile>
               <v-divider />
               <v-list-tile>
@@ -95,8 +106,15 @@
               <v-divider />
             </v-list>
           </v-flex>
-          <v-flex xs3>
-            <v-list>
+          <v-flex
+            sm4
+            xs3
+          >
+            <v-list :dense="isXs">
+              <v-list-tile>
+              </v-list-tile>
+              <v-list-tile>
+              </v-list-tile>
               <v-list-tile>
                 <v-list-tile-content :class="contentClass">{{equipment.type}}</v-list-tile-content>
               </v-list-tile>
@@ -265,7 +283,7 @@ export default {
       if (this.$vuetify.breakpoint.name === "xs") {
         return "caption";
       } else {
-        return "subheaders";
+        return "subheading";
       }
     },
     isXs() {
