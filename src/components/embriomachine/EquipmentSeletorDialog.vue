@@ -28,6 +28,7 @@
                     :key="rank"
                     :disabled="!editMode"
                     class="body-1"
+                    color="light-green lighten-1"
                   ></v-radio>
                 </v-radio-group>
               </v-flex>
@@ -44,6 +45,7 @@
                     :value="type"
                     :key="type"
                     :disabled="!editMode"
+                    color="brown lighten-2"
                   ></v-radio>
                 </v-radio-group>
               </v-flex>
@@ -149,13 +151,15 @@
                       item-value="text"
                     ></v-select>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex xs3>
                     <v-btn
                       v-if="editMode"
                       color="green darken-1"
                       flat
                       @click.native="select"
                     >選択する</v-btn>
+                  </v-flex>
+                  <v-flex xs3>
                     <v-btn
                       color="green darken-1"
                       flat

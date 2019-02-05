@@ -18,7 +18,12 @@
                 <p v-html="formatErrorMessage(validateerror)"></p>
               </v-alert>
             </v-flex>
-            <v-flex xs4>
+            <v-flex
+              xl3
+              md4
+              sm6
+              xs12
+            >
               <v-card>
                 <v-toolbar
                   color="grey darken-1"
@@ -28,70 +33,113 @@
                   <v-toolbar-title>基本データ</v-toolbar-title>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-list
-                  two-line
-                  subheader
+                <v-layout
+                  row
+                  wrap
                 >
-                  <v-list-tile>
-                    <v-list-tile-content>名前</v-list-tile-content>
-                    <v-list-tile-content>
-                      <v-text-field
-                        type="text"
-                        v-model="machine.name"
-                        required
-                      />
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content> 装甲・サイズ</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.name}}</v-list-tile-content>
-                    <v-list-tile-action>
-                      <v-btn
-                        color="grey darken-4"
-                        flat
-                        @click.native="showMachineTypeDialog"
-                      >
-                        <v-icon>edit</v-icon>
-                      </v-btn>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content>移動力</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.movility}}</v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content>回避値</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.evadeRate}}</v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content>装甲値</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.armorPoint}}</v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content>耐久値</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.constitution}}</v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                  <v-list-tile>
-                    <v-list-tile-content>イニシアチブ</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{machine.machineType.initiative}}</v-list-tile-content>
-                  </v-list-tile>
-                  <v-divider />
-                </v-list>
+                  <v-flex xs4>
+                    <v-list
+                      two-line
+                      subheader
+                    >
+                      <v-list-tile>
+                        <v-list-tile-content>名前</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>装甲/サイズ</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>移動力</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>回避値</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>装甲値</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>耐久値</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content>イニシアチブ</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                    </v-list>
+                  </v-flex>
+                  <v-flex xs8>
+                    <v-list
+                      two-line
+                      subheader
+                    >
+                      <v-list-tile>
+                        <v-list-tile-content>
+                          <v-text-field
+                            type="text"
+                            v-model="machine.name"
+                            required
+                          />
+                        </v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.name}}</v-list-tile-content>
+                        <v-list-tile-action>
+                          <v-btn
+                            color="grey darken-4"
+                            flat
+                            @click.native="showMachineTypeDialog"
+                          >
+                            <v-icon>edit</v-icon>
+                          </v-btn>
+                        </v-list-tile-action>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.movility}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.evadeRate}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.armorPoint}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.constitution}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                      <v-list-tile>
+                        <v-list-tile-content class="subheaders">{{machine.machineType.initiative}}</v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider />
+                    </v-list>
+                  </v-flex>
+                </v-layout>
               </v-card>
             </v-flex>
-            <v-flex xs8>
+            <v-flex
+              xl9
+              md8
+              sm6
+              xs12
+            >
               <v-card>
                 <v-layout
                   row
                   wrap
                 >
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
@@ -107,7 +155,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -116,7 +163,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
@@ -138,7 +185,10 @@
                       </v-list-tile>
                     </v-list>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
@@ -154,7 +204,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -163,7 +212,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
@@ -185,7 +234,10 @@
                       </v-list-tile>
                     </v-list>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
@@ -201,7 +253,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -210,7 +261,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
@@ -232,7 +283,10 @@
                       </v-list-tile>
                     </v-list>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
@@ -248,7 +302,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -257,7 +310,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
@@ -280,11 +333,13 @@
                       <v-divider />
                     </v-list>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
-                      dense
                     >
                       <v-toolbar-title>右脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_RIGHTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -296,7 +351,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -305,7 +359,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
@@ -327,11 +381,13 @@
                       </v-list-tile>
                     </v-list>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex
+                    md6
+                    xs12
+                  >
                     <v-toolbar
                       color="grey darken-1"
                       dark
-                      dense
                     >
                       <v-toolbar-title>左脚／SLOT:{{machine.machineType.getSlot(POSITION_CONST.POSITION_LEFTLEG)}}</v-toolbar-title>
                       <v-spacer></v-spacer>
@@ -343,7 +399,6 @@
                       </v-btn>
                     </v-toolbar>
                     <v-list
-                      dense
                       two-line
                       subheader
                     >
@@ -352,7 +407,7 @@
                         :key="index"
                       >
                         <v-list-tile-content></v-list-tile-content>
-                        <v-list-tile-content class="align-end">{{equipment.name}}</v-list-tile-content>
+                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
                         <v-list-tile-action>
                           <v-btn
                             color="grey darken-4"
