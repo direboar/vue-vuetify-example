@@ -3,172 +3,159 @@
     <v-dialog
       v-model="showDialog"
       :persistent="editMode"
-      max-width="800"
+      max-width="900"
+      :fullscreen="this.isXs"
     >
       <v-card>
         <v-layout
           row
           wrap
         >
-          <v-flex xs12>
-            <v-layout
-              row
-              wrap
+          <v-flex
+            sm3
+            xs6
+          >
+            <v-radio-group
+              label="ランク"
+              v-model="rank"
+              :row="!isXs"
             >
-              <v-flex xs3>
-                <v-radio-group
-                  label="ランク"
-                  v-model="rank"
-                  row
-                >
-                  <v-radio
-                    v-for="rank in ranks"
-                    :label="rank"
-                    :value="rank"
-                    :key="rank"
-                    :disabled="!editMode"
-                    class="body-1"
-                    color="light-green lighten-1"
-                  ></v-radio>
-                </v-radio-group>
-              </v-flex>
-              <v-flex xs9>
-                <v-radio-group
-                  label="種類"
-                  v-model="type"
-                  row
-                  class="body-1"
-                >
-                  <v-radio
-                    v-for="type in types"
-                    :label="type"
-                    :value="type"
-                    :key="type"
-                    :disabled="!editMode"
-                    color="brown lighten-2"
-                  ></v-radio>
-                </v-radio-group>
-              </v-flex>
-              <v-flex xs5>
-                <v-radio-group
-                  label="装備"
-                  v-model="selectedEquipmentName"
-                  :mandatory="false"
-                >
-                  <v-radio
-                    v-for="equipment in equipments"
-                    :label="formatEquipmentName(equipment)"
-                    :value="equipment.name"
-                    :key="equipment.name"
-                    :disabled="!editMode"
-                  ></v-radio>
-                </v-radio-group>
-              </v-flex>
-              <v-flex xs7>
-                <v-layout
-                  row
-                  wrap
-                >
-                  <v-flex xs6>
-                    <v-list>
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">名称:</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">種別:</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">射程</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">ダメージ</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">搭載可能部位</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">最低枚数</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">上限枚数</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                    </v-list>
-                  </v-flex>
-                  <v-flex xs6>
-                    <v-list>
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.name}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.type}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.range}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{this.formatDamage(equipment)}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.mountPosition}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.formatMinLimit}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                      <v-list-tile>
-                        <v-list-tile-content class="subheaders">{{equipment.maxLimit}}</v-list-tile-content>
-                      </v-list-tile>
-                      <v-divider />
-                    </v-list>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-card-text class="body-1">
-                      <span
-                        style="white-space: pre-wrap;display: inline-block;height:100px;"
-                        v-html="equipment.effect"
-                      ></span>
-                    </v-card-text>
-                  </v-flex>
-                  <v-spacer></v-spacer>
-                  <v-flex xs6>
-                    <v-select
-                      v-if="editMode"
-                      :items="itemcounts"
-                      v-model="itemcount"
-                      label="追加装備数"
-                      item-value="text"
-                    ></v-select>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-btn
-                      v-if="editMode"
-                      color="green darken-1"
-                      flat
-                      @click.native="select"
-                    >選択する</v-btn>
-                  </v-flex>
-                  <v-flex xs3>
-                    <v-btn
-                      color="green darken-1"
-                      flat
-                      @click.native="closeDialog"
-                    >閉じる</v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-            </v-layout>
+              <v-radio
+                v-for="rank in ranks"
+                :label="rank"
+                :value="rank"
+                :key="rank"
+                :disabled="!editMode"
+                class="body-1"
+                color="light-green lighten-1"
+              ></v-radio>
+            </v-radio-group>
+          </v-flex>
+          <v-flex
+            sm9
+            xs6
+          >
+            <v-radio-group
+              label="種類"
+              v-model="type"
+              :row="!isXs"
+              class="body-1"
+            >
+              <v-radio
+                v-for="type in types"
+                :label="type"
+                :value="type"
+                :key="type"
+                :disabled="!editMode"
+                color="brown lighten-2"
+              ></v-radio>
+            </v-radio-group>
+          </v-flex>
+          <v-flex xs6>
+            <v-radio-group
+              label="装備"
+              v-model="selectedEquipmentName"
+              :mandatory="false"
+            >
+              <v-radio
+                v-for="equipment in equipments"
+                :label="formatEquipmentName(equipment)"
+                :value="equipment.name"
+                :key="equipment.name"
+                :disabled="!editMode"
+                class="caption"
+              ></v-radio>
+            </v-radio-group>
+          </v-flex>
+          <v-flex xs3>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">種別:</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">射程</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">ダメージ</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">搭載可能部位</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">最低枚数</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">上限枚数</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+            </v-list>
+          </v-flex>
+          <v-flex xs3>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{equipment.type}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{equipment.range}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{this.formatDamage(equipment)}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{equipment.mountPosition}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{equipment.formatMinLimit}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+              <v-list-tile>
+                <v-list-tile-content :class="contentClass">{{equipment.maxLimit}}</v-list-tile-content>
+              </v-list-tile>
+              <v-divider />
+            </v-list>
+          </v-flex>
+          <v-flex xs12>
+            <v-card-text class="body-1">
+              <span
+                style="white-space: pre-wrap;display: inline-block;height:100px;"
+                v-html="equipment.effect"
+              ></span>
+            </v-card-text>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-flex xs3 />
+          <v-flex xs3>
+            <v-select
+              v-if="editMode"
+              :items="itemcounts"
+              v-model="itemcount"
+              label="追加装備数"
+              item-value="text"
+            ></v-select>
+          </v-flex>
+          <v-flex xs3>
+            <v-btn
+              v-if="editMode"
+              color="green darken-1"
+              flat
+              @click.native="select"
+            >選択する</v-btn>
+          </v-flex>
+          <v-flex xs3>
+            <v-btn
+              color="green darken-1"
+              flat
+              @click.native="closeDialog"
+            >閉じる</v-btn>
           </v-flex>
         </v-layout>
       </v-card>
@@ -273,6 +260,16 @@ export default {
         }
       });
       return ret;
+    },
+    contentClass() {
+      if (this.$vuetify.breakpoint.name === "xs") {
+        return "caption";
+      } else {
+        return "subheaders";
+      }
+    },
+    isXs() {
+      return this.$vuetify.breakpoint.name === "xs";
     }
   },
 
@@ -291,8 +288,9 @@ export default {
       this.$emit("update:showDialog", false);
       this.itemcount = 1;
     },
+    //FIXME deprecated.
     formatEquipmentName(equipment) {
-      return equipment.name + "(ランク" + equipment.rank + ")";
+      return equipment.name;
     },
     formatDamage(equipment) {
       if (
