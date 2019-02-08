@@ -9,7 +9,7 @@ export default class Machine {
     this.name = name
     // 移動力
     if(machineType === null || machineType === undefined){
-      this.machineType = new MachineType()
+      this.machineType = new MachineType("")
     }else{
       this.machineType = machineType
     }
@@ -25,6 +25,18 @@ export default class Machine {
 
   setLastUpdateTime(lastUpdateTime){
     this.lastUpdateTime = lastUpdateTime;
+  }
+
+  getLastUpdateTime(){
+    return this.lastUpdateTime;
+  }
+
+  setId(id){
+    this.id = id;
+  }
+
+  getId(){
+    return this.id;
   }
 
   addEquipment(position,equipment){
@@ -49,6 +61,84 @@ export default class Machine {
       return equipments[index];
     }
     return new Equipment("");//dummpy
+  }
+
+  //firebaseに永続化する際のオブジェクトに変換する。
+  toRealtimeDatabaseObject(){
+    let equipments ={};
+    equipments[MachineType.POSITION_HEAD] = []
+    equipments[MachineType.POSITION_BODY] = []
+    equipments[MachineType.POSITION_RIGHTARM] = []
+    equipments[MachineType.POSITION_LEFTARM] = []
+    equipments[MachineType.POSITION_RIGHTLEG] = []
+    equipments[MachineType.POSITION_LEFTLEG] = []
+
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_HEAD);
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_BODY);
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_RIGHTARM);
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_LEFTARM);
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_RIGHTLEG);
+    this.equipmentToRealtimeDatabaseObject(equipments,MachineType.POSITION_LEFTLEG);
+
+    return {
+      name : this.name,
+      machineType : this.machineType.name,
+      equipments : equipments,
+      lastUpdateTime : this.lastUpdateTime,
+    }
+  }
+
+  equipmentToRealtimeDatabaseObject(equipments,positon){
+    this.equipments[positon].forEach(item=>{
+      equipments[positon].push(item.name)
+    });
+  }
+
+   // //ソート用項目 更新時間の降順ソートとしたいが、realtime databaseの仕様上、降順ソートをサポートしていないための措置。
+   get orderBy(){
+      return 9999999999999 - this.lastUpdateTime;
+   }
+
+   static getOrderBy(realtimeDatabaseObject){
+     return 9999999999999 - realtimeDatabaseObject.lastUpdateTime
+   }
+
+  static fromRealtimeDatabaseObject(key,data){
+    let filtered = MachineType.getMachineTypes().filter(item =>{
+      return item.name === data.machineType
+    });
+
+    let machineType = null;
+    if(filtered.length > 0){
+      machineType = filtered[0];
+    }
+
+    let machine = new Machine(data.name,machineType);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_HEAD);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_BODY);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_RIGHTARM);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_LEFTARM);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_RIGHTLEG);
+    machine.equipmentFromRealtimeDatabaseObject(data,MachineType.POSITION_LEFTLEG);
+
+    machine.setLastUpdateTime(new Date(data.lastUpdateTime));
+    machine.setId(key)
+    return machine;
+  }
+
+  equipmentFromRealtimeDatabaseObject(firebaseObject,positon){
+    let array = [];
+    if(firebaseObject.equipments !==undefined && firebaseObject.equipments[positon] !== undefined){
+      firebaseObject.equipments[positon].forEach(item=>{
+        let filtered = Equipment.getEquipments().filter(equipment =>{
+          return item === equipment.name;
+        });
+        if(filtered.length > 0){
+          array.push(filtered[0]);
+        }
+      });
+    }
+    this.equipments[positon] = array;
   }
 
 // １．装備合計数チェック

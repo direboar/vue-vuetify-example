@@ -307,6 +307,47 @@ describe('Machineのテスト', () => {
       machine.addEquipment(MachineType.POSITION_BODY,testEqyionent);
       expect(machine.validate()).to.deep.equal(["パルスレーザーは頭,胴にそれぞれ一つずつ装備しなければなりません。"]) 
 
-    })            
+    })
+
+    //FIXME テストが古い。
+    it('fromFirebaseObjectのテスト', () => {
+      //fromFirebaseObject
+      let fromFirebaseObject = {
+        name : "111",
+        machineType : "軽・サイズSS",
+        equipments : {
+          頭 : ["スモールレーザー"],
+          胴 : [],
+          右腕 : ["ラージレーザー","スモールレーザー"],
+          右脚 : [],
+          左腕 : [],
+          左脚 : [],
+        }
+      }
+
+      let machine = Machine.fromFirebaseObject(fromFirebaseObject);
+      expect(machine.name).to.equal("111") 
+      expect(machine.machineType.name).to.equal("軽・サイズSS") 
+      expect(machine.equipments[MachineType.POSITION_HEAD].length).to.equal(1)
+      expect(machine.equipments[MachineType.POSITION_BODY].length).to.equal(0)
+      expect(machine.equipments[MachineType.POSITION_RIGHTARM].length).to.equal(2)
+      expect(machine.equipments[MachineType.POSITION_HEAD][0].name).to.equal("スモールレーザー")
+      expect(machine.equipments[MachineType.POSITION_RIGHTARM][0].name).to.equal("ラージレーザー")
+      expect(machine.equipments[MachineType.POSITION_RIGHTARM][1].name).to.equal("スモールレーザー")
+
+      //toFirebaseObject
+      let toFirebaseObject = machine.toFirebaseObject();
+      expect(toFirebaseObject.name).to.equal("111") 
+      expect(toFirebaseObject.machineType).to.equal("軽・サイズSS") 
+      expect(toFirebaseObject.equipments[MachineType.POSITION_HEAD].length).to.equal(1)
+      expect(toFirebaseObject.equipments[MachineType.POSITION_BODY].length).to.equal(0)
+      expect(toFirebaseObject.equipments[MachineType.POSITION_RIGHTARM].length).to.equal(2)
+      expect(toFirebaseObject.equipments[MachineType.POSITION_HEAD][0]).to.equal("スモールレーザー")
+      expect(toFirebaseObject.equipments[MachineType.POSITION_RIGHTARM][0]).to.equal("ラージレーザー")
+      expect(toFirebaseObject.equipments[MachineType.POSITION_RIGHTARM][1]).to.equal("スモールレーザー")
+
+      machine = new Machine("",null);
+      alert(JSON.stringify(machine.toFirebaseObject()))
+    })        
 })
 

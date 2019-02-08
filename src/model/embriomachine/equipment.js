@@ -56,11 +56,12 @@ export default class Equipment {
     }
     return true;
   }
-
+  
   //選択可能な装備を取得する
   static getEquipments(){
     return Equipment.assigns(Equipment.json());
   }
+
 
   static assigns(array){
     var retVal = [];

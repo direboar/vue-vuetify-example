@@ -102,7 +102,7 @@ export default class MachineType {
   static getDefaultMachineType(){
     return MachineType.getMachineTypes()[0];
   }
-
+  
   //選択可能なマシンタイプを取得する
   static getMachineTypes(){
     let ret = []
