@@ -67,7 +67,7 @@ Vue.use(Vuetify, {
     VTabs,
     VExpansionPanel,
     VPagination,
-    transitions
+    transitions,
   },
   theme: {
     primary: '#ee44aa',
@@ -82,25 +82,15 @@ Vue.use(Vuetify, {
 
 Vue.config.productionTip = false
 
-// // Initialize Firebase
-// var config = {
-//   apiKey: "AIzaSyBQbJhf9grzoVqRtFDnD8KPcf7dpem8xaA",
-//   authDomain: "friendry-chat.firebaseapp.com",
-//   databaseURL: "https://friendry-chat.firebaseio.com",
-//   projectId: "friendry-chat",
-//   storageBucket: "friendry-chat.appspot.com",
-//   messagingSenderId: "232252339828"
-// };
+// Initialize Firebase
 var config = {
-	apiKey: process.env.API_KEY,
-	authDomain: process.env.AUTH_DOMAIN,
-	databaseURL: process.env.DATABASE_URL,
-	projectId: process.env.PROJECT_ID,
-	storageBucket: process.env.STORAGE_BUCKET,
-	messagingSenderId: process.env.MESSAGING_SENDERID,
+  apiKey: "AIzaSyBQbJhf9grzoVqRtFDnD8KPcf7dpem8xaA",
+  authDomain: "friendry-chat.firebaseapp.com",
+  databaseURL: "https://friendry-chat.firebaseio.com",
+  projectId: "friendry-chat",
+  storageBucket: "friendry-chat.appspot.com",
+  messagingSenderId: "232252339828"
 };
-
-alert(JSON.stringify(config))
 firebase.initializeApp(config);
 
 /* eslint-disable no-new */

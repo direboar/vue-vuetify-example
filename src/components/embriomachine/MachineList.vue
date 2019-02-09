@@ -4,9 +4,9 @@
       <v-flex xs12>
         <v-card v-if="showList">
           <v-toolbar>
-            <v-toolbar-title>エムブリオマシン機体作成リスト</v-toolbar-title>
+            <v-toolbar-title>エムブリオマシン機体作成リスト </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-tooltip top>
+            <v-tooltip>
               <v-btn
                 slot="activator"
                 icon
@@ -15,6 +15,31 @@
                 <v-icon>add</v-icon>
               </v-btn>
               <span>機体を追加します。</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <v-btn
+                v-if="this.user ==null"
+                slot="activator"
+                icon
+                @click.native="login()"
+              >
+                <v-icon>fab fa-twitter-square</v-icon>ログイン
+              </v-btn>
+              <span>ログインします。</span>
+            </v-tooltip>
+            <v-tooltip>
+              <v-btn
+                v-if="this.user !=null"
+                slot="activator"
+                icon
+                @click.native="logout()"
+              >
+                <img
+                  v-if="this.user != null"
+                  :src="this.user.photoURL"
+                />
+              </v-btn>
+              <span>ログアウトします。</span>
             </v-tooltip>
           </v-toolbar>
           <v-container
@@ -37,6 +62,7 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                  <v-list-tile-sub-title>作成者：{{item.userName}}</v-list-tile-sub-title>
                   <v-list-tile-sub-title>最終更新日時: {{ item.lastUpdateTime }} </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
@@ -103,9 +129,16 @@ export default {
     MachineConstructPanel
   },
   mounted() {
-    // this.loadFromFirebase();
+    //1.firebaseのデータを読み込む
     this.load = true;
+    //2.google adsenceのサイズ調整
     (window.adsbygoogle = window.adsbygoogle || []).push({});
+    //3.認証状態のフックを設定
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.user = user;
+      }
+    });
   },
   data() {
     return {
@@ -114,7 +147,8 @@ export default {
       machines: [],
       editingMachineId: null,
       seek: false,
-      load: false
+      load: false,
+      user: null
     };
   },
   watch: {
@@ -207,6 +241,11 @@ export default {
     },
 
     saveToFirebase(machine) {
+      alert(JSON.stringify(this.user));
+      let userId = this.user === null ? "anonimous" : this.user.uid;
+      let userName = this.user === null ? "anonimous" : this.user.displayName;
+
+      machine.setUserIdAndUserName(userId, userName);
       machine.setLastUpdateTime(firebase.database.ServerValue.TIMESTAMP);
 
       let updated = firebase
@@ -257,6 +296,23 @@ export default {
       ) {
         this.seek = true;
       }
+    },
+    login() {
+      var provider = new firebase.auth.TwitterAuthProvider();
+      firebase.auth().languageCode = "jp";
+      firebase.auth().signInWithRedirect(provider);
+    },
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.user = null;
+        });
+      // .catch(function(error, error2) {
+      //   alert(JSON.stringify(error));
+      //   alert(JSON.stringify(error2));
+      // });
     }
   }
 };

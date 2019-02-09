@@ -39,6 +39,11 @@ export default class Machine {
     return this.id;
   }
 
+  setUserIdAndUserName(userId,userName){
+    this.userId = userId;
+    this.userName = userName;
+  }
+
   addEquipment(position,equipment){
     let equipments = this.equipments[position];
     if(equipments === undefined){
@@ -85,6 +90,8 @@ export default class Machine {
       machineType : this.machineType.name,
       equipments : equipments,
       lastUpdateTime : this.lastUpdateTime,
+      userId : this.userId,
+      userName : this.userName,
     }
   }
 
@@ -123,6 +130,7 @@ export default class Machine {
 
     machine.setLastUpdateTime(new Date(data.lastUpdateTime));
     machine.setId(key)
+    machine.setUserIdAndUserName(data.userId,data.userName)
     return machine;
   }
 

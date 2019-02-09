@@ -10,6 +10,7 @@ import MachineConstructPanel from '@/components/embriomachine/MachineConstructPa
 import MachineList from '@/components/embriomachine/MachineList'
 import Scroll from '@/components/Scroll'
 import EncounterList from '@/components/EncounterList'
+import FirebaseLogin from '@/components/FirebaseLogin'
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
 //see https://qiita.com/terrierscript/items/d2a9d5d4daedaacff924
@@ -64,6 +65,11 @@ export default new Router({
       path: '/Scroll',
       name: 'Scroll',
       component: Scroll
+    },
+    {
+      path: '/FirebaseLogin',
+      name: 'FirebaseLogin',
+      component: FirebaseLogin
     },
     {
       path: '/EncounterList',
