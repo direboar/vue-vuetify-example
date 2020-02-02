@@ -1,50 +1,155 @@
 <template>
   <div>
     <!--編集ダイアログ-->
-    <v-dialog v-model="showEditDialog" persistent v-if="editmode">
-      <v-card color="grey lighten-4" flat>
+    <v-dialog
+      v-model="showEditDialog"
+      persistent
+      v-if="editmode"
+    >
+      <v-card
+        color="grey lighten-4"
+        flat
+      >
         <v-card-text>
           <v-container fluid>
             <v-form ref="form">
-              <v-layout row wrap>
+              <v-layout
+                row
+                wrap
+              >
                 <v-flex md4>
-                  <v-text-field name="名前" type="text" label="名前" v-model="spell.name" required/>
+                  <v-text-field
+                    name="名前"
+                    type="text"
+                    label="名前"
+                    v-model="spell.name"
+                    required
+                  />
                 </v-flex>
                 <v-flex xs3>
-                  <v-select label="Select" :items="classes" v-model="spell.class" multiple max-height="400" hint="クラス" persistent-hint></v-select>
+                  <v-select
+                    label="Select"
+                    :items="classes"
+                    v-model="spell.class"
+                    multiple
+                    max-height="400"
+                    hint="クラス"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs3>
-                  <v-select label="Select" :items="subclassses" v-model="spell.subclass" multiple max-height="400" hint="サブクラス（バードの学派等）" persistent-hint></v-select>
+                  <v-select
+                    label="Select"
+                    :items="subclassses"
+                    v-model="spell.subclass"
+                    multiple
+                    max-height="400"
+                    hint="サブクラス（バードの学派等）"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs3>
-                  <v-select label="Select" :items="levels" v-model="spell.level" max-height="400" hint="呪文レベル" persistent-hint></v-select>
-                </v-flex>
-                <v-flex xs3>
-                  <v-select label="Select" :items="components" v-model="spell.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
-                </v-flex>
-                <v-flex xs3>
-                  <v-select label="Select" :items="schools" v-model="spell.school" max-height="400" hint="系統" persistent-hint></v-select>
-                </v-flex>
-                <v-flex xs3>
-                  <v-text-field name="物質要素詳細" type="text" label="物質要素詳細" v-model="spell.materialdeteil" />
-                </v-flex>
-                <v-flex xs3>
-                  <v-text-field name="詠唱時間" label="詠唱時間" v-model="spell.casting_time" required />
-                </v-flex>
-                <v-flex xs3>
-                  <v-text-field name="持続時間" label="持続時間" v-model="spell.duration" required />
+                  <v-select
+                    label="Select"
+                    :items="levels"
+                    v-model="spell.level"
+                    max-height="400"
+                    hint="呪文レベル"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs2>
-                  <v-select label="Select" :items="concentration" v-model="spell.concentration" max-height="400" hint="集中" persistent-hint></v-select>
+                  <v-select
+                    label="Select"
+                    :items="components"
+                    v-model="spell.components"
+                    multiple
+                    max-height="400"
+                    hint="構成要素"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs2>
-                  <v-text-field name="距離／エリア" label="距離／エリア" v-model="spell.range" required />
+                  <v-select
+                    label="Select"
+                    :items="schools"
+                    v-model="spell.school"
+                    max-height="400"
+                    hint="系統"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs2>
-                  <v-select label="Select" :items="rituals" v-model="spell.ritual" max-height="400" hint="儀式" persistent-hint></v-select>
+                  <v-select
+                    label="Select"
+                    :items="sources"
+                    v-model="spell.source"
+                    max-height="400"
+                    hint="出典"
+                    persistent-hint
+                  ></v-select>
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field
+                    name="物質要素詳細"
+                    type="text"
+                    label="物質要素詳細"
+                    v-model="spell.materialdeteil"
+                  />
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field
+                    name="詠唱時間"
+                    label="詠唱時間"
+                    v-model="spell.casting_time"
+                    required
+                  />
+                </v-flex>
+                <v-flex xs3>
+                  <v-text-field
+                    name="持続時間"
+                    label="持続時間"
+                    v-model="spell.duration"
+                    required
+                  />
+                </v-flex>
+                <v-flex xs2>
+                  <v-select
+                    label="Select"
+                    :items="concentration"
+                    v-model="spell.concentration"
+                    max-height="400"
+                    hint="集中"
+                    persistent-hint
+                  ></v-select>
+                </v-flex>
+                <v-flex xs2>
+                  <v-text-field
+                    name="距離／エリア"
+                    label="距離／エリア"
+                    v-model="spell.range"
+                    required
+                  />
+                </v-flex>
+                <v-flex xs2>
+                  <v-select
+                    label="Select"
+                    :items="rituals"
+                    v-model="spell.ritual"
+                    max-height="400"
+                    hint="儀式"
+                    persistent-hint
+                  ></v-select>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field class="nowrap" name="本文" label="本文" v-model="spell.desc" multi-line required />
+                  <v-text-field
+                    class="nowrap"
+                    name="本文"
+                    label="本文"
+                    v-model="spell.desc"
+                    multi-line
+                    required
+                  />
                 </v-flex>
               </v-layout>
             </v-form>
@@ -52,22 +157,45 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="save">セーブ</v-btn>
-          <v-btn color="green darken-1" flat @click.native="cancel">キャンセル</v-btn>
-          <v-btn color="green darken-1" flat @click.native="remove">削除</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="save"
+          >セーブ</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="cancel"
+          >キャンセル</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="remove"
+          >削除</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!--表示ダイアログ-->
-    <v-dialog v-model="showEditDialog" persistent v-if="editmode === false">
+    <v-dialog
+      v-model="showEditDialog"
+      persistent
+      v-if="editmode === false"
+    >
       <!--デスクトップ用-->
-      <v-card color="grey lighten-4" flat class="hidden-sm-and-down">
+      <v-card
+        color="grey lighten-4"
+        flat
+        class="hidden-sm-and-down"
+      >
         <v-card-title>
-          <h2>{{spell.name}}</h2>
+          <h2>{{spell.name}} ({{spell.source}})</h2>
         </v-card-title>
         <v-divider></v-divider>
-        <v-layout row wrap>
+        <v-layout
+          row
+          wrap
+        >
           <v-flex xs3>
             <v-subheader class="body-2">クラス</v-subheader>
           </v-flex>
@@ -117,16 +245,27 @@
             <v-card-text class="body-2">{{ spell.format(spell.school,schools) }}</v-card-text>
           </v-flex>
           <v-flex xs12>
-            <v-divider/>
+            <v-divider />
             <v-card-text class="body-2">
-              <span style="white-space: pre-wrap;" v-html="formatDesc(spell)"></span>
+              <span
+                style="white-space: pre-wrap;"
+                v-html="formatDesc(spell)"
+              ></span>
             </v-card-text>
           </v-flex>
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="close">閉じる</v-btn>
-          <v-btn color="green darken-1" flat @click.native="edit">編集する</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="close"
+          >閉じる</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="edit"
+          >編集する</v-btn>
         </v-card-actions>
       </v-card>
 
@@ -136,7 +275,10 @@
           <h2>{{spell.name}}</h2>
         </v-card-title>
         <v-divider></v-divider>
-        <v-layout row wrap>
+        <v-layout
+          row
+          wrap
+        >
           <v-flex xs6>
             <v-list two-line>
               <v-list-tile avatar>
@@ -145,21 +287,21 @@
                   <v-list-tile-content class="body-1">{{spell.level}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">距離／エリア</v-list-tile-title>
                   <v-list-tile-content class="body-1">{{spell.range}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">持続時間</v-list-tile-title>
                   <v-list-tile-content class="body-1">{{spell.formatDuration}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
             </v-list>
           </v-flex>
           <v-flex xs6>
@@ -170,33 +312,44 @@
                   <v-list-tile-content class="body-1">{{spell.casting_time}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">構成要素</v-list-tile-title>
                   <v-list-tile-content class="body-1">{{formatComponents(spell)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
               <v-list-tile avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="body-1">儀式</v-list-tile-title>
                   <v-list-tile-content class="body-1">{{spell.format(spell.ritual,rituals)}}</v-list-tile-content>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider/>
+              <v-divider />
             </v-list>
           </v-flex>
           <v-flex xs12>
             <v-card-text class="body-2 scroll-y">
-              <span style="white-space: pre-wrap;" v-html="formatDescMobile(spell)"></span><br/>
+              <span
+                style="white-space: pre-wrap;"
+                v-html="formatDescMobile(spell)"
+              ></span><br />
             </v-card-text>
           </v-flex>
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="close">閉じる</v-btn>
-          <v-btn color="green darken-1" flat @click.native="edit">編集する</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="close"
+          >閉じる</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="edit"
+          >編集する</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -241,7 +394,8 @@ export default {
       levels: constants.levels,
       rituals: constants.rituals,
       schools: constants.schools,
-      subclassses: constants.subclassses
+      subclassses: constants.subclassses,
+      sources: constants.sources
     };
   },
   watch: {

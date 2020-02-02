@@ -1,38 +1,72 @@
 <template>
   <div>
-    <v-container fluid grid-list-md>
+    <v-container
+      fluid
+      grid-list-md
+    >
       <v-card>
         <v-toolbar dense>
           <v-toolbar-title>呪文検索</v-toolbar-title>
           <v-spacer></v-spacer>
-          <file-upload-icon tooltip="呪文データファイルをアップロードします。" @onFileRead="onFileRead" />
+          <file-upload-icon
+            tooltip="呪文データファイルをアップロードします。"
+            @onFileRead="onFileRead"
+          />
           <v-tooltip top>
-            <v-btn icon small slot="activator" @click="saveSpellData">
+            <v-btn
+              icon
+              small
+              slot="activator"
+              @click="saveSpellData"
+            >
               <v-icon>save</v-icon>
             </v-btn>
             <span>ブラウザのローカルストレージに呪文データを保存します。</span>
           </v-tooltip>
-          <file-download-icon tooltip="現在の呪文データを、ファイルにダウンロードします。" :data="jesonspelldata" />
+          <file-download-icon
+            tooltip="現在の呪文データを、ファイルにダウンロードします。"
+            :data="jesonspelldata"
+          />
           <v-tooltip top>
-            <v-btn icon small slot="activator" @click="loadSpellData">
+            <v-btn
+              icon
+              small
+              slot="activator"
+              @click="loadSpellData"
+            >
               <v-icon>redo</v-icon>
             </v-btn>
             <span>ブラウザのローカルストレージに保存されている呪文データを再ロードします。</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn icon small slot="activator" @click="deleteSpellData">
+            <v-btn
+              icon
+              small
+              slot="activator"
+              @click="deleteSpellData"
+            >
               <v-icon>delete</v-icon>
             </v-btn>
             <span>ブラウザのローカルストレージから呪文データを全削除します。</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn icon small slot="activator" @click="addSpell">
+            <v-btn
+              icon
+              small
+              slot="activator"
+              @click="addSpell"
+            >
               <v-icon>add</v-icon>
             </v-btn>
             <span>呪文を追加します。</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn icon small slot="activator" @click="showHelp">
+            <v-btn
+              icon
+              small
+              slot="activator"
+              @click="showHelp"
+            >
               <v-icon>help</v-icon>
             </v-btn>
             <span>ヘルプを表示します</span>
@@ -41,52 +75,171 @@
 
         <!--デスクトップ用-->
         <!--検索条件-->
-        <v-layout v-if="!isMobile" row wrap justify-center>
+        <v-layout
+          v-if="!isMobile"
+          row
+          wrap
+          justify-center
+        >
+          <v-flex xs1>
+          </v-flex>
+          <v-flex xs3>
+            <v-text-field
+              append-icon="search"
+              row-height="12"
+              label="Input"
+              single-line
+              v-model="conditon.spellname"
+              hint="呪文名"
+              persistent-hint
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs1>
+            <v-select
+              dense
+              label="Select"
+              :items="levels"
+              v-model="conditon.levels"
+              multiple
+              max-height="400"
+              hint="呪文レベル"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select
+              dense
+              label="Select"
+              :items="casting_time"
+              v-model="conditon.casting_time"
+              max-height="400"
+              hint="詠唱時間"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select
+              dense
+              label="Select"
+              :items="classes"
+              v-model="conditon.classes"
+              multiple
+              max-height="400"
+              hint="取得クラス"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs2>
+            <v-select
+              dense
+              label="Select"
+              :items="classes"
+              v-model="conditon.exlcudedClasses"
+              multiple
+              max-height="400"
+              hint="除外クラス(検索対象の呪文を取得していないクラスを指定します"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs1>
+            <v-select
+              dense
+              label="Select"
+              :items="sources"
+              v-model="conditon.sources"
+              multiple
+              max-height="400"
+              hint="出典"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs1>
+          </v-flex>
           <v-flex xs1>
           </v-flex>
           <v-flex xs4>
-            <v-text-field append-icon="search" row-height="12" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
-          </v-flex>
-          <v-flex xs1>
-            <v-select dense label="Select" :items="levels" v-model="conditon.levels" multiple max-height="400" hint="呪文レベル" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs1>
-            <v-select dense label="Select" :items="casting_time" v-model="conditon.casting_time" max-height="400" hint="詠唱時間" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs2>
-            <v-select dense label="Select" :items="classes" v-model="conditon.classes" multiple max-height="400" hint="取得クラス" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs2>
-            <v-select dense label="Select" :items="classes" v-model="conditon.exlcudedClasses" multiple max-height="400" hint="除外クラス(検索対象の呪文を取得していないクラスを指定します" persistent-hint></v-select>
-          </v-flex>
-          <v-flex xs1>
-          </v-flex>
-          <v-flex xs1>
-          </v-flex>
-          <v-flex xs4>
-            <v-text-field dense append-icon="search" row-height="12" label="Input" single-line v-model="conditon.desc" hint="本文（スペース区切りで複数条件指定可能。単語の直前に|を入力するとOR条件で評価されます。）" persistent-hint></v-text-field>
+            <v-text-field
+              dense
+              append-icon="search"
+              row-height="12"
+              label="Input"
+              single-line
+              v-model="conditon.desc"
+              hint="本文（スペース区切りで複数条件指定可能。単語の直前に|を入力するとOR条件で評価されます。）"
+              persistent-hint
+            ></v-text-field>
           </v-flex>
           <v-flex xs2>
-            <v-select dense label="Select" :items="subclassses" v-model="conditon.subclassses" multiple max-height="400" hint="サブクラス" persistent-hint></v-select>
+            <v-select
+              dense
+              label="Select"
+              :items="subclassses"
+              v-model="conditon.subclassses"
+              multiple
+              max-height="400"
+              hint="サブクラス"
+              persistent-hint
+            ></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select dense label="Select" :items="schools" v-model="conditon.school" max-height="400" hint="系統" persistent-hint></v-select>
+            <v-select
+              dense
+              label="Select"
+              :items="schools"
+              v-model="conditon.school"
+              max-height="400"
+              hint="系統"
+              persistent-hint
+            ></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select dense label="Select" :items="concentration" v-model="conditon.concentration" max-height="400" hint="集中" persistent-hint></v-select>
+            <v-select
+              dense
+              label="Select"
+              :items="concentration"
+              v-model="conditon.concentration"
+              max-height="400"
+              hint="集中"
+              persistent-hint
+            ></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select dense :items="conditonRituals" v-model="conditon.ritual" max-height="400" hint="儀式発動" persistent-hint></v-select>
+            <v-select
+              dense
+              :items="conditonRituals"
+              v-model="conditon.ritual"
+              max-height="400"
+              hint="儀式発動"
+              persistent-hint
+            ></v-select>
           </v-flex>
           <v-flex xs1>
-            <v-select dense label="Select" :items="components" v-model="conditon.components" multiple max-height="400" hint="構成要素" persistent-hint></v-select>
+            <v-select
+              dense
+              label="Select"
+              :items="components"
+              v-model="conditon.components"
+              multiple
+              max-height="400"
+              hint="構成要素"
+              persistent-hint
+            ></v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-data-table v-if="!isMobile" :headers="headers" :items="items" item-key="name" no-data-text="条件に一致する呪文がありません。">
-          <template slot="items" slot-scope="props">
+        <v-data-table
+          v-if="!isMobile"
+          :headers="headers"
+          :items="items"
+          item-key="name"
+          no-data-text="条件に一致する呪文がありません。"
+        >
+          <template
+            slot="items"
+            slot-scope="props"
+          >
             <tr @click="clickCell(props.item)">
               <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
               <td class="text-xs-left">{{ props.item.hoge }} {{ props.item.level}}</td>
@@ -94,6 +247,7 @@
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
               <td class="text-xs-left">{{ props.item.formatDuration }}</td>
               <td class="text-xs-left">{{ props.item.range }}</td>
+              <td class="text-xs-left">{{ props.item.source }}</td>
               <td class="text-xs-left">
                 <v-icon>add</v-icon>
               </td>
@@ -104,20 +258,49 @@
 
         <!--モバイル-->
         <!--検索条件-->
-        <v-layout v-if="isMobile" row wrap>
-          <v-flex xs10 offset-xs1>
-            <v-text-field append-icon="search" label="Input" single-line v-model="conditon.spellname" hint="呪文名" persistent-hint></v-text-field>
+        <v-layout
+          v-if="isMobile"
+          row
+          wrap
+        >
+          <v-flex
+            xs10
+            offset-xs1
+          >
+            <v-text-field
+              append-icon="search"
+              label="Input"
+              single-line
+              v-model="conditon.spellname"
+              hint="呪文名"
+              persistent-hint
+            ></v-text-field>
           </v-flex>
-          <v-flex xs6 offset-xs3>
+          <v-flex
+            xs6
+            offset-xs3
+          >
             <v-btn @click="showMobileSearchDetailDialog=true">
               <v-icon>settings</v-icon> 詳細検索条件
             </v-btn>
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-list v-if="isMobile" dense two-line>
-          <v-data-iterator content-tag="v-card" :items="items">
-            <v-list-tile avatar slot="item" slot-scope="props" @click="clickCell(props.item)">
+        <v-list
+          v-if="isMobile"
+          dense
+          two-line
+        >
+          <v-data-iterator
+            content-tag="v-card"
+            :items="items"
+          >
+            <v-list-tile
+              avatar
+              slot="item"
+              slot-scope="props"
+              @click="clickCell(props.item)"
+            >
               <v-list-tile-content>
                 <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
                 <v-list-tile-sub-title>{{props.item.level}}/{{props.item.format(props.item.school,schools)}}/{{props.item.formatArray(props.item.components,components)}}</v-list-tile-sub-title>
@@ -134,39 +317,124 @@
         <v-card-text>2018.09.02 サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text>
       </v-card>
       <v-card>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9097509632200457" data-ad-slot="5985300299" data-ad-format="auto"></ins>
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-9097509632200457"
+          data-ad-slot="5985300299"
+          data-ad-format="auto"
+        ></ins>
       </v-card>
     </v-container>
-    <v-snackbar top :color="snackbar.level" :timeout="3000" v-model="snackbar.show">
+    <v-snackbar
+      top
+      :color="snackbar.level"
+      :timeout="3000"
+      v-model="snackbar.show"
+    >
       {{ snackbar.message }}
     </v-snackbar>
-    <spell-detail-dialog :showEditDialog.sync="showEditDialog" v-bind:targetSpell="targetSpell" v-bind:createSpell="createSpell" @save="save" @remove="remove" @cancel="cancelOrClose" @close="cancelOrClose" />
+    <spell-detail-dialog
+      :showEditDialog.sync="showEditDialog"
+      v-bind:targetSpell="targetSpell"
+      v-bind:createSpell="createSpell"
+      @save="save"
+      @remove="remove"
+      @cancel="cancelOrClose"
+      @close="cancelOrClose"
+    />
     <spell-help-dialog :showDialog.sync="showHelpDialog"></spell-help-dialog>
 
-    <v-dialog v-if="isMobile" fullscreen v-model="showMobileSearchDetailDialog">
+    <v-dialog
+      v-if="isMobile"
+      fullscreen
+      v-model="showMobileSearchDetailDialog"
+    >
       <v-card>
         <v-card-title>
           <H2>検索詳細条件入力</H2>
         </v-card-title>
         <v-card>
-          <v-layout row wrap>
-            <v-flex xs10 offset-xs1>
-              <v-select label="Select" hide-selected dense :items="levels" v-model="conditon.levels" multiple max-height="200" hint="呪文レベル" persistent-hint></v-select>
+          <v-layout
+            row
+            wrap
+          >
+            <v-flex
+              xs10
+              offset-xs1
+            >
+              <v-select
+                label="Select"
+                hide-selected
+                dense
+                :items="levels"
+                v-model="conditon.levels"
+                multiple
+                max-height="200"
+                hint="呪文レベル"
+                persistent-hint
+              ></v-select>
             </v-flex>
-            <v-flex xs10 offset-xs1>
-              <v-select label="Select" hide-selected dense :items="classes" v-model="conditon.classes" multiple max-height="200" hint="クラス" persistent-hint></v-select>
+            <v-flex
+              xs10
+              offset-xs1
+            >
+              <v-select
+                label="Select"
+                hide-selected
+                dense
+                :items="classes"
+                v-model="conditon.classes"
+                multiple
+                max-height="200"
+                hint="クラス"
+                persistent-hint
+              ></v-select>
             </v-flex>
             <!--v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス" persistent-hint></v-select>
             </v-flex-->
-            <v-flex xs10 offset-xs1>
-              <v-select :items="conditonRituals" dense v-model="conditon.ritual" max-height="200" hint="儀式発動" persistent-hint></v-select>
+            <v-flex
+              xs10
+              offset-xs1
+            >
+              <v-select
+                :items="conditonRituals"
+                dense
+                v-model="conditon.ritual"
+                max-height="200"
+                hint="儀式発動"
+                persistent-hint
+              ></v-select>
             </v-flex>
-            <v-flex xs10 offset-xs1>
-              <v-select label="Select" dense :items="components" v-model="conditon.components" multiple max-height="200" hint="構成要素" persistent-hint></v-select>
+            <v-flex
+              xs10
+              offset-xs1
+            >
+              <v-select
+                label="Select"
+                dense
+                :items="components"
+                v-model="conditon.components"
+                multiple
+                max-height="200"
+                hint="構成要素"
+                persistent-hint
+              ></v-select>
             </v-flex>
-            <v-flex xs10 offset-xs1>
-              <v-select label="Select" dense :items="casting_time" v-model="conditon.casting_time" max-height="200" hint="詠唱時間" persistent-hint></v-select>
+            <v-flex
+              xs10
+              offset-xs1
+            >
+              <v-select
+                label="Select"
+                dense
+                :items="casting_time"
+                v-model="conditon.casting_time"
+                max-height="200"
+                hint="詠唱時間"
+                persistent-hint
+              ></v-select>
             </v-flex>
             <!--v-flex xs10 offset-xs1>
               <v-select label="Select" dense :items="schools" v-model="conditon.school" max-height="200" hint="系統" persistent-hint></v-select>
@@ -175,7 +443,11 @@
         </v-card>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="closeMobileSearchDetailDialog">閉じる</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="closeMobileSearchDetailDialog"
+          >閉じる</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -234,7 +506,8 @@ export default {
         casting_time: "",
         concentration: null,
         school: null,
-        subclassses: []
+        subclassses: [],
+        sources: []
       },
       //アラートダイアログ
       snackbar: {
@@ -250,6 +523,7 @@ export default {
       schools: constants.schools,
       casting_time: constants.casting_time,
       subclassses: constants.subclassses,
+      sources: constants.sources,
       headers: [
         { text: "名前", value: "name", align: "left", width: "30%" },
         { text: "レベル", value: "level", align: "left", width: "5%" },
@@ -258,10 +532,11 @@ export default {
           text: "詠唱時間",
           value: "casting_time",
           align: "left",
-          width: "15%"
+          width: "10%"
         },
         { text: "持続時間", value: "duration", align: "left", width: "10%" },
-        { text: "距離／エリア", value: "range", align: "left", width: "15%" },
+        { text: "距離／エリア", value: "range", align: "left", width: "10%" },
+        { text: "出典", value: "source", align: "left", width: "10%" },
         { text: " ", value: "dummy", align: "left", width: "5%" }
       ],
       conditonRituals: [
@@ -296,6 +571,8 @@ export default {
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
+      console.log(this.conditon.levels);
+      console.log(this.conditon.sources);
       return (
         this.spelldata
           // .slice(1, 10) //for debug.
@@ -326,6 +603,9 @@ export default {
               return false;
             }
             if (!this.filterSchool(element)) {
+              return false;
+            }
+            if (!this.fliterSources(element)) {
               return false;
             }
             return true;
@@ -362,6 +642,15 @@ export default {
       } else {
         return this.conditon.levels.some(e => {
           return e === element.level;
+        });
+      }
+    },
+    fliterSources(element) {
+      if (this.conditon.sources.length === 0) {
+        return true;
+      } else {
+        return this.conditon.sources.some(e => {
+          return e === element.source;
         });
       }
     },
@@ -587,17 +876,11 @@ export default {
     save(result) {
       if (this.targetSpell == null) {
         this.spelldata.push(result);
-        this.showSnackbar(
-          "success",
-          "呪文" + result.name + "を追加しました。"
-        );
+        this.showSnackbar("success", "呪文" + result.name + "を追加しました。");
       } else {
         Object.assign(this.targetSpell, result);
         this.targetSpell = null;
-        this.showSnackbar(
-          "success",
-          "呪文" + result.name + "を更新しました。"
-        );
+        this.showSnackbar("success", "呪文" + result.name + "を更新しました。");
       }
       this.createSpell = null;
     },

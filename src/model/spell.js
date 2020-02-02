@@ -17,6 +17,7 @@ export default class Spell {
     this.school = "";
     this.class = [];
     this.subclass = "";
+    this.source = "";
   }
 
   /**精神集中の画面表示文字列生成 */
