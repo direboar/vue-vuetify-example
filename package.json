@@ -17,8 +17,6 @@
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "cross-env": "^5.2.0",
-    "firebase": "^5.8.2",
-    "firebaseui": "^3.5.2",
     "moment": "^2.22.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
@@ -93,10 +91,12 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "webpack": "^3.6.0",
+    "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "workbox-sw": "^4.3.1",
+    "workbox-webpack-plugin": "^4.3.1"
   },
   "engines": {
     "node": ">= 6.0.0",
