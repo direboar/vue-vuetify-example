@@ -5,12 +5,7 @@ import ClassSearchCard from '@/components/ClassSearchCard'
 import AbilityEditor from '@/components/AbilityEditor'
 import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
-import EquipmentSeletorTester from '@/components/embriomachine/EquipmentSeletorTester'
-import MachineConstructPanel from '@/components/embriomachine/MachineConstructPanel'
-import MachineList from '@/components/embriomachine/MachineList'
-import Scroll from '@/components/Scroll'
 import EncounterList from '@/components/EncounterList'
-import FirebaseLogin from '@/components/FirebaseLogin'
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
 //see https://qiita.com/terrierscript/items/d2a9d5d4daedaacff924
@@ -44,32 +39,6 @@ export default new Router({
       path: '/',
       name: 'IndexPage',
       component: IndexPage
-    },
-    //for temporary.
-    {
-      path: '/embrioMachine/EquipmentSelector',
-      name: 'EquipmentSeletorTester',
-      component: EquipmentSeletorTester
-    },
-    {
-      path: '/embrioMachine/MachineConstructPanel',
-      name: 'MachineConstructPanel',
-      component: MachineConstructPanel
-    },
-    {
-      path: '/embrioMachine/MachineList',
-      name: 'MachineList',
-      component: MachineList
-    },
-    {
-      path: '/Scroll',
-      name: 'Scroll',
-      component: Scroll
-    },
-    {
-      path: '/FirebaseLogin',
-      name: 'FirebaseLogin',
-      component: FirebaseLogin
     },
     {
       path: '/EncounterList',

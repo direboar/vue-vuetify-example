@@ -1,19 +1,19 @@
 var fs = require("fs");
 
-fs.readFile("c:/tmp/呪文リスト日本語版（ザナザー追加）.txt","utf-8",
+fs.readFile("c:/tmp/呪文リスト日本語版サンプル.txt","utf-8",
     (err,text)=>{
         var obj = JSON.parse(text);
 
         obj.forEach(element => {
-            let name = element.name;
-            if(name.endsWith("ｘ")){
-                element.source = "ザナザー";
-                element.name = name.replace("ｘ","");
-            }else{
-                element.source = "PHB";
-            }
+            // let name = element.name;
+            // if(name.endsWith("ｘ")){
+            //     element.source = "ザナザー";
+            //     element.name = name.replace("ｘ","");
+            // }else{
+            //     element.source = "PHB";
+            // }
 
-            // element.class = element.class.split(",")
+            element.desc = element.desc.replace(" ","")
             // var array = [];
             // for (const iterator of element.class) {
             //     array.push(iterator.trim())
@@ -31,7 +31,7 @@ fs.readFile("c:/tmp/呪文リスト日本語版（ザナザー追加）.txt","ut
         });
 
         var out = JSON.stringify(obj);
-        fs.writeFile("c:/tmp/変換後_呪文リスト日本語版（ザナザー追加）.txt",out);
+        fs.writeFile("c:/tmp/変換後_呪文リスト日本語版サンプル.txt",out);
 
     });
 

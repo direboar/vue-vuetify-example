@@ -78,11 +78,6 @@ export default {
           icon: "note",
           title: "モンスターHP管理",
           linkTo: "EncounterList"
-        },
-        {
-          icon: "mode_edit",
-          title: "EMB 機体作成",
-          linkTo: "MachineList"
         }
       ],
       miniVariant: false,
