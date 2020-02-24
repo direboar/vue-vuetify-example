@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -119,7 +120,15 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+
+    new WorkboxWebpackPlugin.GenerateSW({
+      // globDirectory: "dist",
+      // globPatterns: ['*.{html,js,css}', 'images/**/*.{jpg,jpeg,png,gif,webp,svg}'],
+      swDest: './sw.js',
+      clientsClaim: true,
+      skipWaiting: true,
+    })
   ]
 })
 
