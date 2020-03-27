@@ -157,7 +157,7 @@
           </v-flex>
           <v-flex xs1>
           </v-flex>
-          <v-flex xs4>
+          <v-flex xs3>
             <v-text-field
               dense
               append-icon="search"
@@ -226,6 +226,20 @@
             ></v-select>
           </v-flex>
           <v-flex xs1>
+            <v-select
+              dense
+              label="Select"
+              :items="allTags"
+              v-model="conditon.tags"
+              item-text="name"
+              item-value="self"
+              multiple
+              max-height="400"
+              hint="タグ"
+              persistent-hint
+            ></v-select>
+          </v-flex>
+          <v-flex xs1>
           </v-flex>
         </v-layout>
         <!--検索結果-->
@@ -240,8 +254,12 @@
             slot="items"
             slot-scope="props"
           >
-            <tr @click="clickCell(props.item)">
-              <td class="text-xs-left">{{ formatSpellName(props.item) }} </td>
+            <tr
+              @click="clickCell(props.item)"
+              @click.right.prevent="rightClickCell(props.item)"
+            >
+              <td class="
+              text-xs-left">{{ formatSpellName(props.item) }} </td>
               <td class="text-xs-left">{{ props.item.hoge }} {{ props.item.level}}</td>
               <td class="text-xs-left">{{ props.item.formatArray(props.item.components,components) }}</td>
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
@@ -344,6 +362,13 @@
       @close="cancelOrClose"
     />
     <spell-help-dialog :showDialog.sync="showHelpDialog"></spell-help-dialog>
+    <add-tag-dialog
+      :showDialog.sync="showAddTagDialog"
+      :tags.sync="allTags"
+      :spellname="addTagSpellName"
+      @save="saveTags"
+      @cancel="cancelAddTags"
+    />
 
     <v-dialog
       v-if="isMobile"
@@ -473,11 +498,13 @@ td.nowrap {
 import spells from "@/model/spells";
 import constants from "@/model/constants";
 import Spell from "@/model/spell";
+import Tag from "@/model/tag";
 
 import FileUploadIcon from "@/components/FileUploadIcon";
 import FileDownloadIcon from "@/components/FileDownloadIcon";
 import SpellDetailDialog from "@/components/SpellDetailDialog";
 import SpellHelpDialog from "@/components/SpellHelpDialog";
+import AddTagDialog from "@/components/AddTagDialog";
 
 export default {
   name: "SearchSpellTable",
@@ -485,7 +512,8 @@ export default {
     FileUploadIcon: FileUploadIcon,
     FileDownloadIcon: FileDownloadIcon,
     SpellDetailDialog: SpellDetailDialog,
-    SpellHelpDialog: SpellHelpDialog
+    SpellHelpDialog: SpellHelpDialog,
+    AddTagDialog: AddTagDialog
   },
   mounted() {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -507,7 +535,8 @@ export default {
         concentration: null,
         school: null,
         subclassses: [],
-        sources: []
+        sources: [],
+        tags: []
       },
       //アラートダイアログ
       snackbar: {
@@ -544,6 +573,7 @@ export default {
         { text: "可", value: "yes" },
         { text: "不可", value: "no" }
       ],
+      allTags: [],
       //編集ダイアログ表示フラグ
       showEditDialog: false,
       //編集モードとするかの指定
@@ -553,7 +583,11 @@ export default {
       //ヘルプダイアログ表示フラグ
       showHelpDialog: false,
       //呪文検索条件詳細入力ダイアログ
-      showMobileSearchDetailDialog: false
+      showMobileSearchDetailDialog: false,
+      //呪文タグダイアログ
+      showAddTagDialog: false,
+      //タグに追加する呪文名
+      addTagSpellName: null
     };
   },
   beforeMount() {
@@ -567,12 +601,12 @@ export default {
       //2.ストレージに登録されていなければデフォルトデータを読込の上、デフォルトデータをセーブ。
       this.spelldata = Spell.assigns(spells());
     }
+
+    this.allTags = Tag.load();
   },
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
-      console.log(this.conditon.levels);
-      console.log(this.conditon.sources);
       return (
         this.spelldata
           // .slice(1, 10) //for debug.
@@ -606,6 +640,9 @@ export default {
               return false;
             }
             if (!this.fliterSources(element)) {
+              return false;
+            }
+            if (!this.filterTags(element)) {
               return false;
             }
             return true;
@@ -678,24 +715,6 @@ export default {
           );
         }
       }
-
-      // let skipFilterClasses =
-      //   this.conditon.classes.length === 0 ||
-      //   this.conditon.exlcudedClasses.length === 0;
-      // let skipFilterSubclasses = this.conditon.subclassses.length === 0;
-      // if (skipFilterClasses && skipFilterSubclasses) {
-      //   return true;
-      // } else {
-      //   if (skipFilterSubclasses) {
-      //     return this.containsClasses(element);
-      //   } else if (skipFilterClasses) {
-      //     return this.containsSubclasses(element);
-      //   } else {
-      //     return (
-      //       this.containsClasses(element) || this.containsSubclasses(element)
-      //     );
-      //   }
-      // }
     },
 
     contains(collection, item) {
@@ -836,6 +855,15 @@ export default {
         }
       }
     },
+    filterTags(element) {
+      if (this.conditon.tags.length === 0) {
+        return true;
+      } else {
+        return this.conditon.tags.some(tag => {
+          return tag.contains(element.name);
+        });
+      }
+    },
 
     //ファイル読み込み時の処理。ファイルを読み込み、JSONデータを解析の上、呪文データを置き換える。
     onFileRead(files) {
@@ -866,6 +894,10 @@ export default {
       this.createSpell = false;
       this.showEditDialog = true;
     },
+    rightClickCell(item) {
+      this.addTagSpellName = item.name;
+      this.showAddTagDialog = true;
+    },
     //呪文追加ボタンを押した際、追加用のダイアログを上げる。
     addSpell() {
       this.targetSpell = null;
@@ -895,6 +927,15 @@ export default {
       );
     },
 
+    saveTags(updatedAllTags) {
+      this.allTags = updatedAllTags;
+      Tag.save(this.allTags);
+      this.showAddTagDialog = false;
+    },
+    cancelAddTags() {
+      this.addTagSpellName = null;
+      this.showAddTagDialog = false;
+    },
     // キャンセルもしくはクローズを押したときの挙動。
     cancelOrClose() {
       this.targetSpell = null;
