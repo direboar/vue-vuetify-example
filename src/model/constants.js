@@ -91,6 +91,7 @@ export default class Constants {
   static get sources() {
     return [
       { text: "PHB", value: "PHB" },
+      { text: "ソードコースト", value: "ソードコースト" },
       { text: "ザナザー", value: "ザナザー" }, 
     ]
   }
