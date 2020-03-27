@@ -7,32 +7,42 @@
       :persistent="true"
     >
       <v-card>
+        <v-toolbar
+          card
+          dark
+          color="blue lighten-1"
+        >
+          <v-toolbar-title>タグの追加</v-toolbar-title>
+        </v-toolbar>
         <v-layout
           row
           wrap
         >
           <v-flex xs12>
             <v-card-text>
-              呪文「{{spellname}}」に割り当てるタグを選択し、保存するボタンを押してください。<br />
-              タグがまだ未作成の場合は、「追加するタグ名」に入力して「追加する」ボタンを押してください。<br />
-              タグの追加を取りやめる場合は、「破棄する」ボタンを押してください。
+              呪文「{{spellname}}」に割り当てるタグを選択し、「保存する」ボタンを押してください。<br />
+              タグの割当を取りやめる場合は、「中断する」ボタンを押してください。<br />
+              タグがまだ未作成の場合は、「追加するタグ名」に入力して「タグを追加」ボタンを押してください。<br />
             </v-card-text>
           </v-flex>
           <v-flex xs10>
             <v-text-field
+              class="ml-3 mr-3"
               v-model="newTagName"
               label="追加するタグ名"
             ></v-text-field>
           </v-flex>
           <v-flex xs2>
             <v-btn
-              color="green darken-1"
+              class="white--text"
+              color="indigo lighten-1"
               @click.native="addTag"
-            >追加する</v-btn>
+            >タグを追加</v-btn>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs12>
             <v-select
+              class="ml-3 mr-3"
               dense
               label="Select"
               :items="tags"
@@ -49,17 +59,17 @@
           <v-flex xs6 />
           <v-flex xs3>
             <v-btn
-              color="green darken-1"
-              flat
+              class="white--text"
+              color="indigo lighten-1"
               @click.native="save"
             >保存する</v-btn>
           </v-flex>
           <v-flex xs3>
             <v-btn
-              color="green darken-1"
-              flat
+              class="white--text"
+              color="indigo lighten-1"
               @click.native="close"
-            >破棄する</v-btn>
+            >中断する</v-btn>
           </v-flex>
         </v-layout>
       </v-card>
