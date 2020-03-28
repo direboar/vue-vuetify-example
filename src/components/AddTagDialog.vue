@@ -7,20 +7,15 @@
       :persistent="true"
     >
       <v-card>
-        <v-toolbar
-          card
-          dark
-          color="blue lighten-1"
-        >
+        <v-toolbar card dark color="blue lighten-1">
           <v-toolbar-title>タグの追加</v-toolbar-title>
         </v-toolbar>
-        <v-layout
-          row
-          wrap
-        >
+        <v-layout row wrap>
           <v-flex xs12>
             <v-card-text>
-              呪文「{{spellname}}」に割り当てるタグを選択し、「保存する」ボタンを押してください。<br />
+              呪文「{{
+                spellname
+              }}」に割り当てるタグを選択し、「保存する」ボタンを押してください。<br />
               タグの割当を取りやめる場合は、「中断する」ボタンを押してください。<br />
               タグがまだ未作成の場合は、「追加するタグ名」に入力して「タグを追加」ボタンを押してください。<br />
             </v-card-text>
@@ -37,7 +32,8 @@
               class="white--text"
               color="indigo lighten-1"
               @click.native="addTag"
-            >タグを追加</v-btn>
+              >タグを追加</v-btn
+            >
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs12>
@@ -62,14 +58,16 @@
               class="white--text"
               color="indigo lighten-1"
               @click.native="save"
-            >保存する</v-btn>
+              >保存する</v-btn
+            >
           </v-flex>
           <v-flex xs3>
             <v-btn
               class="white--text"
               color="indigo lighten-1"
               @click.native="close"
-            >中断する</v-btn>
+              >中断する</v-btn
+            >
           </v-flex>
         </v-layout>
       </v-card>
@@ -85,8 +83,7 @@
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 import Tag from "@/model/tag";
@@ -110,6 +107,7 @@ export default {
 
   data() {
     return {
+      l_tags: this.tags,
       selectedTags: [],
       newTagName: "",
       //アラートダイアログ
@@ -124,7 +122,7 @@ export default {
     //ダイアログ表示時に行う初期化処理を実装。
     showDialog(val) {
       if (val) {
-        this.selectedTags = this.tags.filter(tag => {
+        this.selectedTags = this.l_tags.filter(tag => {
           return tag.contains(this.spellname);
         });
       }
@@ -137,7 +135,7 @@ export default {
         return "タグ名は必須です";
       } else {
         if (
-          this.tags
+          this.l_tags
             .map(tag => {
               return tag.name;
             })
@@ -155,7 +153,7 @@ export default {
       this.$emit("update:showDialog", false);
     },
     save() {
-      this.tags.forEach(tag => {
+      this.l_tags.forEach(tag => {
         if (
           this.selectedTags.some(selectedTag => {
             selectedTag.spellname === tag.spellname;
@@ -170,7 +168,7 @@ export default {
         tag.addSpellName(this.spellname);
       });
 
-      this.$emit("save", this.tags);
+      this.$emit("save", this.l_tags);
       this.clear();
     },
     close() {
@@ -188,7 +186,7 @@ export default {
       } else {
         const newTag = new Tag();
         newTag.name = this.newTagName;
-        this.tags.push(newTag);
+        this.l_tags.push(newTag);
         this.newTagName = "";
       }
     }

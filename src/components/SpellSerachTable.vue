@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-container
-      fluid
-      grid-list-md
-    >
+    <v-container fluid grid-list-md>
       <v-card>
         <v-toolbar dense>
           <v-toolbar-title>呪文検索</v-toolbar-title>
@@ -13,12 +10,7 @@
             @onFileRead="onFileRead"
           />
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="saveSpellData"
-            >
+            <v-btn icon small slot="activator" @click="saveSpellData">
               <v-icon>save</v-icon>
             </v-btn>
             <span>ブラウザのローカルストレージに呪文データを保存します。</span>
@@ -28,45 +20,29 @@
             :data="jesonspelldata"
           />
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="loadSpellData"
-            >
+            <v-btn icon small slot="activator" @click="loadSpellData">
               <v-icon>redo</v-icon>
             </v-btn>
-            <span>ブラウザのローカルストレージに保存されている呪文データを再ロードします。</span>
+            <span
+              >ブラウザのローカルストレージに保存されている呪文データを再ロードします。</span
+            >
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="deleteSpellData"
-            >
+            <v-btn icon small slot="activator" @click="deleteSpellData">
               <v-icon>delete</v-icon>
             </v-btn>
-            <span>ブラウザのローカルストレージから呪文データを全削除します。</span>
+            <span
+              >ブラウザのローカルストレージから呪文データを全削除します。</span
+            >
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="addSpell"
-            >
+            <v-btn icon small slot="activator" @click="addSpell">
               <v-icon>add</v-icon>
             </v-btn>
             <span>呪文を追加します。</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="showHelp"
-            >
+            <v-btn icon small slot="activator" @click="showHelp">
               <v-icon>help</v-icon>
             </v-btn>
             <span>ヘルプを表示します</span>
@@ -75,14 +51,8 @@
 
         <!--デスクトップ用-->
         <!--検索条件-->
-        <v-layout
-          v-if="!isMobile"
-          row
-          wrap
-          justify-center
-        >
-          <v-flex xs1>
-          </v-flex>
+        <v-layout v-if="!isMobile" row wrap justify-center>
+          <v-flex xs1> </v-flex>
           <v-flex xs3>
             <v-text-field
               append-icon="search"
@@ -153,10 +123,8 @@
               persistent-hint
             ></v-select>
           </v-flex>
-          <v-flex xs1>
-          </v-flex>
-          <v-flex xs1>
-          </v-flex>
+          <v-flex xs1> </v-flex>
+          <v-flex xs1> </v-flex>
           <v-flex xs3>
             <v-text-field
               dense
@@ -239,8 +207,7 @@
               persistent-hint
             ></v-select>
           </v-flex>
-          <v-flex xs1>
-          </v-flex>
+          <v-flex xs1> </v-flex>
         </v-layout>
         <!--検索結果-->
         <v-data-table
@@ -250,18 +217,23 @@
           item-key="name"
           no-data-text="条件に一致する呪文がありません。"
         >
-          <template
-            slot="items"
-            slot-scope="props"
-          >
+          <template slot="items" slot-scope="props">
             <tr
               @click="clickCell(props.item)"
               @click.right.prevent="rightClickCell(props.item)"
             >
-              <td class="
-              text-xs-left">{{ formatSpellName(props.item) }} </td>
-              <td class="text-xs-left">{{ props.item.hoge }} {{ props.item.level}}</td>
-              <td class="text-xs-left">{{ props.item.formatArray(props.item.components,components) }}</td>
+              <td
+                class="
+              text-xs-left"
+              >
+                {{ formatSpellName(props.item) }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.hoge }} {{ props.item.level }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.formatArray(props.item.components, components) }}
+              </td>
               <td class="text-xs-left nowrap">{{ props.item.casting_time }}</td>
               <td class="text-xs-left">{{ props.item.formatDuration }}</td>
               <td class="text-xs-left">{{ props.item.range }}</td>
@@ -276,15 +248,8 @@
 
         <!--モバイル-->
         <!--検索条件-->
-        <v-layout
-          v-if="isMobile"
-          row
-          wrap
-        >
-          <v-flex
-            xs10
-            offset-xs1
-          >
+        <v-layout v-if="isMobile" row wrap>
+          <v-flex xs10 offset-xs1>
             <v-text-field
               append-icon="search"
               label="Input"
@@ -294,25 +259,15 @@
               persistent-hint
             ></v-text-field>
           </v-flex>
-          <v-flex
-            xs6
-            offset-xs3
-          >
-            <v-btn @click="showMobileSearchDetailDialog=true">
+          <v-flex xs6 offset-xs3>
+            <v-btn @click="showMobileSearchDetailDialog = true">
               <v-icon>settings</v-icon> 詳細検索条件
             </v-btn>
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-list
-          v-if="isMobile"
-          dense
-          two-line
-        >
-          <v-data-iterator
-            content-tag="v-card"
-            :items="items"
-          >
+        <v-list v-if="isMobile" dense two-line>
+          <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile
               avatar
               slot="item"
@@ -320,8 +275,14 @@
               @click="clickCell(props.item)"
             >
               <v-list-tile-content>
-                <v-list-tile-title>{{props.item.name}} </v-list-tile-title>
-                <v-list-tile-sub-title>{{props.item.level}}/{{props.item.format(props.item.school,schools)}}/{{props.item.formatArray(props.item.components,components)}}</v-list-tile-sub-title>
+                <v-list-tile-title>{{ props.item.name }} </v-list-tile-title>
+                <v-list-tile-sub-title
+                  >{{ props.item.level }}/{{
+                    props.item.format(props.item.school, schools)
+                  }}/{{
+                    props.item.formatArray(props.item.components, components)
+                  }}</v-list-tile-sub-title
+                >
               </v-list-tile-content>
               <v-list-tile-avatar>
                 <v-icon>add</v-icon>
@@ -332,7 +293,10 @@
 
         <!--モバイル　ここまで-->
 
-        <v-card-text>2018.09.02 サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text>
+        <v-card-text
+          >2018.09.02
+          サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text
+        >
       </v-card>
       <v-card>
         <ins
@@ -370,24 +334,14 @@
       @cancel="cancelAddTags"
     />
 
-    <v-dialog
-      v-if="isMobile"
-      fullscreen
-      v-model="showMobileSearchDetailDialog"
-    >
+    <v-dialog v-if="isMobile" fullscreen v-model="showMobileSearchDetailDialog">
       <v-card>
         <v-card-title>
           <H2>検索詳細条件入力</H2>
         </v-card-title>
         <v-card>
-          <v-layout
-            row
-            wrap
-          >
-            <v-flex
-              xs10
-              offset-xs1
-            >
+          <v-layout row wrap>
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 hide-selected
@@ -400,10 +354,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 hide-selected
@@ -419,10 +370,7 @@
             <!--v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス" persistent-hint></v-select>
             </v-flex-->
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 :items="conditonRituals"
                 dense
@@ -432,10 +380,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 dense
@@ -447,10 +392,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 dense
@@ -472,14 +414,13 @@
             color="green darken-1"
             flat
             @click.native="closeMobileSearchDetailDialog"
-          >閉じる</v-btn>
+            >閉じる</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
-
 </template>
-
 
 <style>
 /*table-layout: fixed; せずに text-overflow: ellipsis; する方法（長すぎる文字を...で省略表示する。
