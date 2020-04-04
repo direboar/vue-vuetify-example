@@ -266,6 +266,11 @@
             flat
             @click.native="edit"
           >編集する</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click.native="editTag"
+          >タグ編集</v-btn>
         </v-card-actions>
       </v-card>
 
@@ -477,6 +482,10 @@ export default {
       retVal += "クラス：";
       retVal += spell.formatArray(spell.class, this.classes);
       return retVal;
+    },
+
+    editTag() {
+      this.$emit("editTag", this.spell);
     }
   }
 };

@@ -7,10 +7,17 @@
       :persistent="true"
     >
       <v-card>
-        <v-toolbar card dark color="blue lighten-1">
+        <v-toolbar
+          card
+          dark
+          color="blue lighten-1"
+        >
           <v-toolbar-title>タグの追加</v-toolbar-title>
         </v-toolbar>
-        <v-layout row wrap>
+        <v-layout
+          row
+          wrap
+        >
           <v-flex xs12>
             <v-card-text>
               呪文「{{
@@ -32,8 +39,7 @@
               class="white--text"
               color="indigo lighten-1"
               @click.native="addTag"
-              >タグを追加</v-btn
-            >
+            >タグを追加</v-btn>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs12>
@@ -58,16 +64,14 @@
               class="white--text"
               color="indigo lighten-1"
               @click.native="save"
-              >保存する</v-btn
-            >
+            >保存する</v-btn>
           </v-flex>
           <v-flex xs3>
             <v-btn
               class="white--text"
               color="indigo lighten-1"
               @click.native="close"
-              >中断する</v-btn
-            >
+            >中断する</v-btn>
           </v-flex>
         </v-layout>
       </v-card>
