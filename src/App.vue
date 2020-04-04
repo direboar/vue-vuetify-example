@@ -59,16 +59,11 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        {
-          icon: "note",
-          title: "イニシアチブボード",
-          linkTo: "InitiativeBoard"
-        },
-        {
-          icon: "mode_edit",
-          title: "能力値編集",
-          linkTo: "AbilityEditor"
-        },
+        // {
+        //   icon: "note",
+        //   title: "イニシアチブボード",
+        //   linkTo: "InitiativeBoard"
+        // },
         {
           icon: "find_in_page",
           title: "呪文検索",
@@ -76,9 +71,19 @@ export default {
         },
         {
           icon: "note",
-          title: "モンスターHP管理",
-          linkTo: "EncounterList"
+          title: "呪文検索タグ管理",
+          linkTo: "TagList"
+        },
+        {
+          icon: "mode_edit",
+          title: "能力値計算",
+          linkTo: "AbilityEditor"
         }
+        // {
+        //   icon: "note",
+        //   title: "モンスターHP管理",
+        //   linkTo: "EncounterList"
+        // }
       ],
       miniVariant: false,
       right: true,

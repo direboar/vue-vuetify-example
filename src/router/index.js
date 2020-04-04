@@ -6,6 +6,8 @@ import AbilityEditor from '@/components/AbilityEditor'
 import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import EncounterList from '@/components/EncounterList'
+import TagList from '@/components/TagList'
+
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
 //see https://qiita.com/terrierscript/items/d2a9d5d4daedaacff924
@@ -44,6 +46,11 @@ export default new Router({
       path: '/EncounterList',
       name: 'EncounterList',
       component: EncounterList
+    },
+    {
+      path: '/TagList',
+      name: 'TagList',
+      component: TagList
     }
   ]
 })
