@@ -52,7 +52,7 @@
                     slot="activator"
                     icon
                     ripple
-                    @click="deleteTag(item)"
+                    @click="deleteTagClicked(item)"
                   >
                     <v-icon color="grey lighten-1">delete</v-icon>
                   </v-btn>
@@ -76,10 +76,16 @@
     </v-layout>
     <!--タグ追加ダイアログ-->
     <tag-edit-dialog
-      :showDialog.sync="addTagDialog"
-      :tagName.sync="tagName"
+      :showDialog="addTagDialog"
+      :tagName="tagName"
       @save="saveTag"
       @cancel="cancelTag"
+    />
+    <!--タグ削除確認ダイアログ-->
+    <ok-ng-dialog
+      :showDialog.sync="showConfirmDialog"
+      :message="confirmDialogMessage"
+      @callback="callbackConfirmDialog"
     />
   </div>
 </template>
@@ -89,11 +95,13 @@
 
 <script>
 import TagEditDialog from "@/components/TagEditDialog";
+import OkNgDialog from "@/components/common/OkNgDialog";
 import Tag from "@/model/tag";
 
 export default {
   components: {
-    TagEditDialog
+    TagEditDialog,
+    OkNgDialog
   },
   mounted() {
     this.loadFromLocalStrage();
@@ -102,19 +110,24 @@ export default {
     return {
       addTagDialog: false,
       editedTag: null,
+      deleteTag: null,
       tagName: "",
-      tags: []
+      tags: [],
+      showConfirmDialog: false
     };
   },
-  computed: {},
+  computed: {
+    confirmDialogMessage() {
+      if (this.deleteTag) {
+        return this.deleteTag.name + "を削除します。よろしいですか？";
+      } else {
+        return "";
+      }
+    }
+  },
   methods: {
     saveTag(tagName) {
       this.addTagDialog = false;
-      //ディープコピーはこうしないとダメ。
-      //see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-      // let copied = JSON.parse(JSON.stringify(this.newTag));
-      // this._updateLocalTimestamp(copied);
-      // this.tags.push(copied);
       if (this.editedTag) {
         this.editedTag.name = tagName;
         this.saveTagsToLocalStrage(this.tags);
@@ -131,10 +144,9 @@ export default {
       this.addTagDialog = false;
       this._clear();
     },
-    deleteTag(tag) {
-      let index = this.tags.indexOf(tag);
-      this.tags.splice(index, 1);
-      this.saveTagsToLocalStrage(this.tags);
+    deleteTagClicked(tag) {
+      this.deleteTag = tag;
+      this.showConfirmDialog = true;
     },
     addTagClicked() {
       this.addTagDialog = true;
@@ -142,7 +154,6 @@ export default {
     editTagClicked(tag) {
       this.editedTag = tag;
       this.tagName = this.editedTag.name;
-      console.log(this.tagName);
       this.addTagDialog = true;
     },
     loadFromLocalStrage() {
@@ -151,10 +162,18 @@ export default {
     saveTagsToLocalStrage(tags) {
       Tag.save(tags);
     },
-
+    callbackConfirmDialog(callback) {
+      if (callback) {
+        let index = this.tags.indexOf(this.deleteTag);
+        this.tags.splice(index, 1);
+        this.saveTagsToLocalStrage(this.tags);
+      }
+      this._clear();
+    },
     _clear() {
       this.tagName = "";
       this.editedTag = null;
+      this.deleteTag = null;
     }
   }
 };
