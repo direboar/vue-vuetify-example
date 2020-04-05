@@ -59,11 +59,6 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        // {
-        //   icon: "note",
-        //   title: "イニシアチブボード",
-        //   linkTo: "InitiativeBoard"
-        // },
         {
           icon: "find_in_page",
           title: "呪文検索",
@@ -79,11 +74,6 @@ export default {
           title: "能力値計算",
           linkTo: "AbilityEditor"
         }
-        // {
-        //   icon: "note",
-        //   title: "モンスターHP管理",
-        //   linkTo: "EncounterList"
-        // }
       ],
       miniVariant: false,
       right: true,

@@ -6,7 +6,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
-  "start_url": "/embriosupport-dev-page/dist/#/",
+  "start_url": "/githubpage-test/dist/#/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",

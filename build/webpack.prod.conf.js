@@ -128,6 +128,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       swDest: './sw.js',
       clientsClaim: true,
       skipWaiting: true,
+      runtimeCaching: [
+        {
+            urlPattern: 'https://direboar.github.io/.*',
+            handler: 'networkFirst'
+        }
+      ],
     })
   ]
 })
