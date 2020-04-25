@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-container
-      fluid
-      grid-list-md
-    >
+    <v-container fluid grid-list-md>
       <v-card>
         <v-toolbar dense>
           <v-toolbar-title>呪文検索</v-toolbar-title>
@@ -13,12 +10,7 @@
             @onFileRead="onFileRead"
           />
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="saveSpellData"
-            >
+            <v-btn icon small slot="activator" @click="saveSpellData">
               <v-icon>save</v-icon>
             </v-btn>
             <span>ブラウザのローカルストレージに呪文データを保存します。</span>
@@ -28,59 +20,55 @@
             :data="jesonspelldata"
           />
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="loadSpellData"
-            >
+            <v-btn icon small slot="activator" @click="loadSpellData">
               <v-icon>redo</v-icon>
             </v-btn>
-            <span>ブラウザのローカルストレージに保存されている呪文データを再ロードします。</span>
+            <span
+              >ブラウザのローカルストレージに保存されている呪文データを再ロードします。</span
+            >
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="deleteSpellData"
-            >
+            <v-btn icon small slot="activator" @click="deleteSpellData">
               <v-icon>delete</v-icon>
             </v-btn>
-            <span>ブラウザのローカルストレージから呪文データを全削除します。</span>
+            <span
+              >ブラウザのローカルストレージから呪文データを全削除します。</span
+            >
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              icon
-              small
-              slot="activator"
-              @click="addSpell"
-            >
+            <v-btn icon small slot="activator" @click="addSpell">
               <v-icon>add</v-icon>
             </v-btn>
             <span>呪文を追加します。</span>
           </v-tooltip>
           <v-tooltip top>
+            <v-btn icon small slot="activator" @click="showHelp">
+              <v-icon>help</v-icon>
+            </v-btn>
+            <span>ヘルプを表示します</span>
+          </v-tooltip>
+          <v-tooltip top>
             <v-btn
               icon
               small
               slot="activator"
-              @click="showHelp"
+              @click="() => (this.microphone = !this.microphone)"
             >
-              <v-icon>help</v-icon>
+              <v-icon
+                >{{
+                  this.microphone
+                    ? "fas fa-microphone"
+                    : "fas fa-microphone-slash"
+                }}
+              </v-icon>
             </v-btn>
-            <span>ヘルプを表示します</span>
+            <span>音声入力の切り替えをします(Google Chromeのみ)</span>
           </v-tooltip>
         </v-toolbar>
 
         <!--デスクトップ用-->
         <!--検索条件-->
-        <v-layout
-          v-if="!isMobile"
-          row
-          wrap
-          justify-center
-        >
+        <v-layout v-if="!isMobile" row wrap justify-center>
           <v-flex xs1> </v-flex>
           <v-flex xs3>
             <v-text-field
@@ -246,16 +234,15 @@
           item-key="name"
           no-data-text="条件に一致する呪文がありません。"
         >
-          <template
-            slot="items"
-            slot-scope="props"
-          >
+          <template slot="items" slot-scope="props">
             <tr
               @click="clickCell(props.item)"
               @click.right.prevent="rightClickCell(props.item)"
             >
-              <td class="
-              text-xs-left">
+              <td
+                class="
+              text-xs-left"
+              >
                 {{ formatSpellName(props.item) }}
               </td>
               <td class="text-xs-left">
@@ -278,15 +265,8 @@
 
         <!--モバイル-->
         <!--検索条件-->
-        <v-layout
-          v-if="isMobile"
-          row
-          wrap
-        >
-          <v-flex
-            xs10
-            offset-xs1
-          >
+        <v-layout v-if="isMobile" row wrap>
+          <v-flex xs10 offset-xs1>
             <v-text-field
               append-icon="search"
               label="Input"
@@ -296,25 +276,15 @@
               persistent-hint
             ></v-text-field>
           </v-flex>
-          <v-flex
-            xs6
-            offset-xs3
-          >
+          <v-flex xs6 offset-xs3>
             <v-btn @click="showMobileSearchDetailDialog = true">
               <v-icon>settings</v-icon> 詳細検索条件
             </v-btn>
           </v-flex>
         </v-layout>
         <!--検索結果-->
-        <v-list
-          v-if="isMobile"
-          dense
-          two-line
-        >
-          <v-data-iterator
-            content-tag="v-card"
-            :items="items"
-          >
+        <v-list v-if="isMobile" dense two-line>
+          <v-data-iterator content-tag="v-card" :items="items">
             <v-list-tile
               avatar
               slot="item"
@@ -323,11 +293,13 @@
             >
               <v-list-tile-content>
                 <v-list-tile-title>{{ props.item.name }} </v-list-tile-title>
-                <v-list-tile-sub-title>{{ props.item.level }}/{{
+                <v-list-tile-sub-title
+                  >{{ props.item.level }}/{{
                     props.item.format(props.item.school, schools)
                   }}/{{
                     props.item.formatArray(props.item.components, components)
-                  }}</v-list-tile-sub-title>
+                  }}</v-list-tile-sub-title
+                >
               </v-list-tile-content>
               <v-list-tile-avatar>
                 <v-icon>add</v-icon>
@@ -338,8 +310,10 @@
 
         <!--モバイル　ここまで-->
 
-        <v-card-text>2018.09.02
-          サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text>
+        <v-card-text
+          >2018.09.02
+          サブクラスで呪文を絞り込む機能を追加しました。呪文データの再取得と再ロードをお願いします。手順がわからない人は、minokubaまで連絡下さい。</v-card-text
+        >
       </v-card>
       <v-card>
         <ins
@@ -379,24 +353,14 @@
       @cancel="cancelAddTags"
     />
 
-    <v-dialog
-      v-if="isMobile"
-      fullscreen
-      v-model="showMobileSearchDetailDialog"
-    >
+    <v-dialog v-if="isMobile" fullscreen v-model="showMobileSearchDetailDialog">
       <v-card>
         <v-card-title>
           <H2>検索詳細条件入力</H2>
         </v-card-title>
         <v-card>
-          <v-layout
-            row
-            wrap
-          >
-            <v-flex
-              xs10
-              offset-xs1
-            >
+          <v-layout row wrap>
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 hide-selected
@@ -409,10 +373,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 hide-selected
@@ -428,10 +389,7 @@
             <!--v-flex xs10 offset-xs1>
               <v-select label="Select" hide-selected dense :items="subclassses" v-model="conditon.subclassses" multiple max-height="200" hint="サブクラス" persistent-hint></v-select>
             </v-flex-->
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 :items="conditonRituals"
                 dense
@@ -441,10 +399,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 dense
@@ -456,10 +411,7 @@
                 persistent-hint
               ></v-select>
             </v-flex>
-            <v-flex
-              xs10
-              offset-xs1
-            >
+            <v-flex xs10 offset-xs1>
               <v-select
                 label="Select"
                 dense
@@ -481,7 +433,8 @@
             color="green darken-1"
             flat
             @click.native="closeMobileSearchDetailDialog"
-          >閉じる</v-btn>
+            >閉じる</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -594,9 +547,14 @@ export default {
       //呪文タグダイアログ
       showAddTagDialog: false,
       //タグに追加する呪文名
-      addTagSpellName: null
+      addTagSpellName: null,
+
+      //音声認識
+      microphone: false,
+      recognition: null
     };
   },
+
   beforeMount() {
     //1.ローカルストレージをチェックする
     var spellsjson = localStorage.getItem("dndapp.spells");
@@ -608,6 +566,9 @@ export default {
       //2.ストレージに登録されていなければデフォルトデータを読込の上、デフォルトデータをセーブ。
       this.spelldata = Spell.assigns(spells());
     }
+
+    console.log("beforeMout");
+    this.recognition = this.newSpeechRecognition();
 
     this.allTags = Tag.load();
   },
@@ -668,6 +629,41 @@ export default {
       return mobileBreakpoints.some(e => {
         return this.$vuetify.breakpoint.name === e;
       });
+    }
+  },
+
+  watch: {
+    //音声入力のマイクON/OFFの制御
+    microphone(value) {
+      if (value && !this.recognition) {
+        this.microphone = false;
+      } else {
+        if (value && this.recognition) {
+          if (!this.recognition.onstart) {
+            this.recognition.onstart = () => {
+              // console.log("start");
+            };
+            this.recognition.onend = () => {
+              // console.log("end");
+              if (this.microphone) {
+                this.recognition.start();
+              }
+            };
+            this.recognition.onresult = event => {
+              // console.log(`onresult ${event}`);
+              if (event.results.length > 0) {
+                let text = event.results[0][0].transcript;
+                text = text.replace(/\s/, "・");
+                window.console.log(text);
+                this.conditon.spellname = text;
+              }
+            };
+          }
+          this.recognition.start();
+        } else if (!value && this.recognition) {
+          this.recognition.stop();
+        }
+      }
     }
   },
 
@@ -1014,6 +1010,38 @@ export default {
 
     closeMobileSearchDetailDialog() {
       this.showMobileSearchDetailDialog = false;
+    },
+
+    //音声認識
+    getSpeechRecognition() {
+      return window.webkitSpeechRecognition || window.SpeechRecognition || null;
+    },
+    newSpeechRecognition() {
+      const SpeechRecogintion = window.webkitSpeechRecognition;
+      if (SpeechRecogintion) {
+        let retVal = new SpeechRecogintion();
+        retVal.lang = "ja-JP";
+        // let spellnames = this.spelldata.reduce((accumurator, current) => {
+        //   const spellname = current.name;
+        //   spellname.split("・").forEach(name => {
+        //     if (accumurator.indexOf(name) < 0) {
+        //       accumurator.push(name);
+        //     }
+        //   });
+        //   return accumurator;
+        // }, []);
+        // var grammar = `#JSGF V1.0 JIS ja; grammar name; public <name> = ${spellnames.join(
+        //   " | "
+        // )};`;
+
+        const speechRecognitionList = new window.webkitSpeechGrammarList();
+        // speechRecognitionList.addFromString(grammar, 1);
+        retVal.grammars = speechRecognitionList;
+        // console.log(grammar);
+        return retVal;
+      } else {
+        return null;
+      }
     }
   }
 };
