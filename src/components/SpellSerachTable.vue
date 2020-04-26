@@ -652,9 +652,118 @@ export default {
               // console.log(`onresult ${event}`);
               if (event.results.length > 0) {
                 let text = event.results[0][0].transcript;
-                text = text.replace(/\s/, "・");
-                window.console.log(text);
-                this.conditon.spellname = text;
+                //commnad
+                if (text === "クリア" || text === "クリアー") {
+                  this.clerConditon();
+                  this.showSnackbar("success", "検索条件をクリアしました。");
+                } else if (
+                  text.startsWith("レベル") ||
+                  text.startsWith("呪文 レベル")
+                ) {
+                  let level = text.replace(/レベル|呪文 レベル|\s/g, "");
+                  if (level.indexOf("クリア") >= 0) {
+                    this.conditon.levels = [];
+                    this.showSnackbar("success", "レベルをクリアしました。");
+                  } else {
+                    let levelText = "";
+                    if (
+                      level.toLowerCase() === "cantrip" ||
+                      level === "キャントリップ"
+                    ) {
+                      levelText = "Cantrip";
+                    } else if (level === "1") {
+                      levelText = "1st-level";
+                    } else if (level === "2") {
+                      levelText = "2nd-level";
+                    } else if (level === "3") {
+                      levelText = "3rd-level";
+                    } else {
+                      levelText = `${level}th-level`;
+                      if (constants.levels.indexOf(levelText) < 0) {
+                        this.showSnackbar(
+                          "error",
+                          `レベル${level}は選択できません。`
+                        );
+                        return;
+                      }
+                    }
+                    if (levelText) {
+                      if (this.conditon.levels.indexOf(levelText) < 0) {
+                        this.conditon.levels.push(levelText);
+                      }
+                    }
+                  }
+                } else if (
+                  text.startsWith("呪文名") ||
+                  text.startsWith("呪文")
+                ) {
+                  let command = text.replace(/呪文名|呪文|\s/g, "");
+                  if (command.indexOf("クリア") >= 0) {
+                    this.conditon.spellname = "";
+                    this.showSnackbar("success", "呪文名をクリアしました。");
+                  } else {
+                    command = command.replace(/\s/, "・");
+                    window.console.log(command);
+                    this.conditon.spellname = command;
+                  }
+                } else if (text.startsWith("本文")) {
+                  let command = text.replace(/本文|\s/g, "");
+                  if (command.indexOf("クリア") >= 0) {
+                    this.conditon.desc = "";
+                    this.showSnackbar("success", "本文をクリアしました。");
+                  } else {
+                    window.console.log(command);
+                    this.conditon.desc = command;
+                  }
+                } else if (text.startsWith("タグ")) {
+                  let command = text.replace(/タグ|\s/g, "");
+                  if (command.indexOf("クリア") >= 0) {
+                    this.conditon.tags = [];
+                    this.showSnackbar("success", "タグをクリアしました。");
+                  } else {
+                    const proc = tag => {
+                      return tag.name == command;
+                    };
+                    const found = this.allTags.find(proc);
+                    if (found) {
+                      if (!this.conditon.tags.find(proc)) {
+                        this.conditon.tags.push(found);
+                      }
+                    } else {
+                      this.showSnackbar(
+                        "error",
+                        `タグ ${command}は選択できません。`
+                      );
+                    }
+                  }
+                } else if (text.startsWith("クラス")) {
+                  let className = text.replace(/クラス|\s/g, "");
+                  if (className.indexOf("クリア") >= 0) {
+                    this.conditon.classes = [];
+                    this.showSnackbar("success", "クラスをクリアしました。");
+                  } else {
+                    const classConst = constants.classes.find(clazz => {
+                      return clazz.text === className;
+                    });
+                    if (classConst) {
+                      const found = this.conditon.classes.find(clazz => {
+                        return clazz === classConst.value;
+                      });
+                      if (!found) {
+                        this.conditon.classes.push(classConst.value);
+                      }
+                    } else {
+                      this.showSnackbar(
+                        "error",
+                        `クラス${className}は存在しません`
+                      );
+                    }
+                  }
+                } else {
+                  text = text.replace(/\s/, "・");
+                  window.console.log(text);
+                  this.conditon.spellname = text;
+                }
               }
             };
           }
@@ -667,6 +776,23 @@ export default {
   },
 
   methods: {
+    clerConditon() {
+      this.conditon = {
+        spellname: "",
+        desc: "",
+        levels: [],
+        classes: [],
+        exlcudedClasses: [],
+        ritual: null,
+        components: [],
+        casting_time: "",
+        concentration: null,
+        school: null,
+        subclassses: [],
+        sources: [],
+        tags: []
+      };
+    },
     //検索条件に従い、フィルタを行うメソッド。computedの中で呼び出されるのみで、テンプレートから直接呼ばれることはない。
     fliterRitual(element) {
       if (this.conditon.ritual === null) {
@@ -1019,9 +1145,21 @@ export default {
       const SpeechRecogintion = window.webkitSpeechRecognition;
       if (SpeechRecogintion) {
         let retVal = new SpeechRecogintion();
+        // retVal.lang = "en-US";
         retVal.lang = "ja-JP";
-        const speechRecognitionList = new window.webkitSpeechGrammarList();
-        retVal.grammars = speechRecognitionList;
+        //grammerは利用できない模様。削除を検討中の模様。
+        //https://github.com/WICG/speech-api/issues/57
+        //https://github.com/WICG/speech-api/pull/58
+        // retVal.continuous = true;
+        // var grammar =
+        //   "#JSGF V1.0 JIS ja; grammar numbers; public <number> = 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100 ;";
+        // var grammar2 =
+        //   "#JSGF V1.0 JIS ja; grammar words; public <word> = きろ | もうろう;";
+        // const speechRecognitionList = new window.webkitSpeechGrammarList();
+        // speechRecognitionList.addFromString(grammar, 0.1);
+        // speechRecognitionList.addFromString(grammar2, 1.0);
+        // retVal.grammars = speechRecognitionList;
+        // retVal.maxAlternatives = 5;
         return retVal;
       } else {
         return null;
