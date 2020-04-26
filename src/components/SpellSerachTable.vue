@@ -567,8 +567,7 @@ export default {
       this.spelldata = Spell.assigns(spells());
     }
 
-    console.log("beforeMout");
-    this.recognition = this.newSpeechRecognition();
+    this.recognition = this.getSpeechRecognition();
 
     this.allTags = Tag.load();
   },
@@ -1013,31 +1012,16 @@ export default {
     },
 
     //音声認識
+    //@see https://qiita.com/Sa2Knight/items/a7deb5b5d07820f6f19e
+    //@see https://developer.mozilla.org/ja/docs/Web/API/Web_Speech_API
+    //@see https://www.cresco.co.jp/blog/entry/9035/
     getSpeechRecognition() {
-      return window.webkitSpeechRecognition || window.SpeechRecognition || null;
-    },
-    newSpeechRecognition() {
       const SpeechRecogintion = window.webkitSpeechRecognition;
       if (SpeechRecogintion) {
         let retVal = new SpeechRecogintion();
         retVal.lang = "ja-JP";
-        // let spellnames = this.spelldata.reduce((accumurator, current) => {
-        //   const spellname = current.name;
-        //   spellname.split("・").forEach(name => {
-        //     if (accumurator.indexOf(name) < 0) {
-        //       accumurator.push(name);
-        //     }
-        //   });
-        //   return accumurator;
-        // }, []);
-        // var grammar = `#JSGF V1.0 JIS ja; grammar name; public <name> = ${spellnames.join(
-        //   " | "
-        // )};`;
-
         const speechRecognitionList = new window.webkitSpeechGrammarList();
-        // speechRecognitionList.addFromString(grammar, 1);
         retVal.grammars = speechRecognitionList;
-        // console.log(grammar);
         return retVal;
       } else {
         return null;
