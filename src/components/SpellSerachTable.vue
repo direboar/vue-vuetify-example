@@ -478,6 +478,10 @@ export default {
   mounted() {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
+  beforeDestroy() {
+    //web speech apiを解放
+    this.microphone = false;
+  },
   data() {
     return {
       //管理している呪文データ。
@@ -614,6 +618,9 @@ export default {
             }
             return true;
           })
+          .sort((one, two) => {
+            return one.name < two.name ? -1 : 1;
+          })
       );
     },
     //ダウンロード時の文字列を返却する。
@@ -633,6 +640,7 @@ export default {
 
   watch: {
     //音声入力のマイクON/OFFの制御
+    //TODO リファクタリングしたいがどうしようか、、
     microphone(value) {
       if (value && !this.recognition) {
         this.microphone = false;
@@ -653,116 +661,140 @@ export default {
               if (event.results.length > 0) {
                 let text = event.results[0][0].transcript;
                 //commnad
-                if (text === "クリア" || text === "クリアー") {
-                  this.clerConditon();
-                  this.showSnackbar("success", "検索条件をクリアしました。");
-                } else if (
-                  text.startsWith("レベル") ||
-                  text.startsWith("呪文 レベル")
-                ) {
-                  let level = text.replace(/レベル|呪文 レベル|\s/g, "");
-                  if (level.indexOf("クリア") >= 0) {
-                    this.conditon.levels = [];
-                    this.showSnackbar("success", "レベルをクリアしました。");
-                  } else {
-                    let levelText = "";
-                    if (
-                      level.toLowerCase() === "cantrip" ||
-                      level === "キャントリップ"
-                    ) {
-                      levelText = "Cantrip";
-                    } else if (level === "1") {
-                      levelText = "1st-level";
-                    } else if (level === "2") {
-                      levelText = "2nd-level";
-                    } else if (level === "3") {
-                      levelText = "3rd-level";
+                window.console.log(text);
+
+                //dialogが開いていない時に受け付けるコマンド
+                if (!this.showEditDialog) {
+                  if (text === "クリア" || text === "クリアー") {
+                    this.clerConditon();
+                    this.showSnackbar("success", "検索条件をクリアしました。");
+                  } else if (
+                    text.startsWith("レベル") ||
+                    text.startsWith("呪文 レベル")
+                  ) {
+                    let level = text.replace(/レベル|呪文 レベル|\s/g, "");
+                    if (level.indexOf("クリア") >= 0) {
+                      this.conditon.levels = [];
+                      this.showSnackbar("success", "レベルをクリアしました。");
                     } else {
-                      levelText = `${level}th-level`;
-                      if (constants.levels.indexOf(levelText) < 0) {
+                      level = level.toLowerCase();
+                      // console.log(level);
+                      const results = level.match(
+                        /[1-9]|cantrip|キャントリップ/g
+                      );
+                      if (results) {
+                        const levels = [];
+                        results.forEach(result => {
+                          if (
+                            result === "cantrip" ||
+                            result === "キャントリップ"
+                          ) {
+                            levels.push("Cantrip");
+                          } else if (result === "1") {
+                            levels.push("1st-level");
+                          } else if (result === "2") {
+                            levels.push("2nd-level");
+                          } else if (result === "3") {
+                            levels.push("3rd-level");
+                          } else {
+                            levels.push(`${result}th-level`);
+                          }
+                        });
+                        if (levels.length > 0) {
+                          this.conditon.levels = levels;
+                        }
+                      }
+                    }
+                  } else if (
+                    text.startsWith("呪文名") ||
+                    text.startsWith("呪文") ||
+                    text.startsWith("名前")
+                  ) {
+                    let command = text.replace(/呪文名|呪文|名前|\s/g, "");
+                    if (command.indexOf("クリア") >= 0) {
+                      this.conditon.spellname = "";
+                      this.showSnackbar("success", "呪文名をクリアしました。");
+                    } else {
+                      command = command.replace(/\s/, "・");
+                      window.console.log(command);
+                      this.conditon.spellname = command;
+                    }
+                  } else if (text.startsWith("本文")) {
+                    let command = text.replace(/本文|\s/g, "");
+                    if (command.indexOf("クリア") >= 0) {
+                      this.conditon.desc = "";
+                      this.showSnackbar("success", "本文をクリアしました。");
+                    } else {
+                      window.console.log(command);
+                      this.conditon.desc = command;
+                    }
+                  } else if (text.startsWith("タグ")) {
+                    let command = text.replace(/タグ|\s/g, "");
+                    if (command.indexOf("クリア") >= 0) {
+                      this.conditon.tags = [];
+                      this.showSnackbar("success", "タグをクリアしました。");
+                    } else {
+                      const tags = [];
+                      this.allTags.forEach(tag => {
+                        if (command.indexOf(tag.name) >= 0) {
+                          tags.push(tag);
+                        }
+                      });
+                      if (tags.length > 0) {
+                        this.conditon.tags = tags;
+                      } else {
                         this.showSnackbar(
                           "error",
-                          `レベル${level}は選択できません。`
+                          `タグを選択できません。認識した文字列： ${command}`
                         );
-                        return;
                       }
                     }
-                    if (levelText) {
-                      if (this.conditon.levels.indexOf(levelText) < 0) {
-                        this.conditon.levels.push(levelText);
-                      }
-                    }
-                  }
-                } else if (
-                  text.startsWith("呪文名") ||
-                  text.startsWith("呪文")
-                ) {
-                  let command = text.replace(/呪文名|呪文|\s/g, "");
-                  if (command.indexOf("クリア") >= 0) {
-                    this.conditon.spellname = "";
-                    this.showSnackbar("success", "呪文名をクリアしました。");
-                  } else {
-                    command = command.replace(/\s/, "・");
-                    window.console.log(command);
-                    this.conditon.spellname = command;
-                  }
-                } else if (text.startsWith("本文")) {
-                  let command = text.replace(/本文|\s/g, "");
-                  if (command.indexOf("クリア") >= 0) {
-                    this.conditon.desc = "";
-                    this.showSnackbar("success", "本文をクリアしました。");
-                  } else {
-                    window.console.log(command);
-                    this.conditon.desc = command;
-                  }
-                } else if (text.startsWith("タグ")) {
-                  let command = text.replace(/タグ|\s/g, "");
-                  if (command.indexOf("クリア") >= 0) {
-                    this.conditon.tags = [];
-                    this.showSnackbar("success", "タグをクリアしました。");
-                  } else {
-                    const proc = tag => {
-                      return tag.name == command;
-                    };
-                    const found = this.allTags.find(proc);
-                    if (found) {
-                      if (!this.conditon.tags.find(proc)) {
-                        this.conditon.tags.push(found);
-                      }
+                  } else if (text.startsWith("クラス")) {
+                    let command = text.replace(/クラス|\s/g, "");
+                    if (command.indexOf("クリア") >= 0) {
+                      this.conditon.classes = [];
+                      this.showSnackbar("success", "クラスをクリアしました。");
                     } else {
-                      this.showSnackbar(
-                        "error",
-                        `タグ ${command}は選択できません。`
-                      );
-                    }
-                  }
-                } else if (text.startsWith("クラス")) {
-                  let className = text.replace(/クラス|\s/g, "");
-                  if (className.indexOf("クリア") >= 0) {
-                    this.conditon.classes = [];
-                    this.showSnackbar("success", "クラスをクリアしました。");
-                  } else {
-                    const classConst = constants.classes.find(clazz => {
-                      return clazz.text === className;
-                    });
-                    if (classConst) {
-                      const found = this.conditon.classes.find(clazz => {
-                        return clazz === classConst.value;
+                      const classes = [];
+                      constants.classes.forEach(clazz => {
+                        if (command.indexOf(clazz.text) >= 0) {
+                          classes.push(clazz);
+                        }
                       });
-                      if (!found) {
-                        this.conditon.classes.push(classConst.value);
+                      if (classes.length > 0) {
+                        this.conditon.classes = classes;
+                      } else {
+                        this.showSnackbar(
+                          "error",
+                          `クラスを選択できません。認識した文字列： ${command}`
+                        );
                       }
-                    } else {
-                      this.showSnackbar(
-                        "error",
-                        `クラス${className}は存在しません`
-                      );
                     }
+                  } else if (text.startsWith("表示")) {
+                    const spells = this.items;
+                    if (spells.length > 0) {
+                      this.clickCell(spells[0]);
+                    }
+                  } else {
+                    text = text.replace(/\s/, "・");
+                    window.console.log(text);
+                    this.conditon.spellname = text;
                   }
-                } else {
-                  text = text.replace(/\s/, "・");
-                  window.console.log(text);
-                  this.conditon.spellname = text;
+                  //dilaog表示中の操作
+                } else if (text.startsWith("次")) {
+                  const index = this.items.indexOf(this.targetSpell);
+                  const next = this.items[index + 1];
+                  if (next) {
+                    this.clickCell(next);
+                  }
+                } else if (text.startsWith("前")) {
+                  const index = this.items.indexOf(this.targetSpell);
+                  const next = this.items[index - 1];
+                  if (next) {
+                    this.clickCell(next);
+                  }
+                } else if (text.startsWith("閉")) {
+                  this.showEditDialog = false;
                 }
               }
             };
