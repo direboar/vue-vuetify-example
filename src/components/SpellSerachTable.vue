@@ -578,6 +578,7 @@ export default {
   computed: {
     //データテーブルに表示する呪文一覧を絞り込み返却する。
     items() {
+      console.log(this.conditon.classes);
       return (
         this.spelldata
           // .slice(1, 10) //for debug.
@@ -758,7 +759,7 @@ export default {
                       const classes = [];
                       constants.classes.forEach(clazz => {
                         if (command.indexOf(clazz.text) >= 0) {
-                          classes.push(clazz);
+                          classes.push(clazz.value);
                         }
                       });
                       if (classes.length > 0) {
