@@ -7,6 +7,7 @@ import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import EncounterList from '@/components/EncounterList'
 import TagList from '@/components/TagList'
+import Udonarium from '@/components/udonarium/Udonarium'
 
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
@@ -51,6 +52,11 @@ export default new Router({
       path: '/TagList',
       name: 'TagList',
       component: TagList
-    }
+    },
+    {
+      path: '/Udonarium',
+      name: 'Udonarium',
+      component: Udonarium
+    },
   ]
 })

@@ -11,27 +11,17 @@
       width="220"
     >
       <v-list dense>
-        <v-list-tile
-          v-for="(item, i) in items"
-          :key="i"
-          @click="route(item)"
-        >
+        <v-list-tile v-for="(item, i) in items" :key="i" @click="route(item)">
           <v-list-tile-action>
-            <v-icon>{{item.icon}}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      color="brown lighten-1"
-      dark
-      dense
-      app
-      :clipped-left="clipped"
-    >
+    <v-toolbar color="brown lighten-1" dark dense app :clipped-left="clipped">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -39,10 +29,7 @@
     <v-content>
       <router-view />
     </v-content>
-    <v-footer
-      :fixed="fixed"
-      app
-    >
+    <v-footer :fixed="fixed" app>
       <span>&copy; 2017</span>
     </v-footer>
   </v-app>
@@ -60,6 +47,11 @@ export default {
       fixed: false,
       items: [
         {
+          icon: "mode_edit",
+          title: "ユドナリウム関連",
+          linkTo: "Udonarium"
+        },
+        {
           icon: "find_in_page",
           title: "呪文検索",
           linkTo: "SpellSerachTable"
@@ -68,11 +60,6 @@ export default {
           icon: "note",
           title: "呪文検索タグ管理",
           linkTo: "TagList"
-        },
-        {
-          icon: "mode_edit",
-          title: "能力値計算",
-          linkTo: "AbilityEditor"
         }
       ],
       miniVariant: false,
