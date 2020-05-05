@@ -16,13 +16,13 @@
             </div>
           </v-card-title>
           <v-card-media
-            src="/static/images/udonarium/monstars.png"
+            src="./static/images/udonarium/monstars.png"
             contain
           >
           </v-card-media>
           <v-vard-text>
             <h5 class="headline mb-0">
-              <a href="/static/SRD_MonstarDataUdonarium.1.0.zip">ここからダウンロードしてください</a><br />
+              <a href="./static/SRD_MonstarDataUdonarium.1.0.zip">ここからダウンロードしてください</a><br />
             </h5>
             <br />
             <h5 class="headline mb-0">
@@ -67,15 +67,10 @@
             <p>
               ダメージロールは特に注意してください。<br />
               ヒット時の効果の原文が、&lt;xx damege plus yy damage&gt;という形式になっている場合は、以下のようにまとめてダメージを振れるよう、チャットパレットを生成しています。<br />
-
-              <!-- <v-card-media
-                src="/static/images/udonarium/chatpallette1.png"
-                contain
-              /> -->
               <img
                 class="chatpallette"
                 border="5"
-                src="/static/images/udonarium/chatpallette1.png"
+                v-bind:src="require('@/assets/udonarium/chatpallette1.png')"
               />
               <br />
               上記以外の記載の場合は、チャットパレット上で自動で振ることはできません。<br />
@@ -137,4 +132,10 @@ img.chatpallette {
 }
 </style>
 
-<script></script>
+<script>
+export default {
+  mounted() {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }
+};
+</script>
