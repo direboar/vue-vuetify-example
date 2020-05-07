@@ -15,12 +15,27 @@
               </div>
             </div>
           </v-card-title>
-          <v-card-media
+          <!-- <v-card-media
             src="./static/images/udonarium/monstars.png"
             contain
+            :height="height"
           >
-          </v-card-media>
-          <v-vard-text>
+          </v-card-media> -->
+          <v-carousel
+            :style="{height:height}"
+            :hide-delimiters="true"
+          >
+            <v-carousel-item
+              v-for="(item,i) in items"
+              :key="i"
+            >
+              <img
+                :src="item"
+                :style="{height:height}"
+              />
+            </v-carousel-item>
+          </v-carousel>
+          <v-card-text>
             <h5 class="headline mb-0">
               <a href="./static/SRD_MonstarDataUdonarium.1.0.zip">ここからダウンロードしてください</a><br />
             </h5>
@@ -110,7 +125,7 @@
               ただし、私はD&D Beyondの有料コンテンツを購入していないので、実際に上記を試すモチベーションがありません。<br />
               もし、SRD範囲外のデータのユドナリウム対応を行いたい方は、ひとまず<a href="https://twitter.com/minokuba">「みのくば」</a>までご相談ください。<br />
             </p>
-          </v-vard-text>
+          </v-card-text>
         </v-card>
         <v-card>
           <ins
@@ -131,11 +146,36 @@ img.chatpallette {
   border: 2px solid #131213;
 }
 </style>
-
 <script>
 export default {
   mounted() {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
+  },
+  computed: {
+    height() {
+      // switch(this.$vuetify.breakpoint.name)
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "220px";
+        case "sm":
+          return "400px";
+        case "md":
+          return "500px";
+        case "lg":
+          return "600px";
+        case "xl":
+          return "800px";
+      }
+    }
+  },
+  data: () => {
+    return {
+      items: [
+        "./static/images/udonarium/monstars.png",
+        "./static/images/udonarium/dragon-1.png",
+        "./static/images/udonarium/dragon-2.png"
+      ]
+    };
   }
 };
 </script>

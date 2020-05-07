@@ -33,6 +33,7 @@ import {
   VTabs,
   VExpansionPanel,
   VPagination,
+  VCarousel,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -66,6 +67,7 @@ Vue.use(Vuetify, {
     VTabs,
     VExpansionPanel,
     VPagination,
+    VCarousel,
     transitions,
   },
   theme: {
