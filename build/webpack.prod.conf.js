@@ -131,7 +131,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       runtimeCaching: [
         {
             urlPattern: 'https://direboar.github.io/.*',
-            handler: 'networkFirst'
+            handler: 'NetworkFirst'
         }
       ],
     })
