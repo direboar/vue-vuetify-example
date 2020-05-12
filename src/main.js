@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import firebase from 'firebase'
 
 import {
   Vuetify,
@@ -33,6 +34,7 @@ import {
   VTabs,
   VExpansionPanel,
   VPagination,
+  VProgressLinear ,
   VCarousel,
   transitions
 } from 'vuetify'
@@ -67,6 +69,7 @@ Vue.use(Vuetify, {
     VTabs,
     VExpansionPanel,
     VPagination,
+    VProgressLinear,
     VCarousel,
     transitions,
   },
@@ -83,6 +86,17 @@ Vue.use(Vuetify, {
 
 Vue.config.productionTip = false
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBQbJhf9grzoVqRtFDnD8KPcf7dpem8xaA",
+  authDomain: "friendry-chat.firebaseapp.com",
+  databaseURL: "https://friendry-chat.firebaseio.com",
+  projectId: "friendry-chat",
+  storageBucket: "friendry-chat.appspot.com",
+  messagingSenderId: "232252339828"
+};
+
+firebase.initializeApp(config);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

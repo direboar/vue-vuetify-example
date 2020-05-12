@@ -17,6 +17,7 @@
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "cross-env": "^5.2.0",
+    "firebase": "^7.14.3",
     "moment": "^2.22.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

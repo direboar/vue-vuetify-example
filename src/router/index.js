@@ -8,6 +8,7 @@ import IndexPage from '@/components/IndexPage'
 import EncounterList from '@/components/EncounterList'
 import TagList from '@/components/TagList'
 import Udonarium from '@/components/udonarium/Udonarium'
+import PlayerCharacter from '@/components/udonarium/PlayerCharacter'
 
 //ie11対応
 //see https://www.d-wood.com/blog/2016/04/12_7917.html
@@ -58,5 +59,10 @@ export default new Router({
       name: 'Udonarium',
       component: Udonarium
     },
+    {
+      path: '/Udonarium/PlayerCharacter',
+      name: 'PlayerCharacter',
+      component: PlayerCharacter
+    }
   ]
 })
