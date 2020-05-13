@@ -116,9 +116,11 @@ export default {
             }
           }
         } catch (error) {
-          console.error(error);
+          window.console.error(error);
+          window.console.error(JSON.stringify(error));
+          window.console.error(`message=${error.details.message}`);
           this.showErrorMessage(
-            `コマの生成に失敗しました。message=${error.message},detail=${error.detail}`
+            `コマの生成に失敗しました。message=${error.details.message}`
           );
         } finally {
           this.inProgress = false;
