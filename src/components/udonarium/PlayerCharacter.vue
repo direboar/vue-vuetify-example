@@ -100,7 +100,7 @@ export default {
               this.inProgress = true;
               const helloWorld = firebase
                 .functions()
-                .httpsCallable("helloWorld", { timeout: 60000 });
+                .httpsCallable("createUdonariumCharacter", { timeout: 10000 });
               const response = await helloWorld({ id: id });
               let downloadlink = this.$refs.downloadlink;
               downloadlink.href = response.data.url;
@@ -135,54 +135,6 @@ export default {
       this.errorMessage = errorMessage;
       this.snackbar = { show: true, level: "info" };
     }
-    // download(url) {
-    //   //https://developer.mozilla.org/ja/docs/Web/API/Blob
-    //   //https://stackoverflow.com/questions/30694453/blob-createobjecturl-download-not-working-in-firefox-but-works-when-debugging 隠しリンクを作ってonClickでダウンロード
-    //   var blob = new Blob([this.data()], {
-    //     type: "application/octet-stream;charset=UTF-8;"
-    //   });
-    // }
-    // closeDialog() {
-    //   this.$emit("update:showDialog", false);
-    // },
-    // save() {
-    //   this.l_tags.forEach(tag => {
-    //     if (
-    //       this.selectedTags.some(selectedTag => {
-    //         selectedTag.spellname === tag.spellname;
-    //       })
-    //     ) {
-    //       tag.addSpellName(this.spellname);
-    //     } else {
-    //       tag.removeSpellName(this.spellname);
-    //     }
-    //   });
-    //   this.selectedTags.forEach(tag => {
-    //     tag.addSpellName(this.spellname);
-    //   });
-
-    //   this.$emit("save", this.l_tags);
-    //   this.clear();
-    // },
-    // close() {
-    //   this.$emit("cancel");
-    //   this.clear();
-    // },
-    // clear() {
-    //   this.selectedTags = [];
-    //   this.newTagName = "";
-    //   this.snackbar.show = false;
-    // },
-    // addTag() {
-    //   if (this.validateerror) {
-    //     this.snackbar.show = true;
-    //   } else {
-    //     const newTag = new Tag();
-    //     newTag.name = this.newTagName;
-    //     this.l_tags.push(newTag);
-    //     this.newTagName = "";
-    //   }
-    // }
   }
 };
 </script>

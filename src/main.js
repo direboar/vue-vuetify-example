@@ -84,12 +84,10 @@ Vue.use(Vuetify, {
   }
 })
 
-Vue.config.productionTip = false
 
 // Initialize Firebase
 var config = {
-  // apiKey : process.env.API_KEY,
-  apiKey: "AIzaSyCWE6x7Ae-AYdvSW-AE2dcFinHOiQ-sL7U",
+  apiKey : process.env.API_KEY,
   authDomain: "friendry-chat.firebaseapp.com",
   databaseURL: "https://friendry-chat.firebaseio.com",
   projectId: "friendry-chat",
