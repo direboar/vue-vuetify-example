@@ -108,3 +108,16 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+memo
+config/dev.env.js
+config/prod.env.js
+config/test.env.js
+には以下を定義すること
+
+'use strict'
+module.exports = {
+  NODE_ENV: '"production"',
+  API_KEY : '"<firebaseのAPIキー*1>"'
+}
+
+*1 test,devはlocalhost:5000にのみアクセス許容のAPIキー。prodはリリース環境にのみアクセス許容のAPIキー。
