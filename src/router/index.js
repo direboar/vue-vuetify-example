@@ -7,7 +7,7 @@ import SpellSerachTable from '@/components/SpellSerachTable'
 import IndexPage from '@/components/IndexPage'
 import EncounterList from '@/components/EncounterList'
 import TagList from '@/components/TagList'
-import Udonarium from '@/components/udonarium/Udonarium'
+import Monstar from '@/components/udonarium/Monstar'
 import PlayerCharacter from '@/components/udonarium/PlayerCharacter'
 
 //ie11対応
@@ -55,13 +55,18 @@ export default new Router({
       component: TagList
     },
     {
-      path: '/Udonarium',
-      name: 'Udonarium',
-      component: Udonarium
+      path: '/Monstar',
+      name: 'Monstar',
+      component: Monstar
+    },
+    {
+      path: '/Udonarium/Monstar',
+      name: 'UdnonariumMonstar',
+      component: Monstar
     },
     {
       path: '/Udonarium/PlayerCharacter',
-      name: 'PlayerCharacter',
+      name: 'UdnonariumPlayerCharacter',
       component: PlayerCharacter
     }
   ]

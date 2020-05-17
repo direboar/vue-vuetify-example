@@ -46,7 +46,8 @@
             <p>気が向いたらウィッシュリストに支援いただけると喜びます＆モチベーションが上がります！
               <ul>
                 <li><a href="https://www.amazon.co.jp/hz/wishlist/ls/3P2TRNT5L21EU">お酒等</a></li>
-                <li><a href="https://www.amazon.co.jp/hz/wishlist/ls/PZNEEB7AYNDD">ギフト券(500円～可能）</a></li>
+                <li><a href="https://www.amazon.co.jp/%E3%82%AE%E3%83%95%E3%83%88%E5%88%B8/b?ie=UTF8&node=2351652051">E-Mailでのギフト券</a>(minokuba.dnd@gmail.comまで。15円～可です！)</li>
+                <li><a href="https://www.amazon.co.jp/hz/wishlist/ls/PZNEEB7AYNDD">郵送でのギフト券(500円～可能）</a></li>
               </ul>
             </p>
             <br />
