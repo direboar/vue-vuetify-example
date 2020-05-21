@@ -60,6 +60,11 @@ export default new Router({
       component: Monstar
     },
     {
+      path: '/Udonarium',
+      name: 'UdnonariumMonstar',
+      component: Monstar
+    },
+    {
       path: '/Udonarium/Monstar',
       name: 'UdnonariumMonstar',
       component: Monstar
