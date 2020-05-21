@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import firebase from 'firebase'
 
 import {
   Vuetify,
@@ -84,18 +83,6 @@ Vue.use(Vuetify, {
   }
 })
 
-
-// Initialize Firebase
-var config = {
-  apiKey : process.env.API_KEY,
-  authDomain: "friendry-chat.firebaseapp.com",
-  databaseURL: "https://friendry-chat.firebaseio.com",
-  projectId: "friendry-chat",
-  storageBucket: "friendry-chat.appspot.com",
-  messagingSenderId: "232252339828"
-};
-
-firebase.initializeApp(config);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
