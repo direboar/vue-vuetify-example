@@ -126,6 +126,12 @@
               ただし、私はD&D Beyondの有料コンテンツを購入していないので、実際に上記を試すモチベーションがありません。<br />
               もし、SRD範囲外のデータのユドナリウム対応を行いたい方は、ひとまず<a href="https://twitter.com/minokuba">「みのくば」</a>までご相談ください。<br />
             </p>
+            <h5 class="headline mb-0">
+              ライセンス
+            </h5>
+            <p>
+              このデータは<a v-on:click="showLicence = true">Open Game Licence</a>が適用されます。
+            </p>
           </v-card-text>
         </v-card>
         <v-card>
@@ -139,6 +145,14 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog
+      fullscreen
+      v-model="showLicence"
+    >
+      <v-card>
+        <OpenLicence :showDialog.sync="showLicence" />
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -148,7 +162,13 @@ img.chatpallette {
 }
 </style>
 <script>
+import OpenLicence from "@/components/udonarium/OpenLicence";
+
 export default {
+  components: {
+    OpenLicence: OpenLicence
+  },
+
   mounted() {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   },
@@ -169,8 +189,9 @@ export default {
       }
     }
   },
-  data: () => {
+  data() {
     return {
+      showLicence: false,
       items: [
         "./static/images/udonarium/monstars.png",
         "./static/images/udonarium/dragon-1.png",
