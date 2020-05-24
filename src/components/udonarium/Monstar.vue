@@ -15,12 +15,6 @@
               </div>
             </div>
           </v-card-title>
-          <!-- <v-card-media
-            src="./static/images/udonarium/monstars.png"
-            contain
-            :height="height"
-          >
-          </v-card-media> -->
           <v-carousel
             :style="{height:height}"
             :hide-delimiters="true"
@@ -37,7 +31,7 @@
           </v-carousel>
           <v-card-text>
             <h5 class="headline mb-0">
-              <a href="./static/SRD_MonstarDataUdonarium.1.0.zip">ここからダウンロードしてください</a><br />
+              <a href="./static/SRD_MonstarDataUdonarium.1.0.1.zip">ここからダウンロードしてください</a><br />
             </h5>
             <br />
             <h5 class="headline mb-0">
