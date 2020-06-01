@@ -1,36 +1,54 @@
 <template>
-  <v-container fluid grid-list-md>
-    <v-layout row wrap>
+  <v-container
+    fluid
+    grid-list-md
+  >
+    <v-layout
+      row
+      wrap
+    >
       <v-flex xs12>
         <v-card hover>
-          このサイトは、D&D5版のキャラクター作成を支援するツールを提供するページです。
+          D&D5版をユドナリウムで遊ぶ際に使用する、モンスターやプレイヤーのキャラコマ作成を支援します。
         </v-card>
       </v-flex>
-      <v-flex xs12 md6>
-        <v-card to="SpellSerach" height="300px">
+      <v-flex
+        xs12
+        md6
+      >
+        <v-card
+          to="/udonarium/monstar"
+          height="300px"
+        >
           <v-card-title>
-            <H3>呪文検索</H3>
+            <H3>ユドナリウム　モンスターデータキャラコマ</H3>
           </v-card-title>
           <!--https://github.com/vuetifyjs/vuetify/issues/1239-->
           <v-card-media
-            v-bind:src="require('@/assets/spells.png')"
+            src="./static/images/udonarium/monstars.png"
             contain
             height="200px"
           />
-          <v-card-text>D&D５版の呪文検索・内容照会を行います。</v-card-text>
+          <v-card-text>D&D５版のユドナリウム　モンスターデータキャラコマを提供します。</v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12 md6>
-        <v-card to="AbilityEditor" height="300px">
+      <v-flex
+        xs12
+        md6
+      >
+        <v-card
+          to="/udonarium/playercharacter"
+          height="300px"
+        >
           <v-card-title>
-            <H2>能力値編集</H2>
+            <H3>D&D5Eプレイヤーキャラクター コマ作成</H3>
           </v-card-title>
           <v-card-media
-            v-bind:src="require('@/assets/ability.png')"
+            src="./static/images/udonarium/character.png"
             contain
             height="200px"
           />
-          <v-card-text>能力値計算を行います。</v-card-text>
+          <v-card-text><a href="http://dndjp.sakura.ne.jp/LIST.php">D&D5E キャラクターデータベース</a>に登録したキャラクターの情報から、ユドナリウムのキャラコマを作成します。</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12>
@@ -40,15 +58,11 @@
           </v-card-title>
           <v-card-text>
             当サイトは第三者配信の広告サービス「
-            <a href="http://www.google.com/adsense/start/"
-              >Google Adsense グーグルアドセンス」</a
-            >を利用しています。
+            <a href="http://www.google.com/adsense/start/">Google Adsense グーグルアドセンス」</a>を利用しています。
             <p />
             広告配信事業者は、ユーザーの興味に応じた広告を表示するためにCookie（クッキー）を使用することがあります。
             Cookie（クッキー）を無効にする設定およびGoogleアドセンスに関する詳細は「
-            <a href="http://www.google.co.jp/policies/technologies/ads/"
-              >広告 – ポリシーと規約 – Google</a
-            >」をご覧ください。
+            <a href="http://www.google.co.jp/policies/technologies/ads/">広告 – ポリシーと規約 – Google</a>」をご覧ください。
           </v-card-text>
         </v-card>
       </v-flex>
