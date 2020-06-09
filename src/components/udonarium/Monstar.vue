@@ -10,8 +10,7 @@
               </h3>
               <div>
                 D&D5版
-                SRDのモンスターデータを元に、自動作成したユドナリウムのキャラクターデータを提供します。 入力元のデータは、D&D
-                BeyondにあるSRDのデータです。（抽出済のデータとして、<a href="https://gist.github.com/tkfu/9819e4ac6d529e225e9fc58b358c3479">このデータ</a>を使用しています）。
+                SRDのモンスターデータを元に、自動作成したユドナリウムのキャラクターデータを提供します。
               </div>
             </div>
           </v-card-title>
@@ -31,7 +30,7 @@
           </v-carousel>
           <v-card-text>
             <h5 class="headline mb-0">
-              <a href="./static/SRD_MonstarDataUdonarium.1.0.1.zip">ここからダウンロードしてください</a><br />
+              <a href="./static/SRD_MonstarDataUdonarium.1.0.2.zip">ここからダウンロードしてください</a><br />
             </h5>
             <br />
             <h5 class="headline mb-0">
@@ -102,24 +101,14 @@
             </p>
             <br />
             <h5 class="headline mb-0">
-              ユドナリウムのコマ作成に使用しているプログラム
+              コマに含まれるデータについて
             </h5>
             <p>
-              コマの自動作成のため、<a href="https://github.com/direboar/dnd5etools">プログラム</a>を開発しました。<br />
-              JavaScript/TypeScript初心者なので、是非とも同業の方のツッコミお待ちしています！<br />
-              本業はJava界隈のエンジニアです。我流+Qiita頼みでJavaScript/TypeScriptで遊んでいる感じなので、本業でやられている方にメチャメチャ突っ込んでいただきたいです！）
+              コマデータのZIPファイルには、モンスターの画像データは含まれておりません。<br />
+              コマデータにはモンスターの画像データのURLが記載されています。<br />
+              ユドナリウム上でコマデータを表示する際、このURLを元に画像データが表示されます。<br />
             </p>
             <br />
-            <h5 class="headline mb-0">
-              SRD以外のモンスターのコマを作成したい場合
-            </h5>
-            <p>
-              このデータの入力データは、おそらくですが<a href="https://gist.github.com/tkfu/bc5dc2c6cee4d1e582a3d369c3077bb5">このRubyのスクリプト</a>で作成されています。<br />
-              理論的には、D&D Beyondで有料コンテンツを購入されている方は、上記のスクリプトを改造してOAuth認証を突破すれば、有料コンテンツのデータをダウンロードできるはずです。<br />
-              そうすれば、私が作成したプログラムを使用して、ユドナリウムのコマを作成できるはずです。<br />
-              ただし、私はD&D Beyondの有料コンテンツを購入していないので、実際に上記を試すモチベーションがありません。<br />
-              もし、SRD範囲外のデータのユドナリウム対応を行いたい方は、ひとまず<a href="https://twitter.com/minokuba">「みのくば」</a>までご相談ください。<br />
-            </p>
             <h5 class="headline mb-0">
               ライセンス
             </h5>
