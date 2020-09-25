@@ -9,7 +9,8 @@ export default class Constants {
       { text: "ドルイド", value: "Druid" },
       { text: "バード", value: "Bard" },
       { text: "パラディン", value: "Paladin" },
-      { text: "レンジャー", value: "Ranger" }
+      { text: "レンジャー", value: "Ranger" },
+      { text: "アーティフィサー", value: "Artificer" }
     ];
   }
 
@@ -48,6 +49,9 @@ export default class Constants {
       { text: "レンジャー：グルーム・ストーカー", value: "Ranger:Groom Stalker"},
       { text: "レンジャー：ホライズン・ウォーカー", value: "Ranger:Horizon Walker"},
       { text: "レンジャー：モンスタースレイヤー", value: "Ranger:Monster Slayer"},
+      { text: "アーティフィサー：アルケミスト", value: "Artificer:Alchemist"},
+      { text: "アーティフィサー：アーティラリスト", value: "Artificer:Artillerist"},
+      { text: "アーティフィサー：バトルスミス", value: "Artificer:Battle Smith"},
     ];
   }
 
