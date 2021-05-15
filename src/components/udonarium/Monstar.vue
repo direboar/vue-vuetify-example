@@ -6,7 +6,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">
-                ユドナリウム　モンスターデータキャラコマ
+                ユドナリウム　モンスターデータキャラコマ バージョン 1.0.3
               </h3>
               <div>
                 D&D5版
